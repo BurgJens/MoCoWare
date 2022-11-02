@@ -16,6 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.testrobert.ui.theme.MoCoWareTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,82 +27,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MoCoWareTheme {
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = "Start"
+                ){
+                    composable(route="Start"){
+                        StartScreen(navController)
+                    }
+                }
                 // A surface container using the 'background' color from the theme
-                Surface(
-
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    DefaultPreview()
-                    SpielerListe()
-                }
             }
         }
     }
 }
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MoCoWareTheme {
-
-            Column(modifier = Modifier
-                .background(color = Color.White)
-                .padding(5.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Column() {
-                    Button(
-                        modifier = Modifier
-                            .padding(20.dp),
-                        onClick = { /*TODO*/ }) {
-                        Text(text = "Erstellen")
-                    }
-                    Button(
-                        modifier = Modifier
-                            .padding(20.dp),
-                        onClick = { /*TODO*/ }) {
-                        Text(text = "Beitreten")
-                    }
-                }
-                // Box(){
-                //     Image(painter = painterResource(id = R.drawable.ic_launcher_background), contentDescription = "")
-                //     Text(text = "über dem Foro")
-                // }
-
-            }
-    }
-}
-
-
-@Composable
-fun SpielerListe(){
-
-    Box(modifier = Modifier
-        .padding(0.dp,100.dp,0.dp,100.dp),
-        contentAlignment = Alignment.Center
-    )
-    {
-        LazyColumn(
-        ) {
-            items(350) { index ->
-                Box(
-                    modifier = Modifier
-                        .height(100.dp)
-                        .width(300.dp)
-                        .padding(15.dp)
-                        .background(Color.Black.copy(0.5f)),
-                ) {
-                }
-            }
-        }
-    }
-}
-
 
