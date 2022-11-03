@@ -1,13 +1,8 @@
 package com.example.testrobert
 
-import android.Manifest.permission.CAMERA
-import android.Manifest.permission_group.CAMERA
 import android.content.pm.PackageManager
-import android.hardware.SensorPrivacyManager.Sensors.CAMERA
-import android.media.MediaRecorder.VideoSource.CAMERA
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -56,38 +51,34 @@ class MainActivity : ComponentActivity() {
 
     // Freigabe anfragen für Kamera
     private fun setupPermission() {
-        val permission = ContextCompat.checkSelfPermission(
+
+        val permissionCamera = ContextCompat.checkSelfPermission(
             this,
-            android.Manifest.permission.CAMERA
+            android.Manifest.permission.CAMERA,
+        )
+        val permissionGPS = ContextCompat.checkSelfPermission(
+            this,
+            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
         )
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
+        if (permissionCamera != PackageManager.PERMISSION_GRANTED) {
             makeRequest()
         }
+
+        if (permissionGPS != PackageManager.PERMISSION_GRANTED) {
+            makeRequest()
+        }
+
     }
 
     private fun makeRequest() {
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(android.Manifest.permission.CAMERA),
+            arrayOf(
+                android.Manifest.permission.CAMERA,
+                android.Manifest.permission.ACCESS_BACKGROUND_LOCATION // Andorid 10 or higher !!!!!
+            ),
             CAMERA_REQUEST_CODE
         )
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            CAMERA_REQUEST_CODE -> {
-                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Kamera freigeben", Toast.LENGTH_SHORT)
-                } else {
-                    println("test")
-                }
-            }
-        }
     }
 }
