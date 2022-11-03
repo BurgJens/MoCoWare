@@ -1,11 +1,10 @@
 package com.example.testrobert
 
-import androidx.annotation.StringRes
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Button
-import androidx.navigation.compose.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,13 +16,10 @@ import androidx.navigation.NavController
 
 
 
-
-
 @Composable
 fun StartScreen(
     navController: NavController
 ) {
-    println("sdfgshjfk")
     Column(modifier = Modifier
         .fillMaxSize()
         .background(color = Color.White)
@@ -36,7 +32,7 @@ fun StartScreen(
                 modifier = Modifier
                     .padding(20.dp),
                 onClick = {
-                    navController.navigate("Start")
+                    navController.navigate("Erstellen") // ändern wenn mehr screens erstellt
 
                 }) {
                 Text(text = "Erstellen")
@@ -44,7 +40,9 @@ fun StartScreen(
             Button(
                 modifier = Modifier
                     .padding(20.dp),
-                onClick = { /*TODO*/ }) {
+                onClick = {
+                    navController.navigate("Erstellen") // ändern wenn mehr screens erstellt
+                }) {
                 Text(text = "Beitreten")
             }
         }
@@ -56,18 +54,42 @@ fun StartScreen(
     }
 }
 
-
-
-
-
-
+@Composable
+fun ErstellenScreen(
+    navController: NavController
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(0.dp, 100.dp, 0.dp, 100.dp),
+        contentAlignment = Alignment.Center
+    )
+    {
+        LazyColumn(
+        ) {
+            items(350) { index ->
+                Box(
+                    modifier = Modifier
+                        .height(100.dp)
+                        .width(300.dp)
+                        .padding(15.dp)
+                        .background(Color.Black.copy(0.5f)),
+                ) {
+                }
+            }
+        }
+    }
+}
 
 
 @Composable
-fun SpielerListe(){
-
-    Box(modifier = Modifier
-        .padding(0.dp,100.dp,0.dp,100.dp),
+fun BeitretenScreen(
+    navController: NavController
+){
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(0.dp, 100.dp, 0.dp, 100.dp),
         contentAlignment = Alignment.Center
     )
     {
