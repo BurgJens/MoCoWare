@@ -150,7 +150,17 @@ class MainActivity : ComponentActivity(),LocationListener {
     fun Erstellen(
         navController: NavController
     ) {
-        getLocation()
+
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(6.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Aktuelle Position")
+            getLocation().toString()
+        }
     }
 
 
@@ -228,7 +238,7 @@ class MainActivity : ComponentActivity(),LocationListener {
         }
     }
 
-
+@Composable
     private fun getLocation() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if ((ContextCompat.checkSelfPermission(
