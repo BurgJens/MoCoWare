@@ -14,6 +14,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +35,7 @@ import kotlin.math.sqrt
 
 
 // nur zum lernen .... am besten überarbeiten
+// ZUM WORKER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 class SensorActivity : ComponentActivity(), SensorEventListener {
 
@@ -56,7 +58,13 @@ class SensorActivity : ComponentActivity(), SensorEventListener {
         gyroScopeSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
 
         setContent {
-            SensorDataView(myViewModel)
+            Column(modifier = Modifier
+                .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                SensorData2(myViewModel)
+            }
         }
     }
 
@@ -142,11 +150,28 @@ fun SensorDataView(myViewModel: MyViewModel) {
         )
         Text(value ?: "",
             Modifier
-                .padding( vertical = 10.dp)
+                .padding(vertical = 10.dp)
                 .background(color = Color.LightGray)
                 .padding(14.dp)
                 .align(Alignment.CenterHorizontally)
             ,fontSize = 30.sp
+        )
+    }
+
+}
+
+@Composable
+fun SensorData2(myViewModel: MyViewModel) {
+    val value by myViewModel.value.observeAsState()
+    Column( modifier = Modifier
+        .padding(10.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(value ?: "", modifier = Modifier
+            .background(color = Color.LightGray)
+            .padding(14.dp)
+            ,fontSize = 20.sp
         )
     }
 
