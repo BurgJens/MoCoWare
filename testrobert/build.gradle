@@ -47,6 +47,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
 
     //Compose navigation
     def nav_compose_version = "1.0.0-alpha01"
