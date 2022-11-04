@@ -16,3 +16,4 @@ rootProject.name = "MoCoWare"
 include ':app'
 include ':testjens'
 include ':testrobert'
+include ':testalex'
