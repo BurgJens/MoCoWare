@@ -1,5 +1,6 @@
 package com.example.testrobert
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -11,8 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.work.Worker
-import androidx.work.WorkerParameters
 import com.example.testrobert.ui.theme.MoCoWareTheme
 import java.util.*
 
@@ -20,6 +19,8 @@ import java.util.*
 class MainActivity : ComponentActivity() {
 
     private val CAMERA_REQUEST_CODE = 100
+
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +42,8 @@ class MainActivity : ComponentActivity() {
                         StartScreen(navController)
                     }
                     composable(route = "Erstellen") {
-                        ErstellenScreen(navController)
+                        val i = Intent(baseContext, SensorActivity::class.java)
+                        startActivity(i)
                     }
                     composable(route = "Beitreten") {
                         BeitretenScreen(navController)
@@ -51,6 +53,9 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
+
 
 
     // Freigabe anfragen für Kamera
@@ -65,7 +70,16 @@ class MainActivity : ComponentActivity() {
             android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
         )
 
+        val permissionBluetoot = ContextCompat.checkSelfPermission(
+            this,
+            android.Manifest.permission.BLUETOOTH,
+        )
+
         if (permissionCamera != PackageManager.PERMISSION_GRANTED) {
+            makeRequest()
+        }
+
+        if (permissionBluetoot != PackageManager.PERMISSION_GRANTED) {
             makeRequest()
         }
 
@@ -86,3 +100,5 @@ class MainActivity : ComponentActivity() {
         )
     }
 }
+
+
