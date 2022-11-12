@@ -35,7 +35,6 @@ import kotlin.math.sqrt
 
 
 // nur zum lernen .... am besten überarbeiten
-// ZUM WORKER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 class SensorActivity : ComponentActivity(), SensorEventListener {
 
