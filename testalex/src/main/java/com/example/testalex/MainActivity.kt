@@ -167,7 +167,7 @@ class MainActivity : ComponentActivity() {
             Row() {
                 Image(
 
-                    painter = painterResource(id = R.drawable.huepfen),
+                    painter = painterResource(id = R.drawable.schatz),
                     contentDescription = null,
                 )
                 Spacer(Modifier.size(padding))
