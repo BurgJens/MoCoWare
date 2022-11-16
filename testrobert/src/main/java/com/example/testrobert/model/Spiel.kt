@@ -1,3 +1,5 @@
 package com.example.testrobert.model
 
-data class Spiel()
+import java.net.IDN
+
+data class Spiel(var idn: IDN, var spielName:String)

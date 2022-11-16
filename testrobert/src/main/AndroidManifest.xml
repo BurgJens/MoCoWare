@@ -15,6 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MoCoWare">
+        <service android:name=".sensor.Accelerometer" />
+        <service android:name=".sensor.SpeedSensor" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

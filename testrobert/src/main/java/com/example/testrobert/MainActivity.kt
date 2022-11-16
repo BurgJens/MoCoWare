@@ -12,19 +12,34 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.testrobert.sensor.SpeedSensor
+
 import com.example.testrobert.ui.theme.MoCoWareTheme
+
 import java.util.*
+
+
 
 
 class MainActivity : ComponentActivity() {
 
     private val CAMERA_REQUEST_CODE = 100
 
-
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         setupPermission()
@@ -42,8 +57,9 @@ class MainActivity : ComponentActivity() {
                         StartScreen(navController)
                     }
                     composable(route = "Erstellen") {
-                        val i = Intent(baseContext, SensorActivity::class.java)
-                        startActivity(i)
+                        val intent = Intent(this@MainActivity, SensorActivity::class.java)
+                        startActivity(intent)
+
                     }
                     composable(route = "Beitreten") {
                         BeitretenScreen(navController)
@@ -58,21 +74,23 @@ class MainActivity : ComponentActivity() {
 
 
 
+
+
     // Freigabe anfragen für Kamera
     private fun setupPermission() {
 
         val permissionCamera = ContextCompat.checkSelfPermission(
             this,
-            android.Manifest.permission.CAMERA,
+            android.Manifest.permission.CAMERA
         )
         val permissionGPS = ContextCompat.checkSelfPermission(
             this,
-            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
         )
 
         val permissionBluetoot = ContextCompat.checkSelfPermission(
             this,
-            android.Manifest.permission.BLUETOOTH,
+            android.Manifest.permission.BLUETOOTH
         )
 
         if (permissionCamera != PackageManager.PERMISSION_GRANTED) {
@@ -93,12 +111,16 @@ class MainActivity : ComponentActivity() {
         ActivityCompat.requestPermissions(
             this,
             arrayOf(
-                android.Manifest.permission.CAMERA,
-                android.Manifest.permission.ACCESS_BACKGROUND_LOCATION // Andorid 10 or higher !!!!!
+
+                android.Manifest.permission.ACCESS_BACKGROUND_LOCATION, // Andorid 10 or higher !!!!!
+                android.Manifest.permission.BLUETOOTH,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
             ),
             CAMERA_REQUEST_CODE
         )
     }
+
 }
 
 
