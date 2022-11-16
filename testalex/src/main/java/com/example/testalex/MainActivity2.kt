@@ -42,8 +42,6 @@ import com.google.android.gms.location.*
 class MainActivity2 : ComponentActivity() {
 
 
-    private val CAMERA_REQUEST_CODE = 100
-    //private val applicationViewModel: ApplicationViewModel by viewModel<ApplicationViewModel>()
 
     @RequiresApi(Build.VERSION_CODES.M)
 
