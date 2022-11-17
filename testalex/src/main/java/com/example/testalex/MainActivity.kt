@@ -34,8 +34,7 @@ import com.google.android.gms.location.*
 class MainActivity : ComponentActivity() {
 
 
-    private val CAMERA_REQUEST_CODE = 100
-    //private val applicationViewModel: ApplicationViewModel by viewModel<ApplicationViewModel>()
+
 
     @RequiresApi(Build.VERSION_CODES.M)
 
@@ -215,37 +214,3 @@ class MainActivity : ComponentActivity() {
 
 
 
-/*// Freigabe anfragen für Kamera
-private fun setupPermission() {
-
-    val permissionCamera = ContextCompat.checkSelfPermission(
-        this,
-        android.Manifest.permission.CAMERA,
-    )
-    val permissionGPS = ContextCompat.checkSelfPermission(
-        this,
-        android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-    )
-
-    if (permissionCamera != PackageManager.PERMISSION_GRANTED) {
-        makeRequest()
-    }
-
-    if (permissionGPS != PackageManager.PERMISSION_GRANTED) {
-        makeRequest()
-    }
-
-}
-
-private fun makeRequest() {
-    ActivityCompat.requestPermissions(
-        this,
-        arrayOf(
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION // Andorid 10 or higher !!!!!
-        ),
-        CAMERA_REQUEST_CODE
-    )
-}
-}
-*/
