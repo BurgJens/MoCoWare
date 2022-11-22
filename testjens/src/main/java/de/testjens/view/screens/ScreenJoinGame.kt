@@ -10,19 +10,21 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import de.testjens.ui.theme.MoCoWareTheme
 import de.testjens.view.ButtonChooseGame
-import de.testjens.view.ButtonStandard
+import de.testjens.view.ButtonNewScreen
 import de.testjens.view.elements.TextFieldStandard
+import de.testjens.viewmodel.AppViewModel
 
 @Composable
 fun ScreenBeitreten(
-    games: MutableList<String>
+    navController: NavController,
+    viewModel: AppViewModel
 )
 {
-    MoCoWareTheme() {
+//    MoCoWareTheme() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -38,12 +40,17 @@ fun ScreenBeitreten(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                for (each in games){
-                    ButtonChooseGame(text = each)
+                for (each in viewModel.availableGames.gameList){
+                    ButtonChooseGame(text = each.name)
                 }
             }
             TextFieldStandard("Filter")
-            ButtonStandard(text = "Beitreten")
+            ButtonNewScreen(
+                text = "Beitreten",
+                route = "start",
+                viewModel = viewModel,
+                navController = navController
+            )
         }
-    }
+//    }
 }

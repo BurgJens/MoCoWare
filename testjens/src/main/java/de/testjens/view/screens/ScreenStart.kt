@@ -8,15 +8,19 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import de.testjens.ui.theme.MoCoWareTheme
 import de.testjens.view.ButtonChooseGame
-import de.testjens.view.ButtonStandard
+import de.testjens.view.ButtonNewScreen
+import de.testjens.viewmodel.AppViewModel
+
 
 @Composable
 fun ScreenStart(
+    navController: NavController,
+    viewModel: AppViewModel
 ){
-    MoCoWareTheme() {
+//    MoCoWareTheme() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -24,9 +28,19 @@ fun ScreenStart(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            ButtonStandard(text = "New Game")
-            ButtonChooseGame(text = "Join Game")
+            ButtonNewScreen(
+                text = "New Game",
+                route = "joinGame",
+                viewModel = viewModel,
+                navController = navController
+            )
+            ButtonNewScreen(
+                text = "Join Game",
+                route = "joinGame",
+                viewModel = viewModel,
+                navController = navController
+            )
         }
-    }
+//    }
 
 }

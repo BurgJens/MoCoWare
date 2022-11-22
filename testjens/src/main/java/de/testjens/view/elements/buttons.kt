@@ -9,12 +9,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import de.testjens.ui.theme.MoCoWareTheme
+import de.testjens.viewmodel.AppViewModel
 
 @Composable
-fun ButtonStandard(text : String){
+fun ButtonNewScreen(
+    text: String,
+    route: String,
+    viewModel: AppViewModel,
+    navController: NavController
+){
     Button(
-        onClick = { },
+        onClick = {
+                  navController.navigate(route)
+        },
         shape = RoundedCornerShape(50),
         colors = ButtonDefaults.outlinedButtonColors(
             backgroundColor = MaterialTheme.colors.background,
