@@ -10,6 +10,6 @@ open class AppViewModel : ViewModel() {
 
     var test by mutableStateOf(0)
 
-    var availableGames = Gamelist(mutableListOf())
+    var availableGames = Gamelist()
 
 }

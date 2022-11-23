@@ -9,16 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import de.testjens.ui.theme.MoCoWareTheme
-import de.testjens.view.ButtonChooseGame
-import de.testjens.view.ButtonNewScreen
+import de.testjens.view.ButtonStandard
 import de.testjens.viewmodel.AppViewModel
 
 
 @Composable
 fun ScreenStart(
-    navController: NavController,
-    viewModel: AppViewModel
+    navigateJoinGame: () -> Unit,
+    navigateBeitreten: () -> Unit
 ){
 //    MoCoWareTheme() {
         Column(
@@ -28,17 +26,15 @@ fun ScreenStart(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            ButtonNewScreen(
+            ButtonStandard(
                 text = "New Game",
-                route = "joinGame",
-                viewModel = viewModel,
-                navController = navController
+                modifier = Modifier,
+                onClick = navigateBeitreten
             )
-            ButtonNewScreen(
+            ButtonStandard(
                 text = "Join Game",
-                route = "joinGame",
-                viewModel = viewModel,
-                navController = navController
+                modifier = Modifier,
+                onClick = navigateJoinGame
             )
         }
 //    }

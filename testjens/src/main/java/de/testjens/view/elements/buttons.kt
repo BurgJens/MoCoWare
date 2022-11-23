@@ -2,6 +2,8 @@ package de.testjens.view
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -14,30 +16,34 @@ import de.testjens.ui.theme.MoCoWareTheme
 import de.testjens.viewmodel.AppViewModel
 
 @Composable
-fun ButtonNewScreen(
+fun ButtonStandard(
     text: String,
-    route: String,
-    viewModel: AppViewModel,
-    navController: NavController
+    modifier: Modifier,
+    onClick: () -> Unit = {}
 ){
     Button(
         onClick = {
-                  navController.navigate(route)
+            { onClick() }
         },
         shape = RoundedCornerShape(50),
         colors = ButtonDefaults.outlinedButtonColors(
             backgroundColor = MaterialTheme.colors.background,
             contentColor = MaterialTheme.colors.primary
-        )
+        ),
+        modifier = modifier
     ) {
         Text(text = text)
     }
 }
 
 @Composable
-fun ButtonChooseGame(text : String){
+fun ButtonChooseGame(
+    text: String,
+    modifier: Modifier,
+    onClick: () -> Unit = {}
+){
     OutlinedButton(
-        onClick = { },
+        onClick = onClick,
         shape = RoundedCornerShape(50),
         colors = ButtonDefaults.outlinedButtonColors(
             backgroundColor = MaterialTheme.colors.surface,
@@ -46,7 +52,8 @@ fun ButtonChooseGame(text : String){
         border = BorderStroke(
             2.dp,
             MaterialTheme.colors.surface
-        )
+        ),
+        modifier = modifier
     ) {
         Text(text = text)
     }

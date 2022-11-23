@@ -8,23 +8,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import de.testjens.ui.theme.MoCoWareTheme
 import de.testjens.view.ButtonChooseGame
-import de.testjens.view.ButtonNewScreen
+import de.testjens.view.ButtonStandard
 import de.testjens.view.elements.TextFieldStandard
 import de.testjens.viewmodel.AppViewModel
 
 @Composable
-fun ScreenBeitreten(
-    navController: NavController,
-    viewModel: AppViewModel
+fun ScreenJoinGame(
+    viewModel: AppViewModel,
 )
 {
-//    MoCoWareTheme() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -36,21 +35,22 @@ fun ScreenBeitreten(
                 modifier = Modifier
                     .background(MaterialTheme.colors.primary)
                     .border(2.dp, MaterialTheme.colors.background)
-                    .padding(3.dp),
+                    .padding(3.dp)
+                    .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
                 for (each in viewModel.availableGames.gameList){
-                    ButtonChooseGame(text = each.name)
+                    ButtonChooseGame(
+                        text = each.name,
+                        modifier = Modifier
+                    )
                 }
             }
             TextFieldStandard("Filter")
-            ButtonNewScreen(
+            ButtonStandard(
                 text = "Beitreten",
-                route = "start",
-                viewModel = viewModel,
-                navController = navController
+                modifier = Modifier
             )
         }
-//    }
 }
