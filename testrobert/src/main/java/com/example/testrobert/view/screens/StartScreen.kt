@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 
 
 @Composable
-fun StartScreen(
+fun MainScreen(
     navController: NavController
 ) {
     Column(modifier = Modifier
@@ -33,9 +33,7 @@ fun StartScreen(
                 modifier = Modifier
                     .padding(20.dp),
                 onClick = {
-
-
-                    navController.navigate("Erstellen") // ändern wenn mehr screens erstellt
+                    navController.navigate(NavRoutes.Erstellen.route) // ändern wenn mehr screens erstellt
 
                 }) {
                 Text(text = "Erstellen")
@@ -44,7 +42,7 @@ fun StartScreen(
                 modifier = Modifier
                     .padding(20.dp),
                 onClick = {
-                    navController.navigate("Beitreten") // ändern wenn mehr screens erstellt
+                    navController.navigate(NavRoutes.Beitreten.route) // ändern wenn mehr screens erstellt
 
                 }) {
                 Text(text = "Beitreten")
@@ -85,7 +83,7 @@ fun ErstellenScreen(
             Button(onClick = {
 
                 startSpeed()
-                navController.navigate(NavRoutes.Erstellen.route) // ändern wenn mehr screens erstellt
+                navController.navigate(NavRoutes.Beitreten.route) // ändern wenn mehr screens erstellt
 
             }) {
                 Text(text = "start")
@@ -110,32 +108,6 @@ fun ErstellenScreen(
 }
 
 
-@Composable
-fun BeitretenScreen(
-    navController: NavController
-){
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(0.dp, 100.dp, 0.dp, 100.dp),
-        contentAlignment = Alignment.Center
-    )
-    {
-        LazyColumn(
-        ) {
-            items(350) { index ->
-                Box(
-                    modifier = Modifier
-                        .height(100.dp)
-                        .width(300.dp)
-                        .padding(15.dp)
-                        .background(Color.Black.copy(0.5f)),
-                ) {
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun CameraScreen(
