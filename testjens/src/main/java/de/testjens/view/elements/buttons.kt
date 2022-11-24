@@ -22,9 +22,7 @@ fun ButtonStandard(
     onClick: () -> Unit = {}
 ){
     Button(
-        onClick = {
-            { onClick() }
-        },
+        onClick = onClick,
         shape = RoundedCornerShape(50),
         colors = ButtonDefaults.outlinedButtonColors(
             backgroundColor = MaterialTheme.colors.background,

@@ -1,5 +1,6 @@
 package de.testjens.view.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -8,20 +9,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import de.testjens.view.ButtonChooseGame
 import de.testjens.view.ButtonStandard
 import de.testjens.view.elements.TextFieldStandard
 import de.testjens.viewmodel.AppViewModel
 
 @Composable
-fun ScreenJoinGame(
+fun ScreenJoinGameHandler(
     viewModel: AppViewModel,
+    clickJoinGame: () -> Unit
+){
+    ScreenJoinGameRender(
+        clickJoinGame = clickJoinGame
+    )
+}
+
+@Composable
+fun ScreenJoinGameRender(
+    clickJoinGame: () -> Unit
 )
 {
         Column(
@@ -36,20 +43,24 @@ fun ScreenJoinGame(
                     .background(MaterialTheme.colors.primary)
                     .border(2.dp, MaterialTheme.colors.background)
                     .padding(3.dp)
-                    .fillMaxSize(),
+//                    .fillMaxSize()
+                ,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                for (each in viewModel.availableGames.gameList){
-                    ButtonChooseGame(
-                        text = each.name,
-                        modifier = Modifier
-                    )
-                }
+//                for (each in viewModel.availableGames.gameList){
+//                    ButtonChooseGame(
+//                        text = each.name,
+//                        modifier = Modifier
+//                    )
+//                }
             }
             TextFieldStandard("Filter")
             ButtonStandard(
-                text = "Beitreten",
+                onClick = {clickJoinGame()
+                          Log.d("Button", "Was clicked")
+                          },
+                text = "Join Game",
                 modifier = Modifier
             )
         }
