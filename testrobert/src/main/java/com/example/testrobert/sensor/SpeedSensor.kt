@@ -54,6 +54,7 @@ class SpeedSensor:Service() {
             lastLocation.set(location)
             lastTime = System.currentTimeMillis()
 
+
         }
 
     }

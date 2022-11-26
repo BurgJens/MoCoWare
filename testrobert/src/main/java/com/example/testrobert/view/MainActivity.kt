@@ -1,31 +1,25 @@
 package com.example.testrobert
 
 import android.Manifest
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.testrobert.model.Spiel
-import com.example.testrobert.sensor.SpeedSensor
+import com.example.testrobert.model.GameRoom
 import com.example.testrobert.ui.theme.MoCoWareTheme
+import com.example.testrobert.view.GameActivity
 import com.example.testrobert.view.screens.BeitretenScreen
 import com.example.testrobert.view.screens.ErstellenScreen
 import com.example.testrobert.viewmodel.Playground
@@ -45,13 +39,7 @@ class MainActivity : ComponentActivity() {
 
         bluetoothManager = getSystemService(BluetoothManager::class.java)
         bluetoothAdapter = bluetoothManager.getAdapter()
-
         premissionCheck()
-
-        var i =Intent(this,SpeedSensor::class.java)
-
-
-
 
 
 
@@ -83,9 +71,12 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(route = NavRoutes.Beitreten.route) {
-                        BeitretenScreen(navController = navController, listOf(Spiel("test"),Spiel("test3")), onItemClicked = { spiel ->
+                        BeitretenScreen(navController = navController, listOf(GameRoom("test"),GameRoom("test3")), onItemClicked = { spiel ->
                             //discuss if this should be view, viewmodel or model related code:
-                            println("test"+spiel)
+
+
+                            val intent = Intent(this@MainActivity,GameActivity::class.java)
+                            startActivity(intent)
                         })
                     }
 
@@ -116,8 +107,9 @@ class MainActivity : ComponentActivity() {
     fun premissionCheck(){
         val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             permissions.entries.forEach {
+                println(permissions)
                 if (it.value) {
-                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Permission Granted ", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Permission permanently denied ,you can enable it by going to app setting", Toast.LENGTH_SHORT).show()
                 }
