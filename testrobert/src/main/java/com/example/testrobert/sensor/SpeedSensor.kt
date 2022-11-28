@@ -8,6 +8,7 @@ import android.location.LocationManager
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
@@ -17,6 +18,7 @@ import kotlin.math.roundToInt
 class SpeedSensor:Service() {
 
     private var locationManager: LocationManager? = null
+
 
 
     inner class LocationListenerKlasse internal constructor(provider: String) :LocationListener{
@@ -49,10 +51,13 @@ class SpeedSensor:Service() {
 
 
 
-            println(speed)
 
             lastLocation.set(location)
             lastTime = System.currentTimeMillis()
+
+            val intent = Intent("testSpeed")
+            intent.putExtra("speed", speed)
+            LocalBroadcastManager.getInstance(this@SpeedSensor).sendBroadcast(intent)
 
 
         }

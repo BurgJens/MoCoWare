@@ -45,7 +45,7 @@ fun GameScreen(
 @Composable
 fun SpielDruecken(
     viewModel: SpielViewModel,
-    navController:NavController
+    navController:NavController,
 ){
     Text(modifier = Modifier.padding(20.dp), text ="${viewModel.iPuschen.value}", color = Color.Red)
     Button(onClick = {
@@ -65,8 +65,10 @@ fun SpielDruecken(
 @Composable
 fun SpielLaufen(
     viewModel: SpielViewModel,
-    navController:NavController
+    navController:NavController,
 ){
-    Text(modifier = Modifier.padding(20.dp), text ="${viewModel.iPuschen.value}", color = Color.Red)
+    Text(modifier = Modifier.padding(20.dp), text ="${viewModel.speed.value}", color = Color.Red)
+
+    if (viewModel.speed.value==14)  navController.navigate(NavRoutes.Warten.route)
 
 }

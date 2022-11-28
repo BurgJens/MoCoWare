@@ -3,9 +3,13 @@ package com.example.testrobert
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshots.ObserverHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -28,6 +33,8 @@ import com.example.testrobert.view.screens.ErstellenScreen
 import com.example.testrobert.view.screens.GameScreen
 import com.example.testrobert.view.screens.WartenScreen
 import com.example.testrobert.viewmodel.SpielViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -37,24 +44,36 @@ class MainActivity : ComponentActivity() {
     lateinit var bluetoothAdapter: BluetoothAdapter
     lateinit var bluetoothManager: BluetoothManager
     lateinit var spiel1: Spiel
+    var speed:Double=0.0
+
 
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         bluetoothManager = getSystemService(BluetoothManager::class.java)
         bluetoothAdapter = bluetoothManager.getAdapter()
         premissionCheck()
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(tokenPassingReceiver, IntentFilter("testSpeed"))
+
 
 
 
         setContent {
 
+
+
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
             val viewModel:SpielViewModel= viewModel()
+
+
+
 
 
             var iAccel =Intent(this@MainActivity,Accelerometer::class.java)
@@ -144,6 +163,17 @@ class MainActivity : ComponentActivity() {
             }
         }
         requestPermissionLauncher.launch(permissionsList.toTypedArray())
+    }
+
+    private val tokenPassingReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val vehicleSpeed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
+
+            if (vehicleSpeed != null) {
+                speed=vehicleSpeed
+                println(speed)
+            }
+        }
     }
 
 
