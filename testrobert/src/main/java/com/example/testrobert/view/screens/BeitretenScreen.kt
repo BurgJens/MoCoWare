@@ -9,15 +9,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.testrobert.model.GameRoom
+import com.example.testrobert.model.Spiel
+import com.example.testrobert.model.SpielListe
 import com.example.testrobert.view.elements.ElementListe
 
 
 @Composable
 fun BeitretenScreen(
     navController: NavController,
-    itemsToShow: List<GameRoom>,
-    onItemClicked: (spiel:GameRoom) -> Unit
+    itemsToShow: List<Spiel>,
+    onItemClicked: (spiel:Spiel) -> Unit
 
 ){
     Box(
