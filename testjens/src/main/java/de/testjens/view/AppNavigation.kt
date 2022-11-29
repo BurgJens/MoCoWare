@@ -4,9 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import de.testjens.model.Game
 import de.testjens.view.screens.ScreenJoinGameHandler
 import de.testjens.view.screens.ScreenStartHandler
-import de.testjens.viewmodel.AppViewModel
+import de.testjens.viewmodel.JoinGameViewModel
+import kotlin.random.Random
 
 sealed class NavScreen(val route : String, val add : String = ""){
     object Start : NavScreen("start")
@@ -15,7 +17,7 @@ sealed class NavScreen(val route : String, val add : String = ""){
 
 @Composable
 fun AppNavigation(
-    viewModel: AppViewModel
+    viewModel: JoinGameViewModel
 ){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = NavScreen.Start.route){
@@ -29,7 +31,9 @@ fun AppNavigation(
         composable(NavScreen.JoinGame.route){
             ScreenJoinGameHandler(
                 viewModel = viewModel,
-                clickJoinGame = {navController.navigate(NavScreen.Start.route)}
+//                clickJoinGame = {navController.navigate(NavScreen.Start.route)}
+                clickJoinGame = {viewModel.addGame(Game("1"))}
+//                clickJoinGame = {viewModel.test()}
             )
         }
     }

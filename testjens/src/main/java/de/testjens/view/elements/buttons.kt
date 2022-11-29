@@ -1,19 +1,11 @@
 package de.testjens.view
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import de.testjens.ui.theme.MoCoWareTheme
-import de.testjens.viewmodel.AppViewModel
 
 @Composable
 fun ButtonStandard(

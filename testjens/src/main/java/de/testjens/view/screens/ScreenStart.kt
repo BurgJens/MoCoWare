@@ -10,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import de.testjens.view.ButtonStandard
-import de.testjens.viewmodel.AppViewModel
+import de.testjens.viewmodel.JoinGameViewModel
 
 @Composable
 fun ScreenStartHandler(
-    viewModel: AppViewModel,
+    viewModel: JoinGameViewModel,
     clickNewGame: () -> Unit,
     clickJoinGame: () -> Unit
 ){
