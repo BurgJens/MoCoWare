@@ -10,6 +10,8 @@ open class JoinGameViewModel : ViewModel() {
 
 //    private val nextScreen by mutableState<String>
 
+    var list = mutableListOf<Game>()
+
     private val _availableGames : MutableLiveData<List<Game>> = MutableLiveData<List<Game>>()
     val availableGames : LiveData<List<Game>> = _availableGames
 
@@ -25,6 +27,10 @@ open class JoinGameViewModel : ViewModel() {
             val newList = oldList!!.plus(newGame)
             _availableGames.postValue(newList)
         }
+    }
+
+    fun updateList (){
+        _availableGames.postValue(list.toList())
     }
 
     fun test (){

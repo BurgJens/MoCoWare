@@ -41,8 +41,6 @@ fun ScreenJoinGameHandler(
     )
 }
 
-val itemsList = (0..5).toList()
-
 @Composable
 fun ScreenJoinGameRender(
     clickJoinGame: () -> Unit,
@@ -106,9 +104,7 @@ fun ScreenJoinGameRender(
             }
             TextFieldStandard("Filter")
             ButtonStandard(
-                onClick = {clickJoinGame()
-                          Log.d("Button", "Was clicked")
-                          },
+                onClick = {clickJoinGame()},
                 text = "Join Game",
                 modifier = Modifier
             )
