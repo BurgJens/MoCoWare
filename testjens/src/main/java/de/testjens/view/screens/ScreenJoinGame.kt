@@ -22,6 +22,8 @@ import de.testjens.view.ButtonStandard
 import de.testjens.view.elements.TextFieldStandard
 import de.testjens.viewmodel.JoinGameViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Text
+import de.testjens.model.AvailableGame
 
 @Composable
 fun ScreenJoinGameHandler(
@@ -30,22 +32,16 @@ fun ScreenJoinGameHandler(
 ){
     val availableGames by viewModel.availableGames.observeAsState()
 
-    val test by viewModel.test.observeAsState()
-
-//    val fs = availableGames.value
-
     ScreenJoinGameRender(
         clickJoinGame = clickJoinGame,
         availableGames = availableGames,
-        testus = test
     )
 }
 
 @Composable
 fun ScreenJoinGameRender(
     clickJoinGame: () -> Unit,
-    availableGames: List<Game>?,
-    testus: Int?
+    availableGames: List<AvailableGame>?,
 )
 {
         Column(
@@ -64,43 +60,23 @@ fun ScreenJoinGameRender(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                ButtonChooseGame(text = "Pimmel", modifier = Modifier)
-
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
                     availableGames?.let{
-//                        for (game in availableGames){
-//                            item {
-//                                ButtonChooseGame(
-//                                    text = game.name,
-//                                    modifier = Modifier,
-//                                )
-//                            }
-//                        }
-
                         items(availableGames){
                             ButtonChooseGame(
                                 text = it.name,
                                 modifier = Modifier,
                             )
                         }
-
                     } ?: run{
-                        item {
-                            ButtonChooseGame(
-                                text = "pgiubdhasug",
-                                modifier = Modifier,
-                            )
+                            item {
+                                Text(text = "no games found")
                         }
                     }
-
-
-
                 }
-
-                ButtonChooseGame(text = "Pimmel", modifier = Modifier)
             }
             TextFieldStandard("Filter")
             ButtonStandard(

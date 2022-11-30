@@ -3,35 +3,21 @@ package de.testjens.model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
+data class AvailableGame(val name: String, val gameID: String)
+
 class GameList () {
 
-//    private val gameList = mutableListOf<Game>()
-//    private val games = MutableLiveData<List<Game>>()
-//
-//    init {
-//        addGame(Game("Test 1"))
-//        addGame(Game("Test 2"))
-//        addGame(Game("Test 3"))
-//    }
-//
-//    fun addGame(game : Game){
-//        gameList.add(game)
-//        games.postValue(gameList)
-//    }
-//
-//    fun getGames() : LiveData<List<Game>>{
-//        return games
-//    }
+    private val games = mutableListOf<Game>()
 
-    val games = mutableListOf<Game>()
-
-        init {
-            games.add(Game("Test 1"))
-            games.add(Game("Test 2"))
-            games.add(Game("Test 3"))
+    fun addGame(newGame: Game){
+        games.add(newGame)
     }
 
-    fun getAvailableGames() : MutableList<Game>{
-        return games
+    fun getAvailableGames() : List<AvailableGame>{
+        val list = mutableListOf<AvailableGame>()
+        games.forEach{ each ->
+            list.add(AvailableGame(each.name, each.getID()))
+        }
+        return list.toList()
     }
 }

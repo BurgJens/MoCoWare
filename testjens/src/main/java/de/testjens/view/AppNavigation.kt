@@ -13,6 +13,8 @@ import kotlin.random.Random
 sealed class NavScreen(val route : String, val add : String = ""){
     object Start : NavScreen("start")
     object JoinGame : NavScreen("joingame")
+
+//    object Game : NavScreen("game $add"")
 }
 
 @Composable
@@ -20,6 +22,9 @@ fun AppNavigation(
     viewModel: JoinGameViewModel
 ){
     val navController = rememberNavController()
+
+    var pathNext = ""
+
     NavHost(navController = navController, startDestination = NavScreen.Start.route){
         composable(NavScreen.Start.route){
             ScreenStartHandler(
@@ -31,10 +36,19 @@ fun AppNavigation(
         composable(NavScreen.JoinGame.route){
             ScreenJoinGameHandler(
                 viewModel = viewModel,
-//                clickJoinGame = {navController.navigate(NavScreen.Start.route)}
                 clickJoinGame = {viewModel.addGame(Game("1"))}
-//                clickJoinGame = {viewModel.test()}
             )
         }
+    }
+
+    fun setPath (newPath : String){
+        pathNext = newPath
+    }
+
+    fun pathNextRoute(){
+        if(pathNext != ""){
+            navController.navigate(pathNext)
+        }
+        pathNext = ""
     }
 }
