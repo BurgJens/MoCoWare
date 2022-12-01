@@ -9,7 +9,8 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.IBinder
 import android.widget.Toast
-
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import java.lang.Math.abs
 
 
 class Accelerometer : Service(), SensorEventListener {
@@ -47,11 +48,19 @@ class Accelerometer : Service(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent?) {
         event ?: return
 
-        var axisX: Float = event.values[0]
-        var axisY: Float = event.values[1]
-        var axisZ: Float = event.values[2]
+        var axisX: Float = abs(event.values[0])
+        var axisY: Float = abs(event.values[1])
+        var axisZ: Float = abs(event.values[2])
 
-        println(axisX)
+
+  
+
+        val intent = Intent("testAccel")
+        intent.putExtra("axisX", axisX)
+        intent.putExtra("axisY", axisY)
+        intent.putExtra("axisZ", axisZ)
+
+        LocalBroadcastManager.getInstance(this@Accelerometer).sendBroadcast(intent)
 
     }
 

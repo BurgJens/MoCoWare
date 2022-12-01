@@ -1,22 +1,19 @@
 package com.example.testrobert
 
 import android.Manifest
+import android.app.ActivityManager
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.snapshots.ObserverHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.compose.NavHost
@@ -24,7 +21,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.testrobert.model.Spiel
-import com.example.testrobert.model.SpielListe
 import com.example.testrobert.sensor.Accelerometer
 import com.example.testrobert.sensor.SpeedSensor
 import com.example.testrobert.ui.theme.MoCoWareTheme
@@ -33,8 +29,6 @@ import com.example.testrobert.view.screens.ErstellenScreen
 import com.example.testrobert.view.screens.GameScreen
 import com.example.testrobert.view.screens.WartenScreen
 import com.example.testrobert.viewmodel.SpielViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -44,7 +38,9 @@ class MainActivity : ComponentActivity() {
     lateinit var bluetoothAdapter: BluetoothAdapter
     lateinit var bluetoothManager: BluetoothManager
     lateinit var spiel1: Spiel
-    var speed:Double=0.0
+
+
+
 
 
 
@@ -54,11 +50,12 @@ class MainActivity : ComponentActivity() {
 
 
 
+
         bluetoothManager = getSystemService(BluetoothManager::class.java)
         bluetoothAdapter = bluetoothManager.getAdapter()
         premissionCheck()
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(tokenPassingReceiver, IntentFilter("testSpeed"))
+
 
 
 
@@ -70,7 +67,12 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
+
             val viewModel:SpielViewModel= viewModel()
+
+
+            LocalBroadcastManager.getInstance(this).registerReceiver(Receiver(viewModel), IntentFilter("testSpeed"))
+            LocalBroadcastManager.getInstance(this).registerReceiver(Receiver(viewModel), IntentFilter("testAccel"))
 
 
 
@@ -85,32 +87,25 @@ class MainActivity : ComponentActivity() {
                 NavHost(
                     navController = navController,
                     startDestination = "Start",
-
-
                     ) {
 
                     composable(route = NavRoutes.Start.route) {
                         StartScreen(navController = navController, viewModel = viewModel)
+
                     }
 
                     composable(route = NavRoutes.Erstellen.route) {
-
                         ErstellenScreen(navController = navController)
 
                     }
                     
                     composable(route = NavRoutes.GameScreen.route) {
-                        GameScreen(viewModel = viewModel,spiel1,navController)
-
-                        if(spiel1.name=="Shake") startService(iAccel)
-                        if(spiel1.name=="Laufen")startService(iSpeed)
+                        GameScreen(viewModel = viewModel,spiel1,navController,{startService(iSpeed)},{startService(iAccel)})
 
                     }
 
                     composable(route = NavRoutes.Warten.route) {
-                        WartenScreen(viewModel = viewModel,spiel1,navController)
-                        stopService(iAccel)
-                        stopService(iSpeed)
+                        WartenScreen(viewModel = viewModel,spiel1,navController,{stopService(iSpeed)},{stopService(iAccel)})
 
                     }
 
@@ -118,11 +113,7 @@ class MainActivity : ComponentActivity() {
                         BeitretenScreen(navController = navController, viewModel.listeSpiele.beispiel, onItemClicked = { spiel ->
 
                             spiel1=spiel
-
-
                             navController.navigate(NavRoutes.GameScreen.route)
-                            
-                            
                             
                         })
                     }
@@ -156,7 +147,7 @@ class MainActivity : ComponentActivity() {
             permissions.entries.forEach {
                 println(permissions)
                 if (it.value) {
-                    Toast.makeText(this, "Permission Granted ", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Permission Granted "+ it.key, Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Permission permanently denied ,you can enable it by going to app setting", Toast.LENGTH_SHORT).show()
                 }
@@ -165,16 +156,8 @@ class MainActivity : ComponentActivity() {
         requestPermissionLauncher.launch(permissionsList.toTypedArray())
     }
 
-    private val tokenPassingReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val vehicleSpeed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
 
-            if (vehicleSpeed != null) {
-                speed=vehicleSpeed
-                println(speed)
-            }
-        }
-    }
+
 
 
 

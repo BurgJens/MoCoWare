@@ -17,8 +17,20 @@ import com.example.testrobert.viewmodel.SpielViewModel
 fun WartenScreen(
     viewModel: SpielViewModel,
     spiel: Spiel,
-    navController: NavController
+    navController: NavController,
+    stopServiceSpeed:()->Unit,
+    stopServiceAcce: () -> Unit
     ){
+
+    if (viewModel.speedSensorAktiv) {
+        stopServiceSpeed()
+        viewModel.speedSensorAktiv=false
+    }
+    if (viewModel.accelSensorAktiv) {
+        stopServiceAcce()
+        viewModel.accelSensorAktiv=false
+
+    }
 
         Column(
             modifier = Modifier
@@ -27,6 +39,7 @@ fun WartenScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
 
 
             Text(modifier = Modifier.padding(20.dp), text ="Auf Mitspieler warten ...")
