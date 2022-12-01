@@ -21,7 +21,7 @@ class Game (val name: String){
 
     private fun generateGameId() : String{
         var newID = ""
-        val charPool = listOf(('a'..'z') + ('A'..'Z') + ('0'..'9'))
+        val charPool = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         repeat(4){
             newID += charPool[Random.nextInt(charPool.size)]
         }

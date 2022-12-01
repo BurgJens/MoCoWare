@@ -30,7 +30,7 @@ fun ButtonStandard(
 fun ButtonChooseGame(
     text: String,
     modifier: Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit
 ){
     OutlinedButton(
         onClick = onClick,

@@ -7,15 +7,15 @@ import de.testjens.model.AvailableGame
 import de.testjens.model.Game
 import de.testjens.model.GameList
 
-open class JoinGameViewModel : ViewModel() {
+class JoinGameViewModel : ViewModel() {
 
     val gameList = GameList()
 
     private val _availableGames : MutableLiveData<List<AvailableGame>> = MutableLiveData<List<AvailableGame>>()
     val availableGames : LiveData<List<AvailableGame>> = _availableGames
 
-    fun addGame(newGame : Game){
-        gameList.addGame(newGame)
+    fun addGame(gameName : String){
+        gameList.addGame(Game(gameName))
         getAvailableGames()
     }
 

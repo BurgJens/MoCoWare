@@ -1,12 +1,9 @@
 package de.testjens.view.screens
 
-import android.util.Log
-import android.widget.LinearLayout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,8 +11,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Observer
-import de.testjens.model.Game
 import de.testjens.model.GameList
 import de.testjens.view.ButtonChooseGame
 import de.testjens.view.ButtonStandard
@@ -28,12 +23,14 @@ import de.testjens.model.AvailableGame
 @Composable
 fun ScreenJoinGameHandler(
     viewModel: JoinGameViewModel,
-    clickJoinGame: () -> Unit
+    clickJoinGame: () -> Unit,
+    clickSelectGame: () -> Unit,
 ){
     val availableGames by viewModel.availableGames.observeAsState()
 
     ScreenJoinGameRender(
         clickJoinGame = clickJoinGame,
+        clickSelectGame = clickSelectGame,
         availableGames = availableGames,
     )
 }
@@ -41,6 +38,7 @@ fun ScreenJoinGameHandler(
 @Composable
 fun ScreenJoinGameRender(
     clickJoinGame: () -> Unit,
+    clickSelectGame: () -> Unit,
     availableGames: List<AvailableGame>?,
 )
 {
@@ -67,8 +65,9 @@ fun ScreenJoinGameRender(
                     availableGames?.let{
                         items(availableGames){
                             ButtonChooseGame(
-                                text = it.name,
+                                text = it.gameID,
                                 modifier = Modifier,
+                                onClick = {}
                             )
                         }
                     } ?: run{
