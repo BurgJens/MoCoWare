@@ -28,6 +28,12 @@ fun GameScreen(
     startServiceAcce:()->Unit,
 ){
 
+
+    val timer by viewModel?.timer.observeAsState()
+
+    Text(modifier = Modifier.padding(20.dp), text ="Verbleibende Zeit: ${timer} Sekunden", color = Color.Red)
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -55,13 +61,25 @@ fun SpielShake(
     startServiceAcce:()->Unit,
 
 ){
+
     val speedObserve by viewModel.accel.observeAsState()
 
+
     if (!viewModel.accelSensorAktiv) {
+        viewModel.countDownTimer.start()
         println("test")
         startServiceAcce()
+        viewModel.spielIstAktiv=true
         viewModel.accelSensorAktiv=true
     }
+
+    if (viewModel.timer.value==0 && viewModel.spielIstAktiv){
+        viewModel.countDownTimer.cancel()
+        navController.navigate(NavRoutes.Warten.route)
+        viewModel.spielIstAktiv=false
+    }
+
+
 
     Text(modifier = Modifier.padding(20.dp), text ="max X Wert: ${speedObserve?.get(0)}", color = Color.Red)
     Text(modifier = Modifier.padding(20.dp), text ="max Y Wert: ${speedObserve?.get(1)}", color = Color.Red)
@@ -75,17 +93,28 @@ fun SpielDruecken(
     viewModel: SpielViewModel,
     navController:NavController,
 ){
+
+    if(!viewModel.spielIstAktiv) {
+        viewModel.spielIstAktiv=true
+        viewModel.countDownTimer.start() }
+
+    if (viewModel.timer.value==0 && viewModel.spielIstAktiv){
+        viewModel.countDownTimer.cancel()
+        navController.navigate(NavRoutes.Warten.route)
+        viewModel.spielIstAktiv=false }
+
+
     Text(modifier = Modifier.padding(20.dp), text ="${viewModel.iPuschen.value}", color = Color.Red)
     Button(onClick = {
 
-        if (viewModel.iPuschen.value==29) {
+        viewModel.iPuschen.value += 1
+
+        if (viewModel.iPuschen.value==30) {
             navController.navigate(NavRoutes.Warten.route)
             viewModel.iPuschen.value = 0
-
-
         }
 
-        viewModel.iPuschen.value += 1
+
     }) {
         Text(text = "Button")
     }
@@ -100,11 +129,22 @@ fun SpielLaufen(
 
 ){
 
+    val timer by viewModel?.timer.observeAsState()
+
     if (!viewModel.speedSensorAktiv) {
+        viewModel.countDownTimer.start()
         println("test")
         startServiceSpeed()
+        viewModel.spielIstAktiv=true
         viewModel.speedSensorAktiv=true
     }
+
+    if (timer==0 && viewModel.spielIstAktiv){
+        navController.navigate(NavRoutes.Warten.route)
+        viewModel.spielIstAktiv=false
+        viewModel.countDownTimer.cancel()
+    }
+
 
     val speedObserve by viewModel.speed.observeAsState()
 

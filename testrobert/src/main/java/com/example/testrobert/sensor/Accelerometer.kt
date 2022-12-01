@@ -53,7 +53,7 @@ class Accelerometer : Service(), SensorEventListener {
         var axisZ: Float = abs(event.values[2])
 
 
-  
+
 
         val intent = Intent("testAccel")
         intent.putExtra("axisX", axisX)
