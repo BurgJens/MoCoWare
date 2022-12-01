@@ -1,5 +1,6 @@
 package de.testjens.view.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,15 +9,26 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import de.testjens.ui.theme.MoCoWareTheme
-import de.testjens.view.ButtonChooseGame
 import de.testjens.view.ButtonStandard
+import de.testjens.viewmodel.JoinGameViewModel
 
 @Composable
-fun ScreenStart(
+fun ScreenStartHandler(
+    viewModel: JoinGameViewModel,
+    clickNewGame: () -> Unit,
+    clickJoinGame: () -> Unit
 ){
-    MoCoWareTheme() {
+    ScreenStartRender(
+        navigateNewGame = clickNewGame,
+        navigateJoinGame = clickJoinGame
+    )
+}
+
+@Composable
+fun ScreenStartRender(
+    navigateNewGame: () -> Unit,
+    navigateJoinGame: () -> Unit
+){
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -24,9 +36,17 @@ fun ScreenStart(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            ButtonStandard(text = "New Game")
-            ButtonChooseGame(text = "Join Game")
+            ButtonStandard(
+                text = "New Game",
+                modifier = Modifier,
+                onClick = navigateNewGame
+            )
+            ButtonStandard(
+                text = "Join Game",
+                modifier = Modifier,
+                onClick = {navigateJoinGame()
+                    Log.d("Button", "Was clicked")
+                }
+            )
         }
-    }
-
 }

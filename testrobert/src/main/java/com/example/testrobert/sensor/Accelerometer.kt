@@ -8,72 +8,65 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.IBinder
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType.Companion.values
-import java.time.chrono.JapaneseEra.values
+import android.widget.Toast
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import java.lang.Math.abs
 
 
+class Accelerometer : Service(), SensorEventListener {
 
-class Accelerometer :Service() {
-
-    private  var sensorManager: SensorManager? = null
-
-
-
-    inner class EventListenerKlasse internal constructor(provider:String) :SensorEventListener{
+    private lateinit var sensorManager: SensorManager
+    private lateinit var sensor: Sensor
 
 
+    override fun onCreate() {
+        super.onCreate()
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
 
-
-
-        override fun onSensorChanged(event: SensorEvent?) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-            TODO("Not yet implemented")
-        }
-
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
 
     }
 
-
-
-    private val nanoSecTwoSec = 1.0f / 1000000000.0f
-    private val deltaRotationVector = FloatArray(4) { 0f }
-    private var timestamp: Float = 0f
-
-
-
-    companion object{
-        lateinit var sensorManager: SensorManager
-        var gyroScopeSensor:Sensor?=null
-
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+        Toast.makeText(this, "Start: Accelerometer", Toast.LENGTH_SHORT).show()
+        return START_STICKY
     }
 
-
-    // Service override ab hier
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        println("test")
-
-        sensorManager=getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        gyroScopeSensor= sensorManager!!.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-
-
-    }
-
     override fun onDestroy() {
         super.onDestroy()
+        Toast.makeText(this, "Stop: Accelerometer", Toast.LENGTH_SHORT).show()
+        sensorManager.unregisterListener(this)
+
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return super.onStartCommand(intent, flags, startId)
+    override fun onSensorChanged(event: SensorEvent?) {
+        event ?: return
+
+        var axisX: Float = abs(event.values[0])
+        var axisY: Float = abs(event.values[1])
+        var axisZ: Float = abs(event.values[2])
+
+
+  
+
+        val intent = Intent("testAccel")
+        intent.putExtra("axisX", axisX)
+        intent.putExtra("axisY", axisY)
+        intent.putExtra("axisZ", axisZ)
+
+        LocalBroadcastManager.getInstance(this@Accelerometer).sendBroadcast(intent)
+
     }
 
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        println("onAccuracyChanged")
+    }
 
 
 

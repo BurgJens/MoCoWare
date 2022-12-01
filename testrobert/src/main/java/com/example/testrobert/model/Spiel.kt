@@ -1,5 +1,8 @@
 package com.example.testrobert.model
 
-import java.net.IDN
+import android.app.Service
+import com.example.testrobert.sensor.SpeedSensor
 
-data class Spiel(var idn: IDN, var spielName:String)
+// Mit Spiel ist ein spiel gemeint wie Laufen()
+
+data class Spiel(var name:String,var aufagbeText:String,var serives : Service?)
