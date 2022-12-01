@@ -6,8 +6,11 @@ import androidx.lifecycle.ViewModel
 import de.testjens.model.AvailableGame
 import de.testjens.model.Game
 import de.testjens.model.GameList
+import de.testjens.view.NavScreen
 
 class JoinGameViewModel : ViewModel() {
+
+    private var gameID = ""
 
     val gameList = GameList()
 
@@ -23,8 +26,13 @@ class JoinGameViewModel : ViewModel() {
         _availableGames.postValue(gameList.getAvailableGames())
     }
 
-//    fun setNextScreen(path: String){
-//        this.nextScreen = path
-//    }
+    fun setGameID(newID : String){
+        gameID = newID
+    }
 
+    fun getGameID() = gameID
+
+    fun getGameByID(id : String):Game{
+        return gameList.getGameByID(id)
+    }
 }

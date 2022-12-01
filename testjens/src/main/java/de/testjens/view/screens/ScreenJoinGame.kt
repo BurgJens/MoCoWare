@@ -19,27 +19,31 @@ import de.testjens.viewmodel.JoinGameViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import de.testjens.model.AvailableGame
+import kotlin.random.Random
 
 @Composable
 fun ScreenJoinGameHandler(
     viewModel: JoinGameViewModel,
-    clickJoinGame: () -> Unit,
-    clickSelectGame: () -> Unit,
+    clickJoinGame: (String) -> Unit,
 ){
     val availableGames by viewModel.availableGames.observeAsState()
 
     ScreenJoinGameRender(
-        clickJoinGame = clickJoinGame,
-        clickSelectGame = clickSelectGame,
         availableGames = availableGames,
+        clickJoinGame = {
+            if(viewModel.getGameID() != "")clickJoinGame(viewModel.getGameID())
+        },
+        clickSelectGame = {gameID: String -> viewModel.setGameID(gameID)},
+        test = {viewModel.addGame(Random.nextInt(20).toString())}
     )
 }
 
 @Composable
 fun ScreenJoinGameRender(
     clickJoinGame: () -> Unit,
-    clickSelectGame: () -> Unit,
+    clickSelectGame: (String) -> Unit,
     availableGames: List<AvailableGame>?,
+    test: () -> Unit,
 )
 {
         Column(
@@ -65,9 +69,9 @@ fun ScreenJoinGameRender(
                     availableGames?.let{
                         items(availableGames){
                             ButtonChooseGame(
-                                text = it.gameID,
+                                text = it.name,
                                 modifier = Modifier,
-                                onClick = {}
+                                onClick = {clickSelectGame(it.gameID)}
                             )
                         }
                     } ?: run{
@@ -79,8 +83,13 @@ fun ScreenJoinGameRender(
             }
             TextFieldStandard("Filter")
             ButtonStandard(
-                onClick = {clickJoinGame()},
+                onClick = clickJoinGame,
                 text = "Join Game",
+                modifier = Modifier
+            )
+            ButtonStandard(
+                onClick = test,
+                text = "Create Game",
                 modifier = Modifier
             )
         }

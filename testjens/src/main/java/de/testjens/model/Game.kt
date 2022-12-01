@@ -9,7 +9,7 @@ enum class MiniGameEnum{
     TestMinigame
 }
 
-class Game (val name: String){
+class Game (private val name: String){
 
     private var gameId = generateGameId()
 
@@ -30,6 +30,10 @@ class Game (val name: String){
 
     fun getID() : String{
         return gameId
+    }
+
+    fun getName() : String{
+        return name
     }
 
     fun addMinigames(amount: Int){

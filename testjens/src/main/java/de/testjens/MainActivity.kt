@@ -6,9 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import de.testjens.ui.theme.MoCoWareTheme
 import de.testjens.view.AppNavigation
+import de.testjens.viewmodel.GameViewModel
 import de.testjens.viewmodel.JoinGameViewModel
 
 
@@ -16,11 +16,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val viewModel: JoinGameViewModel by viewModels()
+        val joinGameViewModel: JoinGameViewModel by viewModels()
+        val gameViewModel: GameViewModel by viewModels()
 
         setContent {
             MoCoWareTheme {
-                AppNavigation(viewModel = viewModel)
+                AppNavigation(
+                    joinGameViewModel = joinGameViewModel,
+                    gameViewModel = gameViewModel
+                )
             }
         }
     }
