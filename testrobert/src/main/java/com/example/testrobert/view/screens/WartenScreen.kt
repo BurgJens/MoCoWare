@@ -28,6 +28,9 @@ fun WartenScreen(
     }
     if (viewModel.accelSensorAktiv) {
         stopServiceAcce()
+        viewModel.maxXwet= 0.0F
+        viewModel.maxYwet=0.0F
+        viewModel.maxZwet=0.0F
         viewModel.accelSensorAktiv=false
 
     }
@@ -39,6 +42,8 @@ fun WartenScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            viewModel.setTime(30)
 
 
 

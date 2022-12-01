@@ -1,5 +1,6 @@
 package com.example.testrobert.viewmodel
 
+import android.os.CountDownTimer
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,17 +10,21 @@ import kotlin.random.Random
 
 class SpielViewModel():ViewModel(){
 
+
     val iPuschen = mutableStateOf(0)
+
 
     var speedSensorAktiv:Boolean= false
     var accelSensorAktiv:Boolean= false
+
+    var spielIstAktiv:Boolean= false
 
     var maxXwet=0.0f
     var maxYwet=0.0f
     var maxZwet=0.0f
 
-
-
+    private val _timer : MutableLiveData<Int> = MutableLiveData<Int>()
+    var timer : LiveData<Int> = _timer
 
     private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
     var speed : LiveData<Double> = _speed
@@ -27,28 +32,20 @@ class SpielViewModel():ViewModel(){
     private val _accel: MutableLiveData<Array<Float>> = MutableLiveData<Array<Float>>()
     var accel:LiveData<Array<Float>> = _accel
 
-    val spielReihenfolge = List(30) { Random.nextInt(0, 3) }.toSet().toList()
+
 
     var listeSpiele= SpielListe()
 
     init {
         setSpeed(0.0)
+        setTime(30)
     }
 
 
-   // var iAccel =Intent(this@MainActivity,Accelerometer::class.java)
-   // var iSpeed =Intent(this@MainActivity,SpeedSensor::class.java)
+    fun setTime(int: Int){
+        _timer.postValue(int)
 
-    fun startstopSpeedService(test:()->Unit){
-        test()
     }
-
-
-    fun ist14Schnell(double: Double):Boolean{
-        return double>14
-    }
-
-
 
     fun setSpeed(double: Double){
         _speed.postValue(double)
@@ -68,10 +65,7 @@ class SpielViewModel():ViewModel(){
             maxZwet=floatZ
             _accel.postValue(arrayOf(maxXwet,maxYwet,maxZwet))
         }
-
-
     }
-
 
     fun breack(){
         setSpeed(0.0)
@@ -80,14 +74,21 @@ class SpielViewModel():ViewModel(){
     }
 
 
-    fun startProcess() {
-       println(iPuschen.value)
 
-        if (iPuschen.value==30){
-            println("tesgv")
+    var countDownTimer = object : CountDownTimer(30000, 1000) {
+
+        // override object functions here, do it quicker by setting cursor on object, then type alt + enter ; implement members
+        override fun onTick(millisUntilFinished: Long) {
+            _timer.postValue(timer.value?.minus(1))
+            println(timer.value)
         }
 
+        override fun onFinish() {
+            println("Zeit ist vorbei!")
+        }
     }
+
+
 
 
 

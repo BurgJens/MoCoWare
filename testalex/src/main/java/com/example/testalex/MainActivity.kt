@@ -1,10 +1,14 @@
 package com.example.testalex
 
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.CallSuper
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -15,6 +19,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -27,15 +32,19 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.testalex.Sensor.NearbyConnections
+import com.example.testalex.databinding.ActivityMainBinding
 import com.example.testalex.ui.theme.MoCoWareTheme
 import com.google.android.gms.location.*
+import com.google.android.gms.nearby.connection.Strategy
 
 
 class MainActivity : ComponentActivity() {
 
+    private val REQUEST_CODE_REQUIRED_PERMISSIONS = 1
+    private val STRATEGY = Strategy.P2P_STAR
+    private lateinit var binding: ActivityMainBinding
 
-    private val CAMERA_REQUEST_CODE = 100
-    //private val applicationViewModel: ApplicationViewModel by viewModel<ApplicationViewModel>()
 
     @RequiresApi(Build.VERSION_CODES.M)
 
@@ -55,8 +64,8 @@ class MainActivity : ComponentActivity() {
                     composable(route = "Start") {
                         StartScreen(navController)
                     }
-                    composable(route = "Erstellen") {
-                        StartScreen(navController)
+                    composable(route = "Bluetooth") {
+                        NearbyConnections()
                     }
                     composable(route = "Beitreten") {
                         Beitreten(navController)
@@ -69,8 +78,49 @@ class MainActivity : ComponentActivity() {
 
 
 
+        @CallSuper
+        fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
+        ) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            val errMsg = "Cannot start without required permissions"
+            if (requestCode == REQUEST_CODE_REQUIRED_PERMISSIONS) {
+                grantResults.forEach {
+                    if (it == PackageManager.PERMISSION_DENIED) {
+                        Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show()
+                        finish()
+                        return
+                    }
+                }
+                recreate()
+            }
+        }
+
+
+
     }
 
+
+
+@Composable
+fun Bluetooth(navController: NavController){
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(6.dp),
+    verticalArrangement = Arrangement.Center,
+    horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        PressIconButton(
+            onClick = { navController.navigate("BTService") },
+            icon = { Icon(Icons.Filled.ThumbUp, contentDescription = null) },
+            text = {Text("Starte Suche")}
+        )
+
+
+    }
+}
 
     @Composable
     fun StartScreen(
@@ -105,6 +155,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
     @Composable
     fun PressIconButton(
         onClick: () -> Unit,
@@ -117,7 +168,7 @@ class MainActivity : ComponentActivity() {
 
 
         val isPressed by interactionSource.collectIsPressedAsState()
-        val color = if (isPressed) Color.Green else Color.Blue
+        val color = if (isPressed) Color.Green else Color.LightGray
         Button(
             onClick = onClick, modifier = modifier,
             interactionSource = interactionSource,
@@ -150,14 +201,16 @@ class MainActivity : ComponentActivity() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row() {
+            Row(            ) {
                 Image(
 
                     painter = painterResource(id = R.drawable.huepfen),
                     contentDescription = null,
                 )
                 Spacer(Modifier.size(padding))
-                Column {
+                Column(Modifier
+                    .padding(6.dp)
+                ) {
                     Text("Lobby 1")
                     Text("3 Spieler")
                 }
@@ -176,7 +229,9 @@ class MainActivity : ComponentActivity() {
                     contentDescription = null,
                 )
                 Spacer(Modifier.size(padding))
-                Column {
+                Column(Modifier
+                    .padding(6.dp)
+                ) {
                     Text("Lobby 2")
                     Text("1 Spieler")
                 }
@@ -195,7 +250,10 @@ class MainActivity : ComponentActivity() {
                     contentDescription = null,
                 )
                 Spacer(Modifier.size(padding))
-                Column {
+                Column(
+                    Modifier
+                        .padding(6.dp)
+                ) {
                     Text("Lobby 3")
                     Text("14 Spieler")
                 }
@@ -215,37 +273,3 @@ class MainActivity : ComponentActivity() {
 
 
 
-/*// Freigabe anfragen für Kamera
-private fun setupPermission() {
-
-    val permissionCamera = ContextCompat.checkSelfPermission(
-        this,
-        android.Manifest.permission.CAMERA,
-    )
-    val permissionGPS = ContextCompat.checkSelfPermission(
-        this,
-        android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-    )
-
-    if (permissionCamera != PackageManager.PERMISSION_GRANTED) {
-        makeRequest()
-    }
-
-    if (permissionGPS != PackageManager.PERMISSION_GRANTED) {
-        makeRequest()
-    }
-
-}
-
-private fun makeRequest() {
-    ActivityCompat.requestPermissions(
-        this,
-        arrayOf(
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.ACCESS_BACKGROUND_LOCATION // Andorid 10 or higher !!!!!
-        ),
-        CAMERA_REQUEST_CODE
-    )
-}
-}
-*/
