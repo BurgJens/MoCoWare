@@ -11,6 +11,7 @@ import de.testjens.view.NavScreen
 class JoinGameViewModel : ViewModel() {
 
     private var gameID = ""
+    private var createGameName = ""
 
     val gameList = GameList()
 

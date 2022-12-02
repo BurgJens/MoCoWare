@@ -21,5 +21,4 @@ class GameViewModel() : ViewModel(){
         game = newGame
         _game.postValue(game)
     }
-
 }
