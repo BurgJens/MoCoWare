@@ -40,5 +40,6 @@ fun ScreenGameRender(
         verticalArrangement = Arrangement.Center,
     ) {
         Text(text = gameName)
+        Text(text = gameID)
     }
 }

@@ -22,9 +22,9 @@ class GameList () {
     }
 
     fun getGameByID(id : String) : Game{
-        val i = games.find { it.getID() == id }
+        val i = games.firstOrNull{ it.getID() == id.substring(1..4) }
         if (i == null){
-            return Game("Falsch")
+            return Game("Wrong ID")
         }else return i
     }
 }
