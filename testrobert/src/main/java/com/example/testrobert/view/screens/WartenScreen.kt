@@ -45,12 +45,7 @@ fun WartenScreen(
 
             viewModel.setTime(30)
 
-
-
             Text(modifier = Modifier.padding(20.dp), text ="Auf Mitspieler warten ...")
-
-
-
         }
 
     }

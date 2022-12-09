@@ -22,6 +22,7 @@
         android:theme="@style/Theme.MoCoWare">
         <service android:name="com.example.testrobert.sensor.SpeedSensor" />
         <service android:name="com.example.testrobert.sensor.Accelerometer" />
+        <service android:name="com.example.testrobert.sensor.LightSensor" />
         <activity
             android:name="com.example.testrobert.MainActivity"
             android:exported="true"

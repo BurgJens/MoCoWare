@@ -2,6 +2,7 @@ package com.example.testrobert.model
 
 import androidx.lifecycle.MutableLiveData
 import com.example.testrobert.sensor.Accelerometer
+import com.example.testrobert.sensor.LightSensor
 import com.example.testrobert.sensor.SpeedSensor
 
 
@@ -13,14 +14,18 @@ class SpielListe(){
 
     val beispiel = mutableListOf(
         Spiel("Druecken",
-            "Drücke den Button 30 mal !",
+            "Drücke den Button 30 mal!",
             null
         ), Spiel("Laufen",
-            "Laufe 14 KM/H schnell",
+            "Laufe 14 KM/H schnell!",
             SpeedSensor()
         ), Spiel("Shake",
-            "Schüttel dein Handy so stark du kannst",
+            "Schüttel dein Handy so stark, du kannst!",
             Accelerometer()
+        )
+        , Spiel("Licht",
+            "Beleuchte dein Handy so stark, du kannst!",
+            LightSensor()
         )
     )
 

@@ -80,7 +80,6 @@ class SpeedSensor:Service() {
     }
 
     override fun onCreate() {
-        Toast.makeText(this, "Start: Speedsensor", Toast.LENGTH_SHORT).show()
         initializeLocationManager()
 
         try {

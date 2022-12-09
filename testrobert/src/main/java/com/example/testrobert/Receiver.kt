@@ -21,7 +21,5 @@ class Receiver(val viewModel: SpielViewModel): BroadcastReceiver() {
         if(axisX != null && axisY!=null && axisZ != null){
             viewModel.setAcc(axisX,axisY,axisZ)
         }
-
-
     }
 }

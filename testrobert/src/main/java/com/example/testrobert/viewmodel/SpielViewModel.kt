@@ -80,7 +80,6 @@ class SpielViewModel():ViewModel(){
         // override object functions here, do it quicker by setting cursor on object, then type alt + enter ; implement members
         override fun onTick(millisUntilFinished: Long) {
             _timer.postValue(timer.value?.minus(1))
-            println(timer.value)
         }
 
         override fun onFinish() {
