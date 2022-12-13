@@ -176,6 +176,8 @@ class MainActivity : ComponentActivity() {
 
 
 
+
+
     // NUR FÜR TEST AUF DEVICE DA KEIN GPS AKTIV
     private fun getLocation() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager

@@ -35,6 +35,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    fun premissionCheck(){
+
+
+    }
 }
 
 @Preview(showBackground = true)
