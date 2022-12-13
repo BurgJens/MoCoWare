@@ -1,4 +1,4 @@
-package com.example.testrobert.sensor
+package de.mocoware.sensor
 
 import android.app.Service
 import android.content.Context
@@ -60,6 +60,7 @@ class LightSensor:Service(),SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        // wird aufgerufen wenn sich die Messgenauigkeit ändert
         println("onAccuracyChanged")
     }
 }

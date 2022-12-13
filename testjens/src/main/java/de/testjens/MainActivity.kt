@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import de.testjens.model.Game
-import de.testjens.model.Thingi
+// import de.testjens.model.Thingi
 import de.testjens.ui.theme.MoCoWareTheme
 import de.testjens.view.AppNavigation
 import de.testjens.viewmodel.GameViewModel
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Thingi.name
+      //  Thingi.name
 
         val joinGameViewModel: JoinGameViewModel by viewModels()
         val gameViewModel: GameViewModel by viewModels()

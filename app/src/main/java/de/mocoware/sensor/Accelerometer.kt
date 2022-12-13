@@ -1,4 +1,4 @@
-package com.example.testrobert.sensor
+package de.mocoware.sensor
 
 import android.app.Service
 import android.content.Context
@@ -16,15 +16,15 @@ import java.lang.Math.abs
 class Accelerometer : Service(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
-    private lateinit var sensor: Sensor
+    private lateinit var sensorBeschleunigung: Sensor
 
 
     override fun onCreate() {
         super.onCreate()
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
+        sensorBeschleunigung = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)
 
-        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+        sensorManager.registerListener(this, sensorBeschleunigung, SensorManager.SENSOR_DELAY_NORMAL)
 
     }
 
@@ -65,6 +65,7 @@ class Accelerometer : Service(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        // wird aufgerufen wenn sich die Messgenauigkeit ändert
         println("onAccuracyChanged")
     }
 

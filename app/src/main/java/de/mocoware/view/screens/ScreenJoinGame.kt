@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import de.mocoware.model.AvailableGame
-import de.mocoware.view.ButtonChooseGame
-import de.mocoware.view.ButtonStandard
+import de.mocoware.view.elements.ButtonChooseGame
+import de.mocoware.view.elements.ButtonStandard
 import de.mocoware.view.elements.TextFieldStandard
 import de.mocoware.viewmodel.JoinGameViewModel
 import kotlin.random.Random

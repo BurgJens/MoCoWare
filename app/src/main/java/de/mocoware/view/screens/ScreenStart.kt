@@ -9,7 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import de.mocoware.view.ButtonStandard
+import de.mocoware.view.elements.ButtonStandard
 import de.mocoware.viewmodel.JoinGameViewModel
 
 

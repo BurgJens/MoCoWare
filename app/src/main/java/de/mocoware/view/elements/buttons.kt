@@ -1,4 +1,4 @@
-package de.mocoware.view
+package de.mocoware.view.elements
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape

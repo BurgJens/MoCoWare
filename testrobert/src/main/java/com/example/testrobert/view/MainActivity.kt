@@ -12,6 +12,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -41,25 +42,19 @@ import java.util.*
 
 class MainActivity : ComponentActivity() {
 
-    private val REQUEST_ENABLE_BT = 1000
-    lateinit var bluetoothAdapter: BluetoothAdapter
-    lateinit var bluetoothManager: BluetoothManager
-
     lateinit var spiel1: Spiel
 
-    private lateinit var locationManager: LocationManager
-    private val locationPermissionCode = 2
+
+    private  val CAMERA_PRE=100
+    private  val GPS_PRE=1
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
-        bluetoothManager = getSystemService(BluetoothManager::class.java)
-        bluetoothAdapter = bluetoothManager.getAdapter()
-        premissionCheck()
-        getLocation()
+        checkPremission(Manifest.permission.ACCESS_FINE_LOCATION,1)
+        checkPremission(Manifest.permission.CAMERA,100)
 
 
 
@@ -106,7 +101,7 @@ class MainActivity : ComponentActivity() {
                             navController,
                             { startService(iSpeed) },
                             { startService(iAccel) },
-                            {startService(iLight)}
+                            { startService(iLight) }
                         )
 
                     }
@@ -140,59 +135,40 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    val permissionsList = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        listOf(
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.BLUETOOTH_ADMIN,
-            Manifest.permission.BLUETOOTH_SCAN,
-            Manifest.permission.BLUETOOTH_CONNECT
-        )
-    } else {
-        listOf(
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.BLUETOOTH_ADMIN,
-        )
+    fun checkPremission(premisson:String,requestCode:Int){
+
+        if(ContextCompat.checkSelfPermission(this,premisson)==PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this, arrayOf(premisson),requestCode)
+        }else{
+            Toast.makeText(this,"Permission ist granted",Toast.LENGTH_SHORT).show()
+        }
+
     }
 
-    fun premissionCheck() {
-        val requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-                permissions.entries.forEach {
-                    println(permissions)
-                    if (it.value) {
-                        Toast.makeText(this, "Permission Granted " + it.key, Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        Toast.makeText(
-                            this,
-                            "Permission permanently denied ,you can enable it by going to app setting",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode== GPS_PRE){
+            if (grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this,"Location permission Granted",Toast.LENGTH_SHORT).show()
+                this.recreate()
+            }else{
+                Toast.makeText(this,"Location permission Denied",Toast.LENGTH_SHORT).show()
             }
-        requestPermissionLauncher.launch(permissionsList.toTypedArray())
-    }
-
-
-
-
-
-    // NUR FÜR TEST AUF DEVICE DA KEIN GPS AKTIV
-    private fun getLocation() {
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if ((ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-            ) != PackageManager.PERMISSION_GRANTED)
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                locationPermissionCode
-            )
+        }else if(requestCode== CAMERA_PRE){
+            if (grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this,"Camera permission Granted",Toast.LENGTH_SHORT).show()
+                this.recreate()
+            }else{
+                Toast.makeText(this,"Camera permission Denied",Toast.LENGTH_SHORT).show()
+            }
         }
     }
+
+
 }
 
 sealed class NavRoutes(val route: String) {
@@ -202,4 +178,3 @@ sealed class NavRoutes(val route: String) {
     object Start : NavRoutes("Start")
     object Warten : NavRoutes("Warten")
 }
-

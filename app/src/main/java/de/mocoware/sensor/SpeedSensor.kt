@@ -1,4 +1,4 @@
-package com.example.testrobert.sensor
+package de.mocoware.sensor
 
 import android.app.Service
 import android.content.Intent

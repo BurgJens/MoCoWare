@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.example.testrobert.MainActivity
 import com.example.testrobert.NavRoutes
 import com.example.testrobert.model.Spiel
 import com.example.testrobert.viewmodel.SpielViewModel
