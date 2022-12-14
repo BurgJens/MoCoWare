@@ -12,18 +12,21 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import de.mocoware.MainActivity
 import de.mocoware.viewmodel.GameViewModel
 
 
 @Composable
 fun ScreenGameHandler(
-    viewModel: GameViewModel
+    viewModel: GameViewModel,
+    serivceSystem: MainActivity.SerivceSystem
 ){
     val game by viewModel.liveGame.observeAsState()
 
     ScreenGameRender(
         gameID = game!!.getID(),
-        gameName = game!!.getName()
+        gameName = game!!.getName(),
+        serivceSystem
     )
 }
 
@@ -31,7 +34,8 @@ fun ScreenGameHandler(
 @Composable
 fun ScreenGameRender(
     gameID: String,
-    gameName: String
+    gameName: String,
+    serivceSystem: MainActivity.SerivceSystem
 ){
     Column(
         modifier = Modifier
@@ -40,6 +44,7 @@ fun ScreenGameRender(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
+        serivceSystem.startSpeed()
         Text(text = gameName)
         Text(text = gameID)
     }

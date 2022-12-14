@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import de.mocoware.MainActivity
 import de.mocoware.view.screens.ScreenGameHandler
 import de.mocoware.view.screens.ScreenJoinGameHandler
 import de.mocoware.view.screens.ScreenStartHandler
@@ -25,7 +26,9 @@ sealed class NavScreen(val route : String){
 @Composable
 fun AppNavigation(
     joinGameViewModel: JoinGameViewModel,
-    gameViewModel: GameViewModel
+    gameViewModel: GameViewModel,
+    service: MainActivity.SerivceSystem
+
 ){
     val navController = rememberNavController()
 
@@ -57,7 +60,8 @@ fun AppNavigation(
         ){
             val gameID = it.arguments?.getString("gameID")!!
             ScreenGameHandler(
-                viewModel = gameViewModel.withGame(joinGameViewModel.getGameByID(gameID))
+                viewModel = gameViewModel.withGame(joinGameViewModel.getGameByID(gameID)),
+                serivceSystem = service
             )
         }
     }

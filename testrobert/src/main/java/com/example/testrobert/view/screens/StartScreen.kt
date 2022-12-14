@@ -29,6 +29,7 @@ fun StartScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Column() {
             Button(
                 modifier = Modifier

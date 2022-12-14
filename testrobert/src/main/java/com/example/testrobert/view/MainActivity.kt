@@ -43,8 +43,6 @@ import java.util.*
 class MainActivity : ComponentActivity() {
 
     lateinit var spiel1: Spiel
-
-
     private  val CAMERA_PRE=100
     private  val GPS_PRE=1
 
