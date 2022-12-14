@@ -24,13 +24,14 @@ import de.mocoware.viewmodel.JoinGameViewModel
 
 class MainActivity : ComponentActivity() {
 
-    private  val CAMERA_PRE=100
-    private  val GPS_PRE=1
+    private val CAMERA_PRE=100
+    private val GPS_PRE=1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         checkPremission(Manifest.permission.CAMERA,100)
-        checkPremission(Manifest.permission.ACCESS_FINE_LOCATION,2)
+        checkPremission(Manifest.permission.ACCESS_FINE_LOCATION,1)
 
 
 
@@ -47,12 +48,21 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+    // Runtime permission function under here
+
     fun checkPremission(premisson:String,requestCode:Int){
 
         if(ContextCompat.checkSelfPermission(this,premisson)== PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, arrayOf(premisson),requestCode)
         }else{
-            Toast.makeText(this,"Permission ist granted", Toast.LENGTH_SHORT).show()
+            if (premisson==Manifest.permission.CAMERA){
+                Toast.makeText(this,"Camera has premission", Toast.LENGTH_SHORT).show()
+            }
+            if (premisson==Manifest.permission.ACCESS_FINE_LOCATION){
+                Toast.makeText(this,"Location has premission", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
     }
@@ -69,6 +79,7 @@ class MainActivity : ComponentActivity() {
                 this.recreate()
             }else{
                 Toast.makeText(this,"Location permission Denied", Toast.LENGTH_SHORT).show()
+
             }
         }else if(requestCode== CAMERA_PRE){
             if (grantResults.isNotEmpty() && grantResults[0]== PackageManager.PERMISSION_GRANTED){
@@ -76,6 +87,8 @@ class MainActivity : ComponentActivity() {
                 this.recreate()
             }else{
                 Toast.makeText(this,"Camera permission Denied", Toast.LENGTH_SHORT).show()
+
+
             }
         }
     }
