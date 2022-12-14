@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
 
         val joinGameViewModel: JoinGameViewModel by viewModels()
         val gameViewModel: GameViewModel by viewModels()
-
+        val serviceObject =SerivceSystem()
 
         // register receiver
         LocalBroadcastManager.getInstance(this)
@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
                 AppNavigation(
                     joinGameViewModel = joinGameViewModel,
                     gameViewModel = gameViewModel,
-                    SerivceSystem()
+                    serviceObject
                 )
             }
         }
