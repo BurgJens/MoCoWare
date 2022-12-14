@@ -2,7 +2,8 @@ package de.mocoware.model
 
 import android.app.appsearch.StorageInfo
 import de.mocoware.model.minigames.MiniGame
-import de.mocoware.model.minigames.MiniGameListe
+import de.mocoware.model.minigames.TestMinigame
+
 import kotlin.random.Random
 
 enum class MiniGameEnum{
@@ -42,7 +43,7 @@ class Game (private val name: String){
         val nextMinigame = miniGameEnumValues[Random.nextInt(MiniGameEnum.values().size)]
         repeat(amount){
             when(nextMinigame){
-                MiniGameEnum.TestMinigame -> miniGames.add(MiniGameListe().zufallsMiniGame())
+                MiniGameEnum.TestMinigame -> miniGames.add(TestMinigame())
             }
         }
     }

@@ -1,4 +1,5 @@
 package de.mocoware.model.minigames
 
-interface MiniGame {
+class TestMinigame : MiniGame {
+
 }

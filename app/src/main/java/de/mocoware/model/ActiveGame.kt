@@ -2,7 +2,7 @@ package de.mocoware.model
 
 
 import de.mocoware.model.minigames.MiniGame
-import de.mocoware.model.minigames.MiniGameListe
+import de.mocoware.model.minigames.TestMinigame
 import kotlin.random.Random
 
 object ActiveGame{
@@ -42,7 +42,7 @@ object ActiveGame{
         val nextMinigame = miniGameEnumValues[Random.nextInt(MiniGameEnum.values().size)]
         repeat(amount){
             when(nextMinigame){
-                MiniGameEnum.TestMinigame -> miniGames.add(MiniGameListe().zufallsMiniGame())
+                MiniGameEnum.TestMinigame -> miniGames.add(TestMinigame())
             }
         }
     }
