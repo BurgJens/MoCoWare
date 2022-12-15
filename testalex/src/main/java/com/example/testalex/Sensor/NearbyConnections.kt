@@ -20,7 +20,7 @@ class NearbyConnections : AppCompatActivity() {
     companion object {
         private const val REQUEST_CODE_PERMISSIONS = 1
         private const val TAG: String = "nearbytest"
-        private const val SERVICE_ID: String = "com.github.okwrtdsh.nearbytest"
+        private const val SERVICE_ID: String = "com.github.MoCoWare"
     }
 
 
@@ -30,21 +30,6 @@ class NearbyConnections : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         mConnectionsClient = Nearby.getConnectionsClient(this)
 
-//        buttonStartAdvertising.setOnClickListener {
-//            startAdvertising()
-//        }
-//
-//        buttonStopAdvertising.setOnClickListener {
-//            stopAdvertising()
-//        }
-//
-//        buttonStartDiscovery.setOnClickListener {
-//            startDiscovery()
-//        }
-//
-//        buttonStopDiscovery.setOnClickListener {
-//            stopDiscovery()
-//        }
 
         ActivityCompat.requestPermissions(
             this,
@@ -221,4 +206,7 @@ class NearbyConnections : AppCompatActivity() {
     }
 
     private fun getNickName() = UUID.randomUUID().toString()
+    fun startActivity() {
+        TODO("Not yet implemented")
+    }
 }

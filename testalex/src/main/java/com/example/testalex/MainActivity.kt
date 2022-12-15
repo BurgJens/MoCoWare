@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                     startDestination = "Start",
                 ) {
                     composable(route = "Nearby") {
-                        NearbyConnections()
+                        NearbyConnections().startActivity()
                     }
 
                 }
