@@ -42,7 +42,6 @@ import com.google.android.gms.nearby.connection.Strategy
 class MainActivity : ComponentActivity() {
 
     private val REQUEST_CODE_REQUIRED_PERMISSIONS = 1
-    private val STRATEGY = Strategy.P2P_STAR
     private lateinit var binding: ActivityMainBinding
 
 
@@ -55,21 +54,18 @@ class MainActivity : ComponentActivity() {
         setContent {
             //val location by applicationViewModel.getLocationLiveData().observeAsState()
             MoCoWareTheme {
+
+            }
                 val navController = rememberNavController()
 
                 NavHost(
                     navController = navController,
                     startDestination = "Start",
                 ) {
-                    composable(route = "Start") {
-                        StartScreen(navController)
-                    }
-                    composable(route = "Bluetooth") {
+                    composable(route = "Nearby") {
                         NearbyConnections()
                     }
-                    composable(route = "Beitreten") {
-                        Beitreten(navController)
-                    }
+
                 }
             }
         }
@@ -79,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
 
         @CallSuper
-        fun onRequestPermissionsResult(
+        override fun onRequestPermissionsResult(
             requestCode: Int,
             permissions: Array<out String>,
             grantResults: IntArray
@@ -104,172 +100,6 @@ class MainActivity : ComponentActivity() {
 
 
 
-@Composable
-fun Bluetooth(navController: NavController){
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(6.dp),
-    verticalArrangement = Arrangement.Center,
-    horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        PressIconButton(
-            onClick = { navController.navigate("BTService") },
-            icon = { Icon(Icons.Filled.ThumbUp, contentDescription = null) },
-            text = {Text("Starte Suche")}
-        )
-
-
-    }
-}
-
-    @Composable
-    fun StartScreen(
-        navController: NavController
-    ) {
-
-        BoxWithConstraints {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(6.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-
-
-            ) {
-                PressIconButton(
-                    onClick = { navController.navigate("Erstellen") },
-                    icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                    text = { Text("Erstellen") }
-
-
-                )
-                PressIconButton(
-                    onClick = { navController.navigate("Beitreten") },
-                    icon = { Icon(Icons.Filled.PlayArrow, contentDescription = null) },
-                    text = { Text("Beitreten") }
-
-                )
-
-            }
-        }
-    }
-
-
-    @Composable
-    fun PressIconButton(
-        onClick: () -> Unit,
-        icon: @Composable () -> Unit,
-        text: @Composable () -> Unit,
-        modifier: Modifier = Modifier,
-        interactionSource: MutableInteractionSource =
-            remember { MutableInteractionSource() },
-    ) {
-
-
-        val isPressed by interactionSource.collectIsPressedAsState()
-        val color = if (isPressed) Color.Green else Color.LightGray
-        Button(
-            onClick = onClick, modifier = modifier,
-            interactionSource = interactionSource,
-            colors = ButtonDefaults.buttonColors(backgroundColor = color)
-        ) {
-            AnimatedVisibility(visible = isPressed) {
-                if (isPressed) {
-                    Row {
-                        icon()
-                        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-
-
-                    }
-                }
-            }
-            text()
-        }
-    }
-
-
-    @Composable
-    fun Beitreten(
-        navController: NavController
-    ) {
-        val padding = 16.dp
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(6.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(            ) {
-                Image(
-
-                    painter = painterResource(id = R.drawable.huepfen),
-                    contentDescription = null,
-                )
-                Spacer(Modifier.size(padding))
-                Column(Modifier
-                    .padding(6.dp)
-                ) {
-                    Text("Lobby 1")
-                    Text("3 Spieler")
-                }
-                PressIconButton(
-                    onClick = { navController.navigate("Beitreten") },
-                    icon = { Icon(Icons.Filled.PlayArrow, contentDescription = null) },
-                    text = { Text("Beitreten") }
-
-                )
-
-            }
-            Row() {
-                Image(
-
-                    painter = painterResource(id = R.drawable.schatz),
-                    contentDescription = null,
-                )
-                Spacer(Modifier.size(padding))
-                Column(Modifier
-                    .padding(6.dp)
-                ) {
-                    Text("Lobby 2")
-                    Text("1 Spieler")
-                }
-                PressIconButton(
-                    onClick = { navController.navigate("Beitreten") },
-                    icon = { Icon(Icons.Filled.PlayArrow, contentDescription = null) },
-                    text = { Text("Beitreten") }
-
-                )
-
-            }
-            Row() {
-                Image(
-
-                    painter = painterResource(id = R.drawable.huepfen),
-                    contentDescription = null,
-                )
-                Spacer(Modifier.size(padding))
-                Column(
-                    Modifier
-                        .padding(6.dp)
-                ) {
-                    Text("Lobby 3")
-                    Text("14 Spieler")
-                }
-                PressIconButton(
-                    onClick = { navController.navigate("Beitreten") },
-                    icon = { Icon(Icons.Filled.PlayArrow, contentDescription = null) },
-                    text = { Text("Beitreten") }
-
-                )
-
-            }
-
-
-        }
-    }
-}
 
 
 

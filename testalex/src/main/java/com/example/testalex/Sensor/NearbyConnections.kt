@@ -4,11 +4,12 @@ import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.Composable
 import androidx.core.app.ActivityCompat
 import com.example.testalex.R
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
-import kotlinx.android.synthetic.main.activity_main.*
+
 import java.util.*
 
 class NearbyConnections : AppCompatActivity() {
@@ -213,8 +214,9 @@ class NearbyConnections : AppCompatActivity() {
     }
 
 
+
     private fun debug(message: String) {
-        textViewLog.append(message + "\n")
+
         Log.d(TAG, message)
     }
 
