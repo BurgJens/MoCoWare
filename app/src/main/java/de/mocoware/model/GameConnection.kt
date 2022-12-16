@@ -1,16 +1,20 @@
-package de.testjens.model
+package de.mocoware.model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+data class AvailableGame(val name: String, val gameID: String)
 
+object GameConnection{
 
+    private var onlineMode = false
 
-class GameList () {
+    private var host = false
+
+    private var gameToJoin : AvailableGame? = null
+    private var currentGame : Game? = null
 
     private val games = mutableListOf<Game>()
 
-    fun addGame(newGame: Game){
-        games.add(newGame)
+    fun addNewGame(name: String, rounds: Int) {
+        games.add(Game(name, rounds))
     }
 
     fun getAvailableGames() : List<AvailableGame>{
@@ -26,5 +30,13 @@ class GameList () {
         if (i == null){
             return Game("Wrong ID")
         }else return i
+    }
+
+    fun setOnlineMode(setMode : Boolean){
+        onlineMode = setMode
+    }
+
+    fun setCurrentGam(game: Game){
+        currentGame = game
     }
 }

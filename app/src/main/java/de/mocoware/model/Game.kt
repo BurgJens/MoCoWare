@@ -10,14 +10,14 @@ enum class MiniGameEnum{
     TestMinigame
 }
 
-class Game (private val name: String){
+class Game (private val name: String, private val rounds: Int = 5){
 
     private var gameId = generateGameId()
 
     private val miniGames = mutableListOf<MiniGame>()
 
     init {
-        addMinigames(10)
+        addMinigames(rounds)
     }
 
     private fun generateGameId() : String{

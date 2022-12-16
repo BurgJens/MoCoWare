@@ -34,15 +34,6 @@ class GameViewModel() : ViewModel(){
         setTime(30)
     }
 
-    fun withGame(newGame: Game): GameViewModel{
-        setGame(newGame)
-        return this
-    }
-
-    fun setGame(newGame: Game){
-        game = newGame
-        _game.postValue(game)
-    }
     fun setTime(int: Int){
         _timer.postValue(int)
 

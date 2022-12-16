@@ -1,11 +1,10 @@
 package de.testjens.model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+data class AvailableGame(val name: String, val gameID: String)
 
+object GameConnection{
 
-
-class GameList () {
+    private var onlineMode = false
 
     private val games = mutableListOf<Game>()
 
@@ -26,5 +25,9 @@ class GameList () {
         if (i == null){
             return Game("Wrong ID")
         }else return i
+    }
+
+    fun setOnlineMode(setMode : Boolean){
+        onlineMode = setMode
     }
 }

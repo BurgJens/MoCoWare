@@ -7,9 +7,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import de.mocoware.MainActivity
+import de.mocoware.view.screens.ScreenCreateGameHandler
 import de.mocoware.view.screens.ScreenGameHandler
 import de.mocoware.view.screens.ScreenJoinGameHandler
 import de.mocoware.view.screens.ScreenStartHandler
+import de.mocoware.viewmodel.CreateGameViewModel
 import de.mocoware.viewmodel.GameViewModel
 import de.mocoware.viewmodel.JoinGameViewModel
 
@@ -17,6 +19,7 @@ import de.mocoware.viewmodel.JoinGameViewModel
 sealed class NavScreen(val route : String){
     object Start : NavScreen("start")
     object JoinGame : NavScreen("joingame")
+    object CreateGame : NavScreen("creategame")
 
     object Game: NavScreen("game/{gameID}"){
         fun gameId(gameID : String) = "game/{$gameID}"
@@ -27,6 +30,7 @@ sealed class NavScreen(val route : String){
 fun AppNavigation(
     joinGameViewModel: JoinGameViewModel,
     gameViewModel: GameViewModel,
+    createGameViewModel: CreateGameViewModel,
     service: MainActivity.SerivceSystem
 
 ){
@@ -38,8 +42,16 @@ fun AppNavigation(
         ){
             ScreenStartHandler(
                 viewModel = joinGameViewModel,
-                clickNewGame = {navController.navigate(NavScreen.JoinGame.route)},
-                clickJoinGame = {navController.navigate(NavScreen.JoinGame.route)}
+                navigateNewGame = {navController.navigate(NavScreen.CreateGame.route)},
+                navigateJoinGame = {navController.navigate(NavScreen.JoinGame.route)},
+            )
+        }
+        composable(
+            route = NavScreen.CreateGame.route
+        ){
+            ScreenCreateGameHandler(
+                viewModel = createGameViewModel,
+                navigateCreateGame = {}
             )
         }
         composable(
@@ -47,7 +59,7 @@ fun AppNavigation(
         ){
             ScreenJoinGameHandler(
                 viewModel = joinGameViewModel,
-                clickJoinGame = {id : String -> navController.navigate(NavScreen.Game.gameId(id))}
+                navigateJoinGame = { id : String -> navController.navigate(NavScreen.Game.gameId(id))}
             )
         }
         composable(
@@ -60,7 +72,7 @@ fun AppNavigation(
         ){
             val gameID = it.arguments?.getString("gameID")!!
             ScreenGameHandler(
-                viewModel = gameViewModel.withGame(joinGameViewModel.getGameByID(gameID)),
+                viewModel = gameViewModel,
                 serivceSystem = service
             )
         }

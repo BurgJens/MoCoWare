@@ -16,12 +16,12 @@ import de.mocoware.viewmodel.JoinGameViewModel
 @Composable
 fun ScreenStartHandler(
     viewModel: JoinGameViewModel,
-    clickNewGame: () -> Unit,
-    clickJoinGame: () -> Unit
+    navigateNewGame: () -> Unit,
+    navigateJoinGame: () -> Unit
 ){
     ScreenStartRender(
-        navigateNewGame = clickNewGame,
-        navigateJoinGame = clickJoinGame
+        navigateNewGame = navigateNewGame,
+        navigateJoinGame = navigateJoinGame
     )
 }
 
