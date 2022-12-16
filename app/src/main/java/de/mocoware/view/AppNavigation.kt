@@ -21,9 +21,10 @@ sealed class NavScreen(val route : String){
     object JoinGame : NavScreen("joingame")
     object CreateGame : NavScreen("creategame")
 
-    object Game: NavScreen("game/{gameID}"){
-        fun gameId(gameID : String) = "game/{$gameID}"
-    }
+    object Game: NavScreen("game")
+//    object Game: NavScreen("game/{gameID}"){
+//        fun gameId(gameID : String) = "game/{$gameID}"
+//    }
 }
 
 @Composable
@@ -51,7 +52,7 @@ fun AppNavigation(
         ){
             ScreenCreateGameHandler(
                 viewModel = createGameViewModel,
-                navigateCreateGame = {}
+                navigateGame = {navController.navigate(NavScreen.Game.route)}
             )
         }
         composable(
@@ -59,18 +60,12 @@ fun AppNavigation(
         ){
             ScreenJoinGameHandler(
                 viewModel = joinGameViewModel,
-                navigateJoinGame = { id : String -> navController.navigate(NavScreen.Game.gameId(id))}
+                navigateJoinGame = { id : String -> navController.navigate(NavScreen.Game.route)}
             )
         }
         composable(
-            route= "game/{gameID}",
-            arguments = listOf(
-                navArgument("gameID"){
-                    type = NavType.StringType
-                }
-            )
+            route = NavScreen.Game.route,
         ){
-            val gameID = it.arguments?.getString("gameID")!!
             ScreenGameHandler(
                 viewModel = gameViewModel,
                 serivceSystem = service

@@ -36,7 +36,20 @@ object GameConnection{
         onlineMode = setMode
     }
 
-    fun setCurrentGam(game: Game){
+    fun setCurrentGame(game: Game){
         currentGame = game
     }
+
+    fun getCurrentGame() : Game?{
+        return currentGame
+    }
+
+    fun getCurrentGameName() : String?{
+        return currentGame?.getName()
+    }
+
+    fun getCurrentGameID() : String?{
+        return currentGame?.getID()
+    }
+
 }
