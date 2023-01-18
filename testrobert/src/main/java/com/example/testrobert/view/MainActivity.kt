@@ -40,19 +40,17 @@ import com.example.testrobert.viewmodel.SpielViewModel
 import java.util.*
 
 
-class MainActivity : ComponentActivity() { 
+class MainActivity : ComponentActivity() {
 
     lateinit var spiel1: Spiel
-    private  val CAMERA_PRE=100
-    private  val GPS_PRE=1
+    private val CAMERA_PRE = 100
+    private val GPS_PRE = 1
 
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        checkPremission(Manifest.permission.ACCESS_FINE_LOCATION,1)
-        checkPremission(Manifest.permission.CAMERA,100)
 
 
 
@@ -133,42 +131,11 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    fun checkPremission(premisson:String,requestCode:Int){
 
-        if(ContextCompat.checkSelfPermission(this,premisson)==PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this, arrayOf(premisson),requestCode)
-        }else{
-            Toast.makeText(this,"Permission ist granted",Toast.LENGTH_SHORT).show()
-        }
 
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode== GPS_PRE){
-            if (grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this,"Location permission Granted",Toast.LENGTH_SHORT).show()
-                this.recreate()
-            }else{
-                Toast.makeText(this,"Location permission Denied",Toast.LENGTH_SHORT).show()
-            }
-        }else if(requestCode== CAMERA_PRE){
-            if (grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this,"Camera permission Granted",Toast.LENGTH_SHORT).show()
-                this.recreate()
-            }else{
-                Toast.makeText(this,"Camera permission Denied",Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
 
 }
-
 sealed class NavRoutes(val route: String) {
     object Erstellen : NavRoutes("Erstellen")
     object Beitreten : NavRoutes("Beitreten")

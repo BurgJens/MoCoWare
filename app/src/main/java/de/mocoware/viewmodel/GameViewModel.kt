@@ -14,6 +14,25 @@ import java.util.*
 class GameViewModel() : ViewModel(){
 
 
+    inner class Receiver: BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
+
+            val axisX = Objects.requireNonNull(intent.extras)?.getFloat("axisX")
+            val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
+            val axisZ = Objects.requireNonNull(intent.extras)?.getFloat("axisZ")
+
+            if (speed != null) {
+                setSpeed(speed)
+            }
+
+            if(axisX != null && axisY!=null && axisZ != null){
+                setAcc(axisX,axisY,axisY)
+
+            }
+        }
+    }
+
     // LiveDate für die Werte von dern Services
     private val _timer : MutableLiveData<Int> = MutableLiveData<Int>()
     var timer : LiveData<Int> = _timer
@@ -38,26 +57,7 @@ class GameViewModel() : ViewModel(){
         setTime(30)
     }
 
-    inner class Receiver: BroadcastReceiver() {
 
-
-        override fun onReceive(context: Context, intent: Intent) {
-            val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
-
-            val axisX = Objects.requireNonNull(intent.extras)?.getFloat("axisX")
-            val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
-            val axisZ = Objects.requireNonNull(intent.extras)?.getFloat("axisZ")
-
-            if (speed != null) {
-                setSpeed(speed)
-            }
-
-            if(axisX != null && axisY!=null && axisZ != null){
-                setAcc(axisX,axisY,axisY)
-
-            }
-        }
-    }
 
     fun withGame(newGame: Game): GameViewModel{
         setGame(newGame)

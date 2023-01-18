@@ -31,6 +31,8 @@ class LightSensor:Service(),SensorEventListener {
         return null
     }
 
+
+
     override fun onSensorChanged(event: SensorEvent?) {
         event?: return
 
@@ -53,8 +55,6 @@ class LightSensor:Service(),SensorEventListener {
 
 
         LocalBroadcastManager.getInstance(this@LightSensor).sendBroadcast(intent)
-
-
 
 
     }

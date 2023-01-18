@@ -1,6 +1,10 @@
 package com.example.testrobert.view.screens
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.strictmode.UnbufferedIoViolation
+import android.provider.Settings
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -11,15 +15,19 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.testrobert.MainActivity
 import com.example.testrobert.NavRoutes
+
 import com.example.testrobert.model.Spiel
 import com.example.testrobert.viewmodel.SpielViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun GameScreen(
     viewModel: SpielViewModel,
@@ -29,6 +37,8 @@ fun GameScreen(
     startServiceAcce:()->Unit,
     startServiceLight:()->Unit,
 ){
+
+    val context = LocalContext.current
 
 
     val timer by viewModel?.timer.observeAsState()
