@@ -40,7 +40,7 @@ import com.example.testrobert.viewmodel.SpielViewModel
 import java.util.*
 
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() { 
 
     lateinit var spiel1: Spiel
     private  val CAMERA_PRE=100
@@ -65,9 +65,9 @@ class MainActivity : ComponentActivity() {
 
 
             LocalBroadcastManager.getInstance(this)
-                .registerReceiver(Receiver(viewModel), IntentFilter("testSpeed"))
+                .registerReceiver(viewModel.Receiver(), IntentFilter("testSpeed"))
             LocalBroadcastManager.getInstance(this)
-                .registerReceiver(Receiver(viewModel), IntentFilter("testAccel"))
+                .registerReceiver(viewModel.Receiver(), IntentFilter("testAccel"))
 
 
             val iAccel = Intent(this@MainActivity, Accelerometer::class.java)

@@ -1,10 +1,14 @@
 package de.mocoware.viewmodel
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.Game
+import java.util.*
 
 
 class GameViewModel() : ViewModel(){
@@ -32,6 +36,27 @@ class GameViewModel() : ViewModel(){
     init {
         setSpeed(0.0)
         setTime(30)
+    }
+
+    inner class Receiver: BroadcastReceiver() {
+
+
+        override fun onReceive(context: Context, intent: Intent) {
+            val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
+
+            val axisX = Objects.requireNonNull(intent.extras)?.getFloat("axisX")
+            val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
+            val axisZ = Objects.requireNonNull(intent.extras)?.getFloat("axisZ")
+
+            if (speed != null) {
+                setSpeed(speed)
+            }
+
+            if(axisX != null && axisY!=null && axisZ != null){
+                setAcc(axisX,axisY,axisY)
+
+            }
+        }
     }
 
     fun withGame(newGame: Game): GameViewModel{

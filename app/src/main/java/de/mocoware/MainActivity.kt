@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import de.mocoware.receiver.Receiver
 import de.mocoware.sensor.Accelerometer
 import de.mocoware.sensor.LightSensor
 import de.mocoware.sensor.SpeedSensor
@@ -43,9 +42,9 @@ class MainActivity : ComponentActivity() {
 
         // register receiver
         LocalBroadcastManager.getInstance(this)
-            .registerReceiver(Receiver(gameViewModel), IntentFilter("testSpeed"))
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testSpeed"))
         LocalBroadcastManager.getInstance(this)
-            .registerReceiver(Receiver(gameViewModel), IntentFilter("testAccel"))
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testAccel"))
 
 
 

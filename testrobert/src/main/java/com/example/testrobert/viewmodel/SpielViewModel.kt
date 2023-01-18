@@ -1,11 +1,16 @@
 package com.example.testrobert.viewmodel
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.testrobert.model.SpielListe
+import java.util.*
 import kotlin.random.Random
 
 class SpielViewModel():ViewModel(){
@@ -32,8 +37,6 @@ class SpielViewModel():ViewModel(){
     private val _accel: MutableLiveData<Array<Float>> = MutableLiveData<Array<Float>>()
     var accel:LiveData<Array<Float>> = _accel
 
-
-
     var listeSpiele= SpielListe()
 
     init {
@@ -42,7 +45,35 @@ class SpielViewModel():ViewModel(){
     }
 
 
+
+
+
+    inner class Receiver: BroadcastReceiver() {
+
+
+        override fun onReceive(context: Context, intent: Intent) {
+            val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
+
+            val axisX = Objects.requireNonNull(intent.extras)?.getFloat("axisX")
+            val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
+            val axisZ = Objects.requireNonNull(intent.extras)?.getFloat("axisZ")
+
+            if (speed != null) {
+                setSpeed(speed)
+            }
+
+            if(axisX != null && axisY!=null && axisZ != null){
+                setAcc(axisX,axisY,axisY)
+
+            }
+        }
+    }
+
+
+
+
     fun setTime(int: Int){
+
         _timer.postValue(int)
 
     }
