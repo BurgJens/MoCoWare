@@ -16,6 +16,8 @@ class Game (private val name: String, private val rounds: Int = 5){
 
     private val miniGames = mutableListOf<MiniGame>()
 
+    var currentGame = 0
+
     init {
         addMinigames(rounds)
     }
@@ -35,6 +37,14 @@ class Game (private val name: String, private val rounds: Int = 5){
 
     fun getName() : String{
         return name
+    }
+
+    fun getCurrentGame() : MiniGame{
+        return miniGames[currentGame]
+    }
+
+    fun nextGame(){
+        currentGame++
     }
 
     fun addMinigames(amount: Int){

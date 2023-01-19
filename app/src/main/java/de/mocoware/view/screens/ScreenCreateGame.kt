@@ -64,7 +64,11 @@ fun ScreenCreateGameRender(
                 .padding(bottom = 18.dp)
         ) {
             Button(
-                onClick = {intState.value = intState.value - 1},
+                onClick = {
+                    if (intState.value > 1) {
+                        intState.value = intState.value - 1
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
                 modifier = Modifier.size(40.dp, 40.dp)
             ){
@@ -77,7 +81,11 @@ fun ScreenCreateGameRender(
                 fontWeight = FontWeight.Bold
             )
             Button(
-                onClick = {intState.value = intState.value + 1},
+                onClick = {
+                    if (intState.value < 20) {
+                        intState.value = intState.value + 1
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray),
                 modifier = Modifier.size(40.dp, 40.dp)
             ){
@@ -103,7 +111,8 @@ fun ScreenCreateGameRender(
             }
             Button(
                 modifier = Modifier.padding(horizontal = 20.dp),
-                onClick = {boolState.value = true},
+                onClick = {},
+//                onClick = {boolState.value = true},
                 colors = ButtonDefaults.buttonColors(
                     if(boolState.value) Color.Green else MaterialTheme.colors.surface
                 )
@@ -136,7 +145,7 @@ fun SimpleAlertDialog() {
     )
 }
 
-@Preview
+@Preview(device = "id_pixel_5")
 @Composable
 fun ComposablePreview() {
     MoCoWareTheme() {
