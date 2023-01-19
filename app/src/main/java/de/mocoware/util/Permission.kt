@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionRequired
 import com.google.accompanist.permissions.rememberPermissionState
+import de.mocoware.view.elements.ButtonStandard
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalPermissionsApi
@@ -76,9 +77,10 @@ private fun Rationale(
             Text(text)
         },
         confirmButton = {
-            Button(onClick = onRequestPermission) {
-                Text("OK")
-            }
+            ButtonStandard(
+                text = "OK",
+                modifier = Modifier,
+                onClick =onRequestPermission)
         }
     )
 }

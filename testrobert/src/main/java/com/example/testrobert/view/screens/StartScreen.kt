@@ -30,6 +30,7 @@ fun StartScreen(
 ) {
     val context = LocalContext.current
 
+
     Permission(
         permissionNotAvailableContent = {
             Column(Modifier.fillMaxSize()) {
