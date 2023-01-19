@@ -5,10 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import de.mocoware.view.elements.ButtonStandard
 import de.mocoware.viewmodel.JoinGameViewModel
 
@@ -39,12 +41,12 @@ fun ScreenStartRender(
         ) {
             ButtonStandard(
                 text = "New Game",
-                modifier = Modifier,
+                modifier = Modifier.padding(20.dp),             // Abstand auf 20 (+20) dp ! finde ich besser und ihr ?
                 onClick = navigateNewGame
             )
             ButtonStandard(
                 text = "Join Game",
-                modifier = Modifier,
+                modifier = Modifier.padding(20.dp),
                 onClick = {navigateJoinGame()
                     Log.d("Button", "Was clicked")
                 }
