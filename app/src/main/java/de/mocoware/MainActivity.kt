@@ -60,34 +60,13 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            val context = LocalContext.current
 
             MoCoWareTheme {
-                Permission(
-                    permissionNotAvailableContent = {
-                        Column(Modifier.fillMaxSize()) {
-                            Text("O noes! No Camera!")
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Button(
-                                onClick = {
-                                    context.startActivity(
-                                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                            data = Uri.fromParts("package", context.packageName, null)
-                                        }
-                                    )
-                                }
-                            ) {
-                                Text("Öffne deine Einstellungen")
-                            }
-                        }
-                    }
-                ){
-                    AppNavigation(
-                        joinGameViewModel = joinGameViewModel,
-                        gameViewModel = gameViewModel,
-                        serviceObject
-                    )
-                }
+                AppNavigation(
+                    joinGameViewModel = joinGameViewModel,
+                    gameViewModel = gameViewModel,
+                    serviceObject
+                )
             }
         }
     }
