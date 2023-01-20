@@ -27,6 +27,7 @@ fun Permission(
     content: @Composable () -> Unit = { }
 ) {
 
+
     val permissionStateCamera = rememberPermissionState(android.Manifest.permission.CAMERA)
     val permissionLocation = rememberPermissionState(android.Manifest.permission.ACCESS_FINE_LOCATION)
 

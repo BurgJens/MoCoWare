@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import com.example.testrobert.view.screens.SplashScreen
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 
@@ -29,6 +30,8 @@ fun StartScreen(
     navController: NavController
 ) {
     val context = LocalContext.current
+
+
 
 
     Permission(
@@ -50,6 +53,7 @@ fun StartScreen(
             }
         }
     ) {
+
         Column(modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
@@ -57,6 +61,7 @@ fun StartScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
 
             Column() {
                 Button(

@@ -32,10 +32,7 @@ import com.example.testrobert.sensor.Accelerometer
 import com.example.testrobert.sensor.LightSensor
 import com.example.testrobert.sensor.SpeedSensor
 import com.example.testrobert.ui.theme.MoCoWareTheme
-import com.example.testrobert.view.screens.BeitretenScreen
-import com.example.testrobert.view.screens.ErstellenScreen
-import com.example.testrobert.view.screens.GameScreen
-import com.example.testrobert.view.screens.WartenScreen
+import com.example.testrobert.view.screens.*
 import com.example.testrobert.viewmodel.SpielViewModel
 import java.util.*
 
@@ -74,11 +71,16 @@ class MainActivity : ComponentActivity() {
 
             MoCoWareTheme {
 
-
                 NavHost(
                     navController = navController,
-                    startDestination = "Start",
+                    startDestination = "Splash",
                 ) {
+
+
+                    composable(route = NavRoutes.Splash.route) {
+                        SplashScreen(navController = navController, viewModel = viewModel)
+
+                    }
 
                     composable(route = NavRoutes.Start.route) {
                         StartScreen(navController = navController, viewModel = viewModel)
@@ -142,4 +144,5 @@ sealed class NavRoutes(val route: String) {
     object GameScreen : NavRoutes("GameScreen")
     object Start : NavRoutes("Start")
     object Warten : NavRoutes("Warten")
+    object Splash : NavRoutes("Splash")
 }
