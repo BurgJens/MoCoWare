@@ -1,5 +1,11 @@
 package de.mocoware.view.screens.minigames
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideOut
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.tooling.preview.Preview
 import de.mocoware.ui.theme.MoCoWareTheme
 import androidx.compose.foundation.layout.*
@@ -10,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import de.mocoware.model.minigames.AnnoyingButton
@@ -26,6 +33,7 @@ import de.mocoware.model.minigames.PushButtonsAway
 //    )
 //}
 
+
 @Composable
 fun ScreenPushButtonsAwayRender(
     buttonList : MutableList<AnnoyingButton>,
@@ -36,30 +44,36 @@ fun ScreenPushButtonsAwayRender(
         contentAlignment = Alignment.Center
     ) {
         for (each in buttonList.reversed()){
-            if (!each.getClicked()){
+            AnimatedVisibility(
+                visible = !each.getClicked()
+            ) {
                 if(!each.finalButton){
                     Button(
                         modifier = Modifier.
-                        absoluteOffset(each.offsetX.dp,each.offsetY.dp),
+                        absoluteOffset(each.offsetX.dp,each.offsetY.dp).
+                        rotate(each.rotation),
                         onClick = {
                             each.click()
                             update()
-                                  },
+                        },
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan)
                     ) {
-                        Text(text = "Test")
+                        Text(text = each.text)
                     }
+
+
                 } else{
                     Button(
                         modifier = Modifier.
-                        absoluteOffset(each.offsetX.dp,each.offsetY.dp),
+                        absoluteOffset(each.offsetX.dp,each.offsetY.dp).
+                        rotate(each.rotation),
                         onClick = {
                             each.click()
                             update()
-                                  },
+                        },
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green)
                     ) {
-                        Text(text = "Test")
+                        Text(text = "Here!")
                     }
                 }
             }
