@@ -31,15 +31,14 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 @Composable
 fun GameScreen(
     viewModel: SpielViewModel,
-    spiel: Spiel,
     navController: NavController,
     startServiceSpeed:()->Unit,
     startServiceAcce:()->Unit,
     startServiceLight:()->Unit,
 ){
 
-    val context = LocalContext.current
 
+    val context = LocalContext.current
 
     val timer by viewModel?.timer.observeAsState()
 
@@ -55,12 +54,12 @@ fun GameScreen(
         ) {
 
 
-        Text(modifier = Modifier.padding(20.dp), text =spiel.aufagbeText)
+        Text(modifier = Modifier.padding(20.dp), text =viewModel.spiel1.aufagbeText)
 
-        if (spiel.name=="Druecken") SpielDruecken(viewModel = viewModel, navController = navController)
-        if (spiel.name=="Laufen") SpielLaufen(viewModel = viewModel, navController =navController,startServiceSpeed)
-        if (spiel.name=="Shake") SpielShake(viewModel = viewModel, navController =navController,startServiceAcce)
-        if (spiel.name=="Licht") SpielShake(viewModel = viewModel, navController =navController,startServiceLight)
+        if (viewModel.spiel1.name=="Druecken") SpielDruecken(viewModel = viewModel, navController = navController)
+        if (viewModel.spiel1.name=="Laufen") SpielLaufen(viewModel = viewModel, navController =navController,startServiceSpeed)
+        if (viewModel.spiel1.name=="Shake") SpielShake(viewModel = viewModel, navController =navController,startServiceAcce)
+        if (viewModel.spiel1.name=="Licht") SpielShake(viewModel = viewModel, navController =navController,startServiceLight)
 
     }
 
@@ -75,7 +74,9 @@ fun SpielShake(
 
 ){
 
+
     val speedObserve by viewModel.accel.observeAsState()
+
 
 
     if (!viewModel.accelSensorAktiv) {

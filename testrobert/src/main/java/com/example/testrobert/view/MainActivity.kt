@@ -15,18 +15,19 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.window.Popup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+
+import androidx.navigation.compose.*
 import com.example.testrobert.model.Spiel
 import com.example.testrobert.sensor.Accelerometer
 import com.example.testrobert.sensor.LightSensor
@@ -39,9 +40,8 @@ import java.util.*
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var spiel1: Spiel
-    private val CAMERA_PRE = 100
-    private val GPS_PRE = 1
+
+
 
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -93,41 +93,50 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(route = NavRoutes.GameScreen.route) {
+
                         GameScreen(
                             viewModel = viewModel,
-                            spiel1,
                             navController,
                             { startService(iSpeed) },
                             { startService(iAccel) },
                             { startService(iLight) }
                         )
 
+
+
                     }
 
                     composable(route = NavRoutes.Warten.route) {
                         WartenScreen(
                             viewModel = viewModel,
-                            spiel1,
                             navController,
                             { stopService(iSpeed) },
                             { stopService(iAccel) })
-
                     }
 
                     composable(route = NavRoutes.Beitreten.route) {
+
                         BeitretenScreen(
                             navController = navController,
                             viewModel.listeSpiele.beispiel,
                             onItemClicked = { spiel ->
 
-                                spiel1 = spiel
-                                navController.navigate(NavRoutes.GameScreen.route)
+                                viewModel.spiel1 = spiel
 
+                                onBackPressed().run {
+                                    navController.navigate(NavRoutes.SpeilVerlassen.route)
+                                }
+                                navController.navigate(NavRoutes.GameScreen.route)
                             })
                     }
 
+                    composable(route=NavRoutes.SpeilVerlassen.route){
+
+                        QuestionScreen(navController = navController)
+
+                    }
+
                 }
-                // A surface container using the 'background' color from the theme
             }
         }
     }
@@ -144,5 +153,6 @@ sealed class NavRoutes(val route: String) {
     object GameScreen : NavRoutes("GameScreen")
     object Start : NavRoutes("Start")
     object Warten : NavRoutes("Warten")
+    object SpeilVerlassen : NavRoutes("SpielVerlassen?")
     object Splash : NavRoutes("Splash")
 }

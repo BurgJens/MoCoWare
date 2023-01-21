@@ -4,53 +4,18 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.CountDownTimer
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.testrobert.model.Spiel
 import com.example.testrobert.model.SpielListe
 import java.util.*
-import kotlin.random.Random
 
 class SpielViewModel():ViewModel(){
 
 
-    val iPuschen = mutableStateOf(0)
-
-
-    var speedSensorAktiv:Boolean= false
-    var accelSensorAktiv:Boolean= false
-
-    var spielIstAktiv:Boolean= false
-
-    var maxXwet=0.0f
-    var maxYwet=0.0f
-    var maxZwet=0.0f
-
-    private val _timer : MutableLiveData<Int> = MutableLiveData<Int>()
-    var timer : LiveData<Int> = _timer
-
-    private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
-    var speed : LiveData<Double> = _speed
-
-    private val _accel: MutableLiveData<Array<Float>> = MutableLiveData<Array<Float>>()
-    var accel:LiveData<Array<Float>> = _accel
-
-    var listeSpiele= SpielListe()
-
-    init {
-        setSpeed(0.0)
-        setTime(30)
-    }
-
-
-
-
-
     inner class Receiver: BroadcastReceiver() {
-
-
         override fun onReceive(context: Context, intent: Intent) {
             val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
 
@@ -68,6 +33,43 @@ class SpielViewModel():ViewModel(){
             }
         }
     }
+
+
+
+     var spiel1: Spiel= Spiel("test","ertfgzh",null) // Das Spiel welches gespielt wird
+
+    val iPuschen = mutableStateOf(0)
+
+    var speedSensorAktiv:Boolean= false
+    var accelSensorAktiv:Boolean= false
+
+    var spielIstAktiv:Boolean= false
+
+    var maxXwet=0.0f
+    var maxYwet=0.0f
+    var maxZwet=0.0f
+
+    private val _timer : MutableLiveData<Int> = MutableLiveData<Int>()
+    var timer : LiveData<Int> = _timer
+
+    private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
+    var speed : LiveData<Double> = _speed
+
+
+    private val _accel: MutableLiveData<Array<Float>> = MutableLiveData<Array<Float>>()
+    var accel:LiveData<Array<Float>> = _accel
+
+
+    var listeSpiele= SpielListe()
+
+    init {
+        setSpeed(0.0)
+        setTime(30)
+    }
+
+
+
+
 
 
 

@@ -10,17 +10,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.testrobert.NavRoutes
 import com.example.testrobert.model.Spiel
 import com.example.testrobert.viewmodel.SpielViewModel
 
 @Composable
 fun WartenScreen(
     viewModel: SpielViewModel,
-    spiel: Spiel,
     navController: NavController,
     stopServiceSpeed:()->Unit,
     stopServiceAcce: () -> Unit
     ){
+
+
 
     if (viewModel.speedSensorAktiv) {
         stopServiceSpeed()

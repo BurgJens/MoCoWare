@@ -32,10 +32,10 @@ fun SplashScreen(viewModel: ViewModel,
     LaunchedEffect(key1 = true, block = {
         scale.animateTo(targetValue = 2f,
             animationSpec = tween(
-                durationMillis = 1500,
+                durationMillis = 500,
             )
         )
-        delay(2000L)
+        delay(200L)
         navController.popBackStack()
         navController.navigate(NavRoutes.Start.route)
     })
