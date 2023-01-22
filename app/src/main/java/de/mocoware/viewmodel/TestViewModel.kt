@@ -1,28 +1,26 @@
 package de.mocoware.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import de.mocoware.model.AvailableGame
-import de.mocoware.model.Game
-import de.mocoware.model.GameConnection
-import de.mocoware.model.minigames.PushButtonsAway
+import de.mocoware.model.minigames.DataMGannoyingButtons
+import de.mocoware.model.minigames.GameData
+import de.mocoware.model.minigames.MGannoyingButtons
+import de.mocoware.model.minigames.MiniGame
 
 class TestViewModel : ViewModel() {
 
-    var gameData = PushButtonsAway()
+    var i = 0
 
-    private val _gameDataLive : MutableLiveData<PushButtonsAway> = MutableLiveData<PushButtonsAway>()
-    val gameDataLive : LiveData<PushButtonsAway> = _gameDataLive
+    var game = MGannoyingButtons()
 
+    val gameDataLive = MutableLiveData<MiniGame>()
 
     init {
-        _gameDataLive.postValue(gameData)
+        gameDataLive.postValue(game)
     }
 
     fun updateGamedata(){
-        println("update")
-        _gameDataLive.postValue(gameData.getNew())
+        gameDataLive.postValue(game.getNew())
     }
 
 }

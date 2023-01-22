@@ -1,3 +1,4 @@
 package de.mocoware.model.minigames
 
-abstract class MiniGame {}
+abstract class GameData () {
+}

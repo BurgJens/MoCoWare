@@ -1,15 +1,14 @@
 package de.mocoware.model.minigames
 
 import kotlin.random.Random
-import kotlin.random.nextInt
 
+data class DataMGannoyingButtons(var data: MutableList<AnnoyingButton>) : GameData()
 
-class AnnoyingButton(val finalButton : Boolean, val offsetX : Int, val offsetY: Int){
+class AnnoyingButton(val finalButton : Boolean, val offsetX : Int, val offsetY: Int, val update: () -> Unit){
+
     private var clicked = false
-
     var text : String
     val rotation = Random.nextInt(-360,360).toFloat()
-
     var possibleText = listOf("yolo",":3",":O",":O","( ͡❛ ͜ʖ ͡❛)","(ㆆ_ㆆ)","3===>","(っ＾▿＾)っ","( ˘︹˘ )","( ͡ಠ ͜ʖ ͡ಠ)")
 
 
@@ -18,13 +17,14 @@ class AnnoyingButton(val finalButton : Boolean, val offsetX : Int, val offsetY: 
     }
 
     fun click(){
+        update()
         clicked = true
     }
 
     fun getClicked() = clicked
 }
 
-class PushButtonsAway(var buttonList: MutableList<AnnoyingButton> = mutableListOf()) : MiniGame {
+class MGannoyingButtons(var buttonList: MutableList<AnnoyingButton> = mutableListOf(), var update: Boolean = true) : MiniGame() {
     init {
         if (buttonList.size == 0) {
             repeat(100) {
@@ -33,7 +33,7 @@ class PushButtonsAway(var buttonList: MutableList<AnnoyingButton> = mutableListO
                         false,
                         Random.nextInt(-150, 150),
                         Random.nextInt(-150, 150)
-                    )
+                    ) { update() }
                 )
             }
             buttonList.add(
@@ -41,10 +41,18 @@ class PushButtonsAway(var buttonList: MutableList<AnnoyingButton> = mutableListO
                     true,
                     Random.nextInt(-130, 130),
                     Random.nextInt(-130, 130)
-                )
+                ) { update() }
             )
         }
     }
 
-    fun getNew(): PushButtonsAway = PushButtonsAway(buttonList)
+    fun update(){
+        println("GUONSUODGNUOSDNGUODNUGUOGNUOND")
+        update = !update
+    }
+
+    fun getNew(): MGannoyingButtons = MGannoyingButtons(buttonList)
+
+    fun getGameData(): DataMGannoyingButtons = DataMGannoyingButtons(buttonList)
+
 }
