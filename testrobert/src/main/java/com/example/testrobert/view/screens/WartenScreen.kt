@@ -20,6 +20,7 @@ import com.example.testrobert.MainActivity
 import com.example.testrobert.NavRoutes
 import com.example.testrobert.model.Spiel
 import com.example.testrobert.sensor.Accelerometer
+import com.example.testrobert.sensor.LightSensor
 import com.example.testrobert.sensor.SpeedSensor
 import com.example.testrobert.viewmodel.SpielViewModel
 
@@ -30,7 +31,10 @@ fun WartenScreen(
     context: Context
     ){
 
-
+    if (viewModel.lichtSensorAktiv.value) {
+        context.stopService(Intent(context,LightSensor::class.java))
+        viewModel.lichtSensorAktiv.value=false
+    }
 
     if (viewModel.speedSensorAktiv.value) {
         context.stopService(Intent(context,SpeedSensor::class.java))
