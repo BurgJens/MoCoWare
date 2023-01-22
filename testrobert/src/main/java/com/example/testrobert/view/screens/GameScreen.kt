@@ -1,30 +1,28 @@
 package com.example.testrobert.view.screens
 
-import android.Manifest
+import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.os.strictmode.UnbufferedIoViolation
-import android.provider.Settings
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.example.testrobert.MainActivity
 import com.example.testrobert.NavRoutes
+import com.example.testrobert.sensor.Accelerometer
+import com.example.testrobert.sensor.LightSensor
+import com.example.testrobert.sensor.SpeedSensor
 
-import com.example.testrobert.model.Spiel
 import com.example.testrobert.viewmodel.SpielViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+
 
 
 @OptIn(ExperimentalPermissionsApi::class)
@@ -32,15 +30,14 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 fun GameScreen(
     viewModel: SpielViewModel,
     navController: NavController,
-    startServiceSpeed:()->Unit,
-    startServiceAcce:()->Unit,
-    startServiceLight:()->Unit,
+    context: Context,
 ){
 
+    val serviceStatus = remember { mutableStateOf(false) }
+    val buttonValue = remember { mutableStateOf("Start Service") }
 
-    val context = LocalContext.current
+    val timer by viewModel.timer.observeAsState()
 
-    val timer by viewModel?.timer.observeAsState()
 
     Text(modifier = Modifier.padding(20.dp), text ="Verbleibende Zeit: ${timer} Sekunden", color = Color.Red)
 
@@ -54,12 +51,12 @@ fun GameScreen(
         ) {
 
 
-        Text(modifier = Modifier.padding(20.dp), text =viewModel.spiel1.aufagbeText)
+        Text(modifier = Modifier.padding(20.dp), text =viewModel.spiel1.value.aufagbeText)
 
-        if (viewModel.spiel1.name=="Druecken") SpielDruecken(viewModel = viewModel, navController = navController)
-        if (viewModel.spiel1.name=="Laufen") SpielLaufen(viewModel = viewModel, navController =navController,startServiceSpeed)
-        if (viewModel.spiel1.name=="Shake") SpielShake(viewModel = viewModel, navController =navController,startServiceAcce)
-        if (viewModel.spiel1.name=="Licht") SpielShake(viewModel = viewModel, navController =navController,startServiceLight)
+        if (viewModel.spiel1.value.name=="Druecken") SpielDruecken(viewModel = viewModel, navController = navController)
+        if (viewModel.spiel1.value.name=="Laufen") SpielLaufen(viewModel = viewModel, navController =navController,context)
+        if (viewModel.spiel1.value.name=="Shake") SpielShake(viewModel = viewModel, navController =navController,context)
+        if (viewModel.spiel1.value.name=="Licht") SpielLight(viewModel = viewModel, navController =navController,context)
 
     }
 
@@ -70,34 +67,57 @@ fun GameScreen(
 fun SpielShake(
     viewModel: SpielViewModel,
     navController: NavController,
-    startServiceAcce:()->Unit,
+    context: Context,
 
 ){
+    val accelObserve by viewModel.accel.observeAsState()
 
-
-    val speedObserve by viewModel.accel.observeAsState()
-
-
-
-    if (!viewModel.accelSensorAktiv) {
-        viewModel.countDownTimer.start()
+    if (!viewModel.accelSensorAktiv.value) {
         println("test")
-        startServiceAcce()
-        viewModel.spielIstAktiv=true
-        viewModel.accelSensorAktiv=true
+        context.startService(Intent(context, Accelerometer::class.java))
+
+        viewModel.spielIstAktiv.value=true
+        viewModel.accelSensorAktiv.value=true
     }
 
-    if (viewModel.timer.value==0 && viewModel.spielIstAktiv){
-        viewModel.countDownTimer.cancel()
-        viewModel.spielIstAktiv=false
+    if (viewModel.timer.value==0 && viewModel.spielIstAktiv.value){
+        viewModel.spielIstAktiv.value=false
         navController.navigate(NavRoutes.Warten.route)
     }
 
 
 
-    Text(modifier = Modifier.padding(20.dp), text ="max X Wert: ${speedObserve?.get(0)}", color = Color.Red)
-    Text(modifier = Modifier.padding(20.dp), text ="max Y Wert: ${speedObserve?.get(1)}", color = Color.Red)
-    Text(modifier = Modifier.padding(20.dp), text ="max Z Wert: ${speedObserve?.get(2)}", color = Color.Red)
+    Text(modifier = Modifier.padding(20.dp), text ="max X Wert: ${accelObserve?.get(0)}", color = Color.Red)
+    Text(modifier = Modifier.padding(20.dp), text ="max Y Wert: ${accelObserve?.get(1)}", color = Color.Red)
+    Text(modifier = Modifier.padding(20.dp), text ="max Z Wert: ${accelObserve?.get(2)}", color = Color.Red)
+
+
+}
+
+@Composable
+fun SpielLight(
+    viewModel: SpielViewModel,
+    navController: NavController,
+    context: Context,
+    ){
+    val lightObserve by viewModel.light.observeAsState()
+
+    if (!viewModel.lichtSensorAktiv.value) {
+        context.startService(Intent(context, LightSensor::class.java))
+        viewModel.spielIstAktiv.value=true
+        viewModel.lichtSensorAktiv.value=true
+    }
+
+    if (viewModel.timer.value==0 && viewModel.spielIstAktiv.value){
+        viewModel.spielIstAktiv.value=false
+        navController.navigate(NavRoutes.Warten.route)
+    }
+
+
+
+
+    Text(modifier = Modifier.padding(20.dp), text ="Licht Wert: ${lightObserve?.toInt()}", color = Color.Red)
+
 
 
 }
@@ -108,27 +128,26 @@ fun SpielDruecken(
     navController:NavController,
 ){
 
-    if(!viewModel.spielIstAktiv) {
-        viewModel.spielIstAktiv=true
-        viewModel.countDownTimer.start() }
+    val iPuschen = remember { mutableStateOf(0) }
 
-    if (viewModel.timer.value==0 && viewModel.spielIstAktiv){
-        viewModel.countDownTimer.cancel()
-        viewModel.spielIstAktiv=false
+    if(!viewModel.spielIstAktiv.value) {
+        viewModel.spielIstAktiv.value=true }
+
+    if (viewModel.timer.value==0 && viewModel.spielIstAktiv.value){
+        viewModel.spielIstAktiv.value=false
         navController.navigate(NavRoutes.Warten.route) }
 
 
-    Text(modifier = Modifier.padding(20.dp), text ="${viewModel.iPuschen.value}", color = Color.Red)
+    Text(modifier = Modifier.padding(20.dp), text ="${iPuschen.value}", color = Color.Red)
     Button(onClick = {
 
-        viewModel.iPuschen.value += 1
+        iPuschen.value += 1
 
-        if (viewModel.iPuschen.value==30) {
-            viewModel.iPuschen.value = 0
+        if (iPuschen.value==30) {
+            iPuschen.value = 0
 
             println("Die benötigte Zeit: ${30- viewModel.timer.value!!}")
 
-            viewModel.countDownTimer.cancel()
             navController.navigate(NavRoutes.Warten.route)
         }
 
@@ -143,22 +162,20 @@ fun SpielDruecken(
 fun SpielLaufen(
     viewModel: SpielViewModel,
     navController:NavController,
-    startServiceSpeed:()->Unit,
+    context: Context,
 
 ){
 
-    val timer by viewModel?.timer.observeAsState()
 
-    if (!viewModel.speedSensorAktiv) {
-        viewModel.countDownTimer.start()
-        startServiceSpeed()
-        viewModel.spielIstAktiv=true
-        viewModel.speedSensorAktiv=true
+
+    if (!viewModel.speedSensorAktiv.value) {
+        context.startService(Intent(context, SpeedSensor::class.java))
+        viewModel.spielIstAktiv.value=true
+        viewModel.speedSensorAktiv.value=true
     }
 
-    if (timer==0 && viewModel.spielIstAktiv){
-        viewModel.spielIstAktiv=false
-        viewModel.countDownTimer.cancel()
+    if (viewModel.timer.value==0 && viewModel.spielIstAktiv.value){
+        viewModel.spielIstAktiv.value=false
         navController.navigate(NavRoutes.Warten.route)
     }
 

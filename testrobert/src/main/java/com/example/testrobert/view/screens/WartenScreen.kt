@@ -1,5 +1,10 @@
 package com.example.testrobert.view.screens
 
+import android.content.Context
+import android.content.Intent
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,30 +15,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
+import com.example.testrobert.MainActivity
 import com.example.testrobert.NavRoutes
 import com.example.testrobert.model.Spiel
+import com.example.testrobert.sensor.Accelerometer
+import com.example.testrobert.sensor.SpeedSensor
 import com.example.testrobert.viewmodel.SpielViewModel
 
 @Composable
 fun WartenScreen(
     viewModel: SpielViewModel,
     navController: NavController,
-    stopServiceSpeed:()->Unit,
-    stopServiceAcce: () -> Unit
+    context: Context
     ){
 
 
 
-    if (viewModel.speedSensorAktiv) {
-        stopServiceSpeed()
-        viewModel.speedSensorAktiv=false
+    if (viewModel.speedSensorAktiv.value) {
+        context.stopService(Intent(context,SpeedSensor::class.java))
+        viewModel.speedSensorAktiv.value=false
     }
-    if (viewModel.accelSensorAktiv) {
-        stopServiceAcce()
+    if (viewModel.accelSensorAktiv.value) {
+        context.stopService(Intent(context,Accelerometer::class.java))
         viewModel.maxXwet= 0.0F
         viewModel.maxYwet=0.0F
         viewModel.maxZwet=0.0F
-        viewModel.accelSensorAktiv=false
+        viewModel.accelSensorAktiv.value=false
 
     }
 
@@ -46,6 +54,10 @@ fun WartenScreen(
         ) {
 
             viewModel.setTime(30)
+
+            BackHandler {
+                navController.navigate(NavRoutes.Warten.route)
+            }
 
             Text(modifier = Modifier.padding(20.dp), text ="Auf Mitspieler warten ...")
         }

@@ -51,7 +51,9 @@ class LightSensor:Service(),SensorEventListener {
 
 
         val intent = Intent("testLight")
-        intent.putExtra("lichtWert", lichtWert1)
+        intent.putExtra("lightX", lichtWert1)
+        intent.putExtra("lightY", lichtWert1)
+        intent.putExtra("lightZ", lichtWert1)
 
 
         LocalBroadcastManager.getInstance(this@LightSensor).sendBroadcast(intent)

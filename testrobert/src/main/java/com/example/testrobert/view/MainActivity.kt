@@ -16,11 +16,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.window.Popup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -41,77 +43,70 @@ import java.util.*
 class MainActivity : ComponentActivity() {
 
 
-
-
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
-
         setContent {
             val navController = rememberNavController()
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
 
-            val viewModel: SpielViewModel = viewModel()
-
+            var viewModel: SpielViewModel = viewModel()
 
             LocalBroadcastManager.getInstance(this)
                 .registerReceiver(viewModel.Receiver(), IntentFilter("testSpeed"))
             LocalBroadcastManager.getInstance(this)
                 .registerReceiver(viewModel.Receiver(), IntentFilter("testAccel"))
+            LocalBroadcastManager.getInstance(this)
+                .registerReceiver(viewModel.Receiver(), IntentFilter("testLight"))
 
 
-            val iAccel = Intent(this@MainActivity, Accelerometer::class.java)
-            val iSpeed = Intent(this@MainActivity, SpeedSensor::class.java)
-            val iLight = Intent(this@MainActivity, LightSensor::class.java)
 
             MoCoWareTheme {
-
                 NavHost(
                     navController = navController,
                     startDestination = "Splash",
                 ) {
-
-
                     composable(route = NavRoutes.Splash.route) {
-                        SplashScreen(navController = navController, viewModel = viewModel)
 
+                        SplashScreen(
+                            navController = navController,
+                            viewModel = viewModel,
+                        )
                     }
 
                     composable(route = NavRoutes.Start.route) {
-                        StartScreen(navController = navController, viewModel = viewModel)
 
+                        StartScreen(navController = navController,
+                            viewModel = viewModel,
+                            context = this@MainActivity
+                        )
                     }
 
                     composable(route = NavRoutes.Erstellen.route) {
-                        ErstellenScreen(navController = navController)
 
+                        ErstellenScreen(
+                            navController = navController
+                        )
                     }
 
                     composable(route = NavRoutes.GameScreen.route) {
 
                         GameScreen(
                             viewModel = viewModel,
-                            navController,
-                            { startService(iSpeed) },
-                            { startService(iAccel) },
-                            { startService(iLight) }
+                            navController = navController,
+                            context = this@MainActivity,
                         )
-
-
-
+                        BackHandler {
+                            navController.navigate(NavRoutes.SpeilVerlassen.route)
+                        }
                     }
 
                     composable(route = NavRoutes.Warten.route) {
+
                         WartenScreen(
                             viewModel = viewModel,
                             navController,
-                            { stopService(iSpeed) },
-                            { stopService(iAccel) })
+                            context = this@MainActivity)
                     }
 
                     composable(route = NavRoutes.Beitreten.route) {
@@ -121,21 +116,22 @@ class MainActivity : ComponentActivity() {
                             viewModel.listeSpiele.beispiel,
                             onItemClicked = { spiel ->
 
-                                viewModel.spiel1 = spiel
+                                viewModel.setTime(30)
+                                viewModel.countDownTimer.start()
+                                viewModel.spiel1 = mutableStateOf(spiel)
 
-                                onBackPressed().run {
-                                    navController.navigate(NavRoutes.SpeilVerlassen.route)
-                                }
                                 navController.navigate(NavRoutes.GameScreen.route)
                             })
                     }
 
                     composable(route=NavRoutes.SpeilVerlassen.route){
 
-                        QuestionScreen(navController = navController)
-
+                        QuestionScreen(
+                            navController = navController,
+                            viewModel = viewModel,
+                            context = this@MainActivity
+                        )
                     }
-
                 }
             }
         }

@@ -4,12 +4,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.CountDownTimer
+import androidx.annotation.MainThread
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.testrobert.MainActivity
 import com.example.testrobert.model.Spiel
 import com.example.testrobert.model.SpielListe
+import com.example.testrobert.sensor.Accelerometer
 import java.util.*
 
 class SpielViewModel():ViewModel(){
@@ -17,47 +21,64 @@ class SpielViewModel():ViewModel(){
 
     inner class Receiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+
+            // Locationlistener
             val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
 
+            // SensorEventListener
             val axisX = Objects.requireNonNull(intent.extras)?.getFloat("axisX")
             val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
             val axisZ = Objects.requireNonNull(intent.extras)?.getFloat("axisZ")
 
-            if (speed != null) {
-                setSpeed(speed)
-            }
+            // SensorEventListener
+            val lightX = Objects.requireNonNull(intent.extras)?.getFloat("lightX")
+            val lightY = Objects.requireNonNull(intent.extras)?.getFloat("lightY")
+            val lightZ = Objects.requireNonNull(intent.extras)?.getFloat("lightZ")
+
+
+            if (speed != null) setSpeed(speed)
 
             if(axisX != null && axisY!=null && axisZ != null){
                 setAcc(axisX,axisY,axisY)
+            }
 
+            if(lightX != null && lightY!=null && lightZ != null){
+                setLight(lightX,lightY,lightZ)
             }
         }
     }
 
+    // Das Spiel welches gespielt wird
+    var spiel1: MutableState<Spiel> = mutableStateOf(Spiel("test","ertfgzh",null) )
+    var spielIstAktiv= mutableStateOf(false)
 
+    // Aktive Sensoren
+    var speedSensorAktiv= mutableStateOf(false)
+    var accelSensorAktiv= mutableStateOf(false)
+    var lichtSensorAktiv= mutableStateOf(false)
 
-     var spiel1: Spiel= Spiel("test","ertfgzh",null) // Das Spiel welches gespielt wird
-
-    val iPuschen = mutableStateOf(0)
-
-    var speedSensorAktiv:Boolean= false
-    var accelSensorAktiv:Boolean= false
-
-    var spielIstAktiv:Boolean= false
-
+    // Beschleunigungs Werte
     var maxXwet=0.0f
     var maxYwet=0.0f
     var maxZwet=0.0f
 
+    // Belichtungswerte
+    var lightX =0.0f
+    var lightY =0.0f
+    var lightZ =0.0f
+
+    // Live Werte
     private val _timer : MutableLiveData<Int> = MutableLiveData<Int>()
     var timer : LiveData<Int> = _timer
 
     private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
     var speed : LiveData<Double> = _speed
 
-
     private val _accel: MutableLiveData<Array<Float>> = MutableLiveData<Array<Float>>()
     var accel:LiveData<Array<Float>> = _accel
+
+    private val _light: MutableLiveData<Float> = MutableLiveData<Float>()
+    var light:LiveData<Float> = _light
 
 
     var listeSpiele= SpielListe()
@@ -68,16 +89,8 @@ class SpielViewModel():ViewModel(){
     }
 
 
-
-
-
-
-
-
     fun setTime(int: Int){
-
         _timer.postValue(int)
-
     }
 
     fun setSpeed(double: Double){
@@ -85,7 +98,6 @@ class SpielViewModel():ViewModel(){
     }
 
     fun setAcc(floatX: Float,floatY: Float,floatZ: Float){
-
         if (floatX>maxXwet) {
             maxXwet=floatX
             _accel.postValue(arrayOf(maxXwet,maxYwet,maxZwet))
@@ -100,13 +112,26 @@ class SpielViewModel():ViewModel(){
         }
     }
 
+    fun setLight(floatX: Float,floatY: Float,floatZ: Float){
+        if (floatX>lightX) {
+            lightX=floatX
+            _light.postValue((lightX+lightY+lightZ/3))
+        }
+        if (floatY>lightY) {
+            lightY=floatY
+            _light.postValue((lightX+lightY+lightZ/3))
+        }
+        if (floatZ>lightZ) {
+            lightZ=floatZ
+            _light.postValue((lightX+lightY+lightZ/3))
+        }
+    }
+
     fun breack(){
         setSpeed(0.0)
         speed.value?.let { speed.value!!.minus(it) }
 
     }
-
-
 
     var countDownTimer = object : CountDownTimer(30000, 1000) {
 

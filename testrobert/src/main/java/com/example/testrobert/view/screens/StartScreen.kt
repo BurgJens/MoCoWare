@@ -4,6 +4,7 @@ package com.example.testrobert
 
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,18 +22,21 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.testrobert.view.screens.SplashScreen
+import com.example.testrobert.viewmodel.SpielViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun StartScreen(
-    viewModel: ViewModel,
-    navController: NavController
+    viewModel: SpielViewModel,
+    navController: NavController,
+    context: Context
 ) {
-    val context = LocalContext.current
 
 
+    viewModel.countDownTimer.cancel()
+    viewModel.setTime(30)
 
 
     Permission(
