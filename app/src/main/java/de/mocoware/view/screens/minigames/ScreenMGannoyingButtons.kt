@@ -1,60 +1,74 @@
 package de.mocoware.view.screens.minigames
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import de.mocoware.model.minigames.DataMGannoyingButtons
 import de.mocoware.model.minigames.MGannoyingButtons
-import de.mocoware.model.minigames.MiniGame
 
 @Composable
 fun ScreenMGannoyingButtons(
-    gameData : MGannoyingButtons,
-    update : () -> Unit
+    gameData : DataMGannoyingButtons,
+    finishGame : () -> Unit
 ){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        for (each in gameData.buttonList.reversed()){
-            AnimatedVisibility(
-                visible = !each.getClicked()
-            ) {
+        for (each in gameData.data)           {
                 when (each.finalButton) {
                     false ->
-                        Button(
-                            modifier = Modifier.absoluteOffset(each.offsetX.dp, each.offsetY.dp)
-                                .rotate(each.rotation),
-                            onClick = {
-                                each.click()
-                                update()
-                            },
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan)
-                        ) {
-                            Text(text = each.text)
-                        }
+                        AnnoyingButton(
+                            offsetX = each.offsetX.dp,
+                            offsetY = each.offsetY.dp,
+                            text = each.buttonText,
+                            color = each.color,
+                            rotation = each.rotation,
+                            clicked =  each.clicked,
+                            onClick = {each.click()}
+                        )
                     true ->
-                        Button(
-                            modifier = Modifier.absoluteOffset(each.offsetX.dp, each.offsetY.dp)
-                                .rotate(each.rotation),
-                            onClick = {
-                                each.click()
-                                update()
-                            },
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green)
-                        ) {
-                            Text(text = "Here!")
-                        }
+                        FinalButton(
+                            offsetX = each.offsetX.dp,
+                            offsetY = each.offsetY.dp,
+                            rotation = each.rotation) {finishGame()}
                 }
-            }
         }
     }
+}
+
+@Composable
+fun GenericButton(offsetX: Dp, offsetY: Dp, text: String, color: Color, rotation : Float, onClick : () -> Unit) {
+    Button(
+        modifier = Modifier
+            .absoluteOffset(offsetX, offsetY)
+            .rotate(rotation),
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(backgroundColor = color)
+    ) {
+        Text(text = text)
+    }
+}
+
+@Composable
+fun FinalButton(offsetX: Dp, offsetY: Dp, rotation : Float, onClick : () -> Unit) {
+    GenericButton(offsetX, offsetY, text = "Here!", color = Color.Green, rotation, onClick)
+}
+
+@Composable
+fun AnnoyingButton(offsetX: Dp, offsetY: Dp, text: String, color: Color, rotation : Float, clicked : Boolean, onClick: () -> Unit) {
+    var visible by remember {mutableStateOf(!clicked)}
+    if(visible)
+        GenericButton(offsetX, offsetY, text, color, rotation) {
+            onClick
+            visible = false
+        }
 }

@@ -17,23 +17,21 @@ fun ScreenGameTestHandler(
     val gameData by viewModel.gameDataLive.observeAsState()
     ScreenGameTestRender(
         gameData
-    ) { viewModel.updateGamedata() }
+    ) { viewModel.finishGame() }
 }
 
 @Composable
 fun ScreenGameTestRender(
-    gameData : MiniGame?,
-    update : () -> Unit
+    gameData : GameData?,
+    finishGame : () -> Unit
 ){
-    println("RENDER")
-
     Box {
         if (gameData != null) {
             when(gameData) {
-                is MGannoyingButtons ->
+                is DataMGannoyingButtons ->
                     ScreenMGannoyingButtons(
                         gameData,
-                        update
+                        finishGame
                     )
             }
         }
