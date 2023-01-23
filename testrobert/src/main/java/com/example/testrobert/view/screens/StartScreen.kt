@@ -21,7 +21,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import com.example.testrobert.view.screens.SplashScreen
 import com.example.testrobert.viewmodel.SpielViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
