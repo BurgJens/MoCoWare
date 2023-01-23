@@ -23,6 +23,8 @@ fun ScreenGameTestRender(
     gameData : GameData?,
     finishGame : () -> Unit
 ){
+    println("                                    RERENDER")
+
     Box {
         if (gameData != null) {
             when(gameData) {

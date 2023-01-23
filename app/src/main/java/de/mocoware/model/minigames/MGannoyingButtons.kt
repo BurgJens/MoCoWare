@@ -22,7 +22,7 @@ data class AnnoyingButton(
     }
 }
 
-class MGannoyingButtons(
+data class MGannoyingButtons(
     val gameData : DataMGannoyingButtons = DataMGannoyingButtons(mutableListOf()))
     : MiniGame(){
 
@@ -54,7 +54,7 @@ class MGannoyingButtons(
                     finalButton = true
                 ){}
             )
-            repeat(100) {
+            repeat(10) {
                 gameData.data.add(
                     AnnoyingButton(
                         finalButton = false,

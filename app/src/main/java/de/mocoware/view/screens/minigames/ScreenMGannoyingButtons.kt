@@ -65,10 +65,10 @@ fun FinalButton(offsetX: Dp, offsetY: Dp, rotation : Float, onClick : () -> Unit
 
 @Composable
 fun AnnoyingButton(offsetX: Dp, offsetY: Dp, text: String, color: Color, rotation : Float, clicked : Boolean, onClick: () -> Unit) {
-    var visible by remember {mutableStateOf(!clicked)}
+    var visible by remember {mutableStateOf(true)}
     if(visible)
         GenericButton(offsetX, offsetY, text, color, rotation) {
-            onClick
+            onClick()
             visible = false
         }
 }
