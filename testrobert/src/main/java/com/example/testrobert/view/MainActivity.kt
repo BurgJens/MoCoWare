@@ -68,7 +68,14 @@ class MainActivity : ComponentActivity() {
                 ) {
                     composable(route = NavRoutes.Splash.route) {
 
-                        SplashScreen(
+                        SplashScreenStart(
+                            navController = navController,
+                            viewModel = viewModel,
+                        )
+                    }
+                    composable(route = NavRoutes.SplashEnd.route) {
+
+                        SplashScreenEnd(
                             navController = navController,
                             viewModel = viewModel,
                         )
@@ -151,4 +158,5 @@ sealed class NavRoutes(val route: String) {
     object Warten : NavRoutes("Warten")
     object SpeilVerlassen : NavRoutes("SpielVerlassen?")
     object Splash : NavRoutes("Splash")
+    object SplashEnd : NavRoutes("SplashEnd")
 }

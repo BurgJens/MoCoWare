@@ -1,13 +1,12 @@
 package com.example.testrobert.view.screens
 
+import android.animation.TimeAnimator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -23,23 +22,24 @@ import com.example.testrobert.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(viewModel: ViewModel,
-                 navController: NavController) {
+fun SplashScreenStart(viewModel: ViewModel,
+                 navController: NavController,
+) {
     val scale = remember {
         Animatable(0f)
     }
 
     LaunchedEffect(key1 = true, block = {
-        scale.animateTo(targetValue = 2f,
+        scale.animateTo(targetValue = 10f,
             animationSpec = tween(
-                durationMillis = 500,
+                durationMillis = 700,
             )
         )
-        delay(200L)
-        navController.popBackStack()
-        navController.navigate(NavRoutes.Start.route)
-    })
 
+        navController.popBackStack()
+        navController.navigate(NavRoutes.SplashEnd.route)
+    }
+    )
     Box(
         modifier = Modifier
             .background(color = Color.White)
@@ -50,13 +50,49 @@ fun SplashScreen(viewModel: ViewModel,
         Column(modifier = Modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
-            Image(painter = painterResource(id = R.drawable.mocoware_logo),
+
+            Image(painter = painterResource(id = R.drawable.splash1),
                 contentDescription = "MocoWare",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(150.dp))
-            // Text(text = "MoCoWare",
-            //     style = MaterialTheme.typography.h5,
-            //     color = Color.Black)
+        }
+    }
+}
+
+@Composable
+fun SplashScreenEnd(viewModel: ViewModel,
+                      navController: NavController,
+) {
+    val scale = remember {
+        Animatable(15f)
+    }
+
+    LaunchedEffect(key1 = true, block = {
+        scale.animateTo(targetValue = 2.0f,
+            animationSpec = tween(
+                durationMillis = 300,
+            )
+        )
+        delay(1000L)
+        navController.popBackStack()
+        navController.navigate(NavRoutes.Start.route)
+    }
+    )
+    Box(
+        modifier = Modifier
+            .background(color = Color.White)
+            .scale(scale.value)
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(modifier = Modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center) {
+
+            Image(painter = painterResource(id = R.drawable.splash3),
+                contentDescription = "MocoWare",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(150.dp))
         }
     }
 }
