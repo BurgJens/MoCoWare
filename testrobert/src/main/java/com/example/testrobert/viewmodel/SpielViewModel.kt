@@ -15,6 +15,7 @@ import com.example.testrobert.model.Spiel
 import com.example.testrobert.model.SpielListe
 import com.example.testrobert.sensor.Accelerometer
 import java.util.*
+import kotlin.random.Random.Default.nextInt
 
 class SpielViewModel():ViewModel(){
 
@@ -49,7 +50,8 @@ class SpielViewModel():ViewModel(){
     }
 
     // Das Spiel welches gespielt wird
-    var spiel1: MutableState<Spiel> = mutableStateOf(Spiel("test","ertfgzh",null) )
+    var spiel1: MutableState<Spiel> = mutableStateOf(Spiel("test","testGame",null) )
+    var listeSpiele= SpielListe()
     var spielIstAktiv= mutableStateOf(false)
 
     // Aktive Sensoren
@@ -81,7 +83,7 @@ class SpielViewModel():ViewModel(){
     var light:LiveData<Float> = _light
 
 
-    var listeSpiele= SpielListe()
+
 
     init {
         setSpeed(0.0)
@@ -127,14 +129,14 @@ class SpielViewModel():ViewModel(){
         }
     }
 
-    fun breack(){
+    fun resetGames(){
         setSpeed(0.0)
-        speed.value?.let { speed.value!!.minus(it) }
-
+        _light.postValue(0.0f)
+        _accel.postValue(arrayOf(0.0f,0.0f,0.0f))
+        spielIstAktiv.value=false
     }
 
-    var countDownTimer = object : CountDownTimer(30000, 1000) {
-
+    var countDownTimer = object : CountDownTimer(31000, 1000) {
         // override object functions here, do it quicker by setting cursor on object, then type alt + enter ; implement members
         override fun onTick(millisUntilFinished: Long) {
             _timer.postValue(timer.value?.minus(1))
@@ -143,6 +145,14 @@ class SpielViewModel():ViewModel(){
         override fun onFinish() {
             println("Zeit ist vorbei!")
         }
+    }
+
+    fun randomGame(){
+
+        var randomInt= nextInt(0,SpielListe().beispiel.size)
+        spiel1= mutableStateOf(listeSpiele.beispiel[randomInt])
+        countDownTimer.start()
+
     }
 
 

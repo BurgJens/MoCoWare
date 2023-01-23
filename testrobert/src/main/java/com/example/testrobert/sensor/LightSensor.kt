@@ -8,6 +8,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.IBinder
+import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 
@@ -31,6 +32,18 @@ class LightSensor:Service(),SensorEventListener {
         return null
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+        Toast.makeText(this, "Start: Light Sensor ", Toast.LENGTH_SHORT).show()
+        return START_STICKY
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Toast.makeText(this, "Stop: Light Sensor", Toast.LENGTH_SHORT).show()
+        sensorManager.unregisterListener(this)
+
+    }
 
 
     override fun onSensorChanged(event: SensorEvent?) {

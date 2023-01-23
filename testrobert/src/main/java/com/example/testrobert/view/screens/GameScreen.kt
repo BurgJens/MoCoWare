@@ -80,8 +80,7 @@ fun SpielShake(
         viewModel.accelSensorAktiv.value=true
     }
 
-    if (viewModel.timer.value==0 && viewModel.spielIstAktiv.value){
-        viewModel.spielIstAktiv.value=false
+    if (viewModel.timer.value!! <=0 && viewModel.spielIstAktiv.value){
         navController.navigate(NavRoutes.Warten.route)
     }
 
@@ -108,8 +107,7 @@ fun SpielLight(
         viewModel.lichtSensorAktiv.value=true
     }
 
-    if (viewModel.timer.value==0 && viewModel.spielIstAktiv.value){
-        viewModel.spielIstAktiv.value=false
+    if (viewModel.timer.value!! <=0 && viewModel.spielIstAktiv.value){
         navController.navigate(NavRoutes.Warten.route)
     }
 
@@ -133,8 +131,7 @@ fun SpielDruecken(
     if(!viewModel.spielIstAktiv.value) {
         viewModel.spielIstAktiv.value=true }
 
-    if (viewModel.timer.value==0 && viewModel.spielIstAktiv.value){
-        viewModel.spielIstAktiv.value=false
+    if (viewModel.timer.value!! <=0 && viewModel.spielIstAktiv.value){
         navController.navigate(NavRoutes.Warten.route) }
 
 
@@ -166,23 +163,20 @@ fun SpielLaufen(
 
 ){
 
-
-
     if (!viewModel.speedSensorAktiv.value) {
         context.startService(Intent(context, SpeedSensor::class.java))
         viewModel.spielIstAktiv.value=true
         viewModel.speedSensorAktiv.value=true
     }
 
-    if (viewModel.timer.value==0 && viewModel.spielIstAktiv.value){
-        viewModel.spielIstAktiv.value=false
+    if (viewModel.timer.value!! <= 0 && viewModel.spielIstAktiv.value){
         navController.navigate(NavRoutes.Warten.route)
     }
 
     val speedObserve by viewModel.speed.observeAsState()
 
     if (viewModel.speed.value!! > 14.0 && viewModel.speed!=null){
-        viewModel.breack()
+        viewModel.resetGames()
 
         navController.navigate(NavRoutes.Warten.route){
             this.popUpTo(NavRoutes.Warten.route) {

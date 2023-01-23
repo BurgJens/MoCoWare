@@ -35,8 +35,11 @@ fun StartScreen(
 ) {
 
 
-    viewModel.countDownTimer.cancel()
-    viewModel.setTime(30)
+    if (viewModel.lichtSensorAktiv.value){
+        viewModel.countDownTimer.cancel()
+        viewModel.spielIstAktiv.value=false
+        viewModel.resetGames()
+    }
 
 
     Permission(

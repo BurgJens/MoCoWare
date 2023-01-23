@@ -2,6 +2,7 @@ package com.example.testrobert.view.screens
 
 import android.content.Context
 import android.content.Intent
+import android.os.Looper
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.BackHandler
@@ -23,6 +24,7 @@ import com.example.testrobert.sensor.Accelerometer
 import com.example.testrobert.sensor.LightSensor
 import com.example.testrobert.sensor.SpeedSensor
 import com.example.testrobert.viewmodel.SpielViewModel
+import java.util.logging.Handler
 
 @Composable
 fun WartenScreen(
@@ -31,39 +33,39 @@ fun WartenScreen(
     context: Context
     ){
 
-    if (viewModel.lichtSensorAktiv.value) {
-        context.stopService(Intent(context,LightSensor::class.java))
-        viewModel.lichtSensorAktiv.value=false
-    }
 
-    if (viewModel.speedSensorAktiv.value) {
-        context.stopService(Intent(context,SpeedSensor::class.java))
-        viewModel.speedSensorAktiv.value=false
-    }
-    if (viewModel.accelSensorAktiv.value) {
+
+    if (viewModel.spielIstAktiv.value) {
+
+        context.stopService(Intent(context,LightSensor::class.java))
         context.stopService(Intent(context,Accelerometer::class.java))
-        viewModel.maxXwet= 0.0F
-        viewModel.maxYwet=0.0F
-        viewModel.maxZwet=0.0F
+        context.stopService(Intent(context,SpeedSensor::class.java))
+
+        viewModel.speedSensorAktiv.value=false
+        viewModel.lichtSensorAktiv.value=false
         viewModel.accelSensorAktiv.value=false
 
+        viewModel.resetGames()
     }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-            ,
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
-            viewModel.setTime(30)
+        viewModel.setTime(30)
+        BackHandler { navController.navigate(NavRoutes.Warten.route) }
 
-            BackHandler {
-                navController.navigate(NavRoutes.Warten.route)
+        android.os.Handler(Looper.getMainLooper()).postDelayed({
+            if (!viewModel.spielIstAktiv.value) {
+                viewModel.spielIstAktiv.value=true
+                navController.navigate(NavRoutes.GameScreen.route)
+                viewModel.randomGame()
             }
+        }, 3000)
 
-            Text(modifier = Modifier.padding(20.dp), text ="Auf Mitspieler warten ...")
-        }
-
+        Text(modifier = Modifier.padding(20.dp), text ="Auf Mitspieler warten ...")
     }
+
+}

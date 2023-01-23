@@ -59,6 +59,8 @@ fun QuestionScreen(navController: NavController,
                     viewModel.speedSensorAktiv.value=false
                     viewModel.spielIstAktiv.value=false
                     viewModel.accelSensorAktiv.value=false
+                    viewModel.lichtSensorAktiv.value=false
+
                     navController.navigate(NavRoutes.Start.route)
                 })  {
                 Text("JA")
