@@ -18,19 +18,22 @@ import de.mocoware.viewmodel.JoinGameViewModel
 @Composable
 fun ScreenStartHandler(
     viewModel: JoinGameViewModel,
-    clickNewGame: () -> Unit,
-    clickJoinGame: () -> Unit
+    navigateNewGame: () -> Unit,
+    navigateJoinGame: () -> Unit,
+    navigateTest: () -> Unit
 ){
     ScreenStartRender(
-        navigateNewGame = clickNewGame,
-        navigateJoinGame = clickJoinGame
+        navigateNewGame = navigateNewGame,
+        navigateJoinGame = navigateJoinGame,
+        navigateTest = navigateTest
     )
 }
 
 @Composable
 fun ScreenStartRender(
     navigateNewGame: () -> Unit,
-    navigateJoinGame: () -> Unit
+    navigateJoinGame: () -> Unit,
+    navigateTest: () -> Unit
 ){
         Column(
             modifier = Modifier
@@ -48,6 +51,13 @@ fun ScreenStartRender(
                 text = "Join Game",
                 modifier = Modifier.padding(20.dp),
                 onClick = {navigateJoinGame()
+                    Log.d("Button", "Was clicked")
+                }
+            )
+            ButtonStandard(
+                text = "Test",
+                modifier = Modifier,
+                onClick = {navigateTest()
                     Log.d("Button", "Was clicked")
                 }
             )

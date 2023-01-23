@@ -1,10 +1,11 @@
 package de.mocoware.model.minigames
-
 import android.app.Service
 import de.mocoware.sensor.Accelerometer
 import de.mocoware.sensor.LightSensor
 import de.mocoware.sensor.SpeedSensor
 
+
+abstract class MiniGame {}
 
 class MiniGame(var name :String,var aufgabe:String,var service: Service?)
 

@@ -23,17 +23,16 @@ import kotlin.random.Random
 @Composable
 fun ScreenJoinGameHandler(
     viewModel: JoinGameViewModel,
-    clickJoinGame: (String) -> Unit,
+    navigateJoinGame: (String) -> Unit,
 ){
     val availableGames by viewModel.availableGames.observeAsState()
 
     ScreenJoinGameRender(
         availableGames = availableGames,
         clickJoinGame = {
-            if(viewModel.getGameID() != "")clickJoinGame(viewModel.getGameID())
+            if(viewModel.getGameID() != "")navigateJoinGame(viewModel.getGameID())
         },
-        clickSelectGame = {gameID: String -> viewModel.setGameID(gameID)},
-        test = {viewModel.addGame(Random.nextInt(20).toString())}
+        clickSelectGame = {gameID: String -> viewModel.setGameID(gameID)}
     )
 }
 
@@ -41,8 +40,7 @@ fun ScreenJoinGameHandler(
 fun ScreenJoinGameRender(
     clickJoinGame: () -> Unit,
     clickSelectGame: (String) -> Unit,
-    availableGames: List<AvailableGame>?,
-    test: () -> Unit,
+    availableGames: List<AvailableGame>?
 )
 {
         Column(
@@ -80,15 +78,10 @@ fun ScreenJoinGameRender(
                     }
                 }
             }
-            TextFieldStandard("Filter")
+            TextFieldStandard("Filter", {})
             ButtonStandard(
                 onClick = clickJoinGame,
                 text = "Join Game",
-                modifier = Modifier
-            )
-            ButtonStandard(
-                onClick = test,
-                text = "Create Game",
                 modifier = Modifier
             )
         }

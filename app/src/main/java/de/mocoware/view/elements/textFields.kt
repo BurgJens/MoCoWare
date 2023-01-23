@@ -15,7 +15,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun TextFieldStandard(placeholder: String){
+fun TextFieldStandard(
+    placeholder: String,
+    onValueChange: () -> Unit
+){
     Column(
         Modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -29,3 +32,4 @@ fun TextFieldStandard(placeholder: String){
         )
     }
 }
+

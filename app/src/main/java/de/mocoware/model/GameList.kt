@@ -3,8 +3,6 @@ package de.mocoware.model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-data class AvailableGame(val name: String, val gameID: String)
-
 class GameList () {
 
     private val games = mutableListOf<Game>()

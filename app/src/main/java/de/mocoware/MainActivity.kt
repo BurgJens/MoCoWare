@@ -32,8 +32,10 @@ import de.mocoware.sensor.LightSensor
 import de.mocoware.sensor.SpeedSensor
 import de.mocoware.ui.theme.MoCoWareTheme
 import de.mocoware.view.AppNavigation
+import de.mocoware.viewmodel.CreateGameViewModel
 import de.mocoware.viewmodel.GameViewModel
 import de.mocoware.viewmodel.JoinGameViewModel
+import de.mocoware.viewmodel.TestViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -49,6 +51,8 @@ class MainActivity : ComponentActivity() {
 
         val joinGameViewModel: JoinGameViewModel by viewModels()
         val gameViewModel: GameViewModel by viewModels()
+        val createGameViewModel: CreateGameViewModel by viewModels()
+        val testViewModel: TestViewModel by viewModels()
         val serviceObject =SerivceSystem()
 
         // register receiver
@@ -65,6 +69,8 @@ class MainActivity : ComponentActivity() {
                 AppNavigation(
                     joinGameViewModel = joinGameViewModel,
                     gameViewModel = gameViewModel,
+                    createGameViewModel = createGameViewModel,
+                    testViewModel = testViewModel,
                     serviceObject
                 )
             }

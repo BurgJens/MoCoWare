@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.Game
 import java.util.*
+import de.mocoware.model.GameConnection
 
 
 class GameViewModel() : ViewModel(){
@@ -57,8 +58,6 @@ class GameViewModel() : ViewModel(){
         setTime(30)
     }
 
-
-
     fun withGame(newGame: Game): GameViewModel{
         setGame(newGame)
         return this
@@ -103,5 +102,13 @@ class GameViewModel() : ViewModel(){
         override fun onFinish() {
             println("Zeit ist vorbei!")
         }
+    }
+
+    fun getCurrentGameName(): String{
+        return GameConnection?.getCurrentGameName() ?: "NoCurrentGame"
+    }
+
+    fun getCurrentGameID(): String{
+        return GameConnection?.getCurrentGameID() ?: "NONE"
     }
 }

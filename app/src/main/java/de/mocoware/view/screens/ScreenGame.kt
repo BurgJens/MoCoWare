@@ -26,14 +26,16 @@ fun ScreenGameHandler(
 ){
     val game by viewModel.liveGame.observeAsState()
 
-
-
-    ScreenGameRender(
-        gameID = game!!.getID(),
-        gameName = game!!.getName(),
-        viewModel,
-        serivceSystem
-    )
+    Column() {
+        Text(text = viewModel.getCurrentGameName())
+        Text(text = viewModel.getCurrentGameID())
+    }
+//    ScreenGameRender(
+//        gameID = viewModel.getCurrentGameID(),
+//        gameName = viewModel.getCurrentGameName(),
+//        viewModel,
+//        serivceSystem
+//    )
 }
 
 
