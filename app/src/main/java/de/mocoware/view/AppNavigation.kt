@@ -1,11 +1,22 @@
 package de.mocoware.view
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import com.example.testrobert.Permission
 import de.mocoware.MainActivity
 import de.mocoware.view.screens.ScreenCreateGameHandler
 import de.mocoware.view.screens.ScreenGameHandler
@@ -17,6 +28,7 @@ import de.mocoware.viewmodel.CreateGameViewModel
 import de.mocoware.viewmodel.GameViewModel
 import de.mocoware.viewmodel.JoinGameViewModel
 import de.mocoware.viewmodel.TestViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
 sealed class NavScreen(val route : String){
@@ -32,7 +44,7 @@ sealed class NavScreen(val route : String){
 //    }
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun AppNavigation(
     joinGameViewModel: JoinGameViewModel,
@@ -75,12 +87,15 @@ fun AppNavigation(
             ) {
                 ScreenStartHandler(
                     viewModel = joinGameViewModel,
-                    clickNewGame = { navController.navigate(NavScreen.JoinGame.route) },
-                    clickJoinGame = { navController.navigate(NavScreen.JoinGame.route) }
+                    navigateNewGame = { navController.navigate(NavScreen.CreateGame.route) },
+                    navigateJoinGame = { navController.navigate(NavScreen.JoinGame.route) },
+                    navigateTest = { navController.navigate(NavScreen.Test.route) }
                 )
             }
         }
-        {
+        composable(
+            route = NavScreen.CreateGame.route
+        ){
             ScreenCreateGameHandler(
                 viewModel = createGameViewModel,
                 navigateGame = {navController.navigate(NavScreen.Game.route)}
@@ -91,7 +106,7 @@ fun AppNavigation(
         ){
             ScreenJoinGameHandler(
                 viewModel = joinGameViewModel,
-                navigateJoinGame = { id : String -> navController.navigate(NavScreen.Game.route)}
+                navigateJoinGame = {}
             )
         }
         composable(

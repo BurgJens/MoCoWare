@@ -1,6 +1,6 @@
 package de.mocoware.model
 
-import de.mocoware.model.minigames.MiniGame
+import de.mocoware.model.minigames.MiniGame2
 import de.mocoware.model.minigames.MiniGameListe
 
 import kotlin.random.Random
@@ -13,7 +13,7 @@ class Game (private val name: String, private val rounds: Int = 5){
 
     private var gameId = generateGameId()
 
-    private val miniGames = mutableListOf<MiniGame>()
+    private val miniGames = mutableListOf<MiniGame2>()
 
     var currentGame = 0
 
@@ -38,7 +38,7 @@ class Game (private val name: String, private val rounds: Int = 5){
         return name
     }
 
-    fun getCurrentGame() : MiniGame{
+    fun getCurrentGame() : MiniGame2{
         return miniGames[currentGame]
     }
 

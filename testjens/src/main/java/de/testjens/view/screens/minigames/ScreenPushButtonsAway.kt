@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import de.testjens.ui.theme.MoCoWareTheme
 import de.testjens.view.screens.ScreenCreateGameRender
 
 @Composable
@@ -24,12 +25,12 @@ fun ScreenPushButtonsAwayRender(
 
 }
 
-@Preview(device = "id_pixel_5")
-@Composable
-fun ComposablePreview() {
-    MoCoWareTheme() {
-        ScreenCreateGameRender(
-            {name: String, rounds: Int, online: Boolean ->}
-        )
-    }
-}
+//@Preview(device = "id_pixel_5")
+//@Composable
+//fun ComposablePreview() {
+//    MoCoWareTheme() {
+//        ScreenCreateGameRender(
+//            {name: String, rounds: Int, online: Boolean ->}
+//        )
+//    }
+//}

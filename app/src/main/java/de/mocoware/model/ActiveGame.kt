@@ -1,7 +1,7 @@
 package de.mocoware.model
 
 
-import de.mocoware.model.minigames.MiniGame
+import de.mocoware.model.minigames.MiniGame2
 import de.mocoware.model.minigames.MiniGameListe
 import kotlin.random.Random
 
@@ -13,7 +13,7 @@ object ActiveGame{
 
     private var gameId = ""
 
-    private val miniGames = mutableListOf<MiniGame>()
+    private val miniGames = mutableListOf<MiniGame2>()
 
     init {
         addMinigames(10)

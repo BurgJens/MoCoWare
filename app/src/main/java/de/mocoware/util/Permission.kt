@@ -20,7 +20,8 @@ import com.google.accompanist.permissions.rememberPermissionState
 import de.mocoware.view.elements.ButtonStandard
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@ExperimentalPermissionsApi
+
+@OptIn(ExperimentalPermissionsApi::class)
 @ExperimentalCoroutinesApi
 @Composable
 fun Permission(
@@ -58,8 +59,10 @@ fun Permission(
 
 }
 
+@Composable
+fun PermissionRequired(permissionState: Any, permissionNotGrantedContent: () -> Unit, permissionNotAvailableContent: () -> Unit, content: () -> Unit) {
 
-
+}
 
 
 @Composable

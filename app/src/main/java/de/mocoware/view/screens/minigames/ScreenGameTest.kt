@@ -6,8 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import de.mocoware.model.minigames.DataMGannoyingButtons
 import de.mocoware.model.minigames.GameData
-import de.mocoware.model.minigames.MGannoyingButtons
-import de.mocoware.model.minigames.MiniGame
 import de.mocoware.viewmodel.TestViewModel
 
 @Composable
