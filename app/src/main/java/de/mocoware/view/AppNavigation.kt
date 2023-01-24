@@ -69,32 +69,14 @@ fun AppNavigation(
         composable(
             route = NavScreen.Start.route
         ) {
-            Permission(
-                permissionNotAvailableContent = {
-                    Column(Modifier.fillMaxSize()) {
-                        Text("O noes! No Camera!")
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Button(
-                            onClick = {
-                                context.startActivity(
-                                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                        data = Uri.fromParts("package", context.packageName, null)
-                                    }
-                                )
-                            }
-                        ) {
-                            Text("Öffne deine Einstellungen")
-                        }
-                    }
-                }
-            ) {
                 ScreenStartHandler(
                     viewModel = joinGameViewModel,
                     navigateNewGame = { navController.navigate(NavScreen.CreateGame.route) },
                     navigateJoinGame = { navController.navigate(NavScreen.JoinGame.route) },
-                    navigateTest = { navController.navigate(NavScreen.Test.route) }
+                    navigateTest = { navController.navigate(NavScreen.Test.route) },
+                    context=context
                 )
-            }
+
         }
         composable(
             route = NavScreen.CreateGame.route

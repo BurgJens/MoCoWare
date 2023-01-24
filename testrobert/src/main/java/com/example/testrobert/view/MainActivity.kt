@@ -115,6 +115,7 @@ class MainActivity : ComponentActivity() {
                             onItemClicked = { spiel ->
 
                                 viewModel.setTime(30)
+                                viewModel.countDownTimer.start()
                                 viewModel.spiel1 = mutableStateOf(spiel)
 
                                 navController.navigate(NavRoutes.GameScreen.route)

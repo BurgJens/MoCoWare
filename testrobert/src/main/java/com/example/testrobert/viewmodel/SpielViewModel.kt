@@ -151,6 +151,8 @@ class SpielViewModel():ViewModel(){
 
         var randomInt= nextInt(0,SpielListe().beispiel.size)
         spiel1= mutableStateOf(listeSpiele.beispiel[randomInt])
+        countDownTimer.cancel()
+        setTime(30)
         countDownTimer.start()
 
     }
