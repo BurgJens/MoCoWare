@@ -62,7 +62,6 @@ class LightSensor:Service(),SensorEventListener {
         println(lichtWert3)
 
 
-
         val intent = Intent("testLight")
         intent.putExtra("lightX", lichtWert1)
         intent.putExtra("lightY", lichtWert1)
@@ -76,5 +75,6 @@ class LightSensor:Service(),SensorEventListener {
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         println("onAccuracyChanged")
+        // Hier wird der Sensor freigegeben, wenn sinnvoller Wert verfügbar.
     }
 }

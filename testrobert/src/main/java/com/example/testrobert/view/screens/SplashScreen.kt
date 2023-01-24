@@ -22,24 +22,26 @@ import com.example.testrobert.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreenStart(viewModel: ViewModel,
-                 navController: NavController,
-) {
+fun SplashScreenStart(navController: NavController, ) {
     val scale = remember {
-        Animatable(0f)
+        Animatable(0.2f)
     }
 
     LaunchedEffect(key1 = true, block = {
         scale.animateTo(targetValue = 10f,
             animationSpec = tween(
-                durationMillis = 700,
+                durationMillis = 500,
             )
         )
 
         navController.popBackStack()
         navController.navigate(NavRoutes.SplashEnd.route)
+
     }
     )
+
+    SplashScreenEnd(navController =navController )
+
     Box(
         modifier = Modifier
             .background(color = Color.White)
@@ -60,9 +62,7 @@ fun SplashScreenStart(viewModel: ViewModel,
 }
 
 @Composable
-fun SplashScreenEnd(viewModel: ViewModel,
-                      navController: NavController,
-) {
+fun SplashScreenEnd(navController: NavController) {
     val scale = remember {
         Animatable(15f)
     }
@@ -70,10 +70,10 @@ fun SplashScreenEnd(viewModel: ViewModel,
     LaunchedEffect(key1 = true, block = {
         scale.animateTo(targetValue = 2.0f,
             animationSpec = tween(
-                durationMillis = 300,
+                durationMillis = 200,
             )
         )
-        delay(1000L)
+        delay(1500L)
         navController.popBackStack()
         navController.navigate(NavRoutes.Start.route)
     }

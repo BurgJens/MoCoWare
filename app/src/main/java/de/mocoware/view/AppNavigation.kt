@@ -1,5 +1,6 @@
 package de.mocoware.view
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
@@ -18,11 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.testrobert.Permission
 import de.mocoware.MainActivity
-import de.mocoware.view.screens.ScreenCreateGameHandler
-import de.mocoware.view.screens.ScreenGameHandler
-import de.mocoware.view.screens.ScreenJoinGameHandler
-import de.mocoware.view.screens.ScreenSplash
-import de.mocoware.view.screens.ScreenStartHandler
+import de.mocoware.view.screens.*
 import de.mocoware.view.screens.minigames.ScreenGameTestHandler
 import de.mocoware.viewmodel.CreateGameViewModel
 import de.mocoware.viewmodel.GameViewModel
@@ -33,6 +30,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 sealed class NavScreen(val route : String){
     object Splash:NavScreen("splash")
+    object SplashEnd:NavScreen("splashEnd")
     object Start : NavScreen("start")
     object JoinGame : NavScreen("joingame")
     object CreateGame : NavScreen("creategame")
@@ -51,17 +49,22 @@ fun AppNavigation(
     gameViewModel: GameViewModel,
     createGameViewModel: CreateGameViewModel,
     testViewModel: TestViewModel,
-    service: MainActivity.SerivceSystem
+    context: Context
 
 ){
     val navController = rememberNavController()
-    val context = LocalContext.current
+
 
     NavHost(navController = navController, startDestination = NavScreen.Splash.route){
         composable(
             route=NavScreen.Splash.route
         ){
-            ScreenSplash(viewModel = gameViewModel, navController =navController )
+            SplashScreenStart( navController =navController )
+        }
+        composable(
+            route=NavScreen.SplashEnd.route
+        ){
+            SplashScreenEnd( navController =navController )
         }
         composable(
             route = NavScreen.Start.route
@@ -114,11 +117,9 @@ fun AppNavigation(
         ){
             ScreenGameHandler(
                 viewModel = gameViewModel,
-                serivceSystem = service
+                context = context
             )
         }
-
-
 
         composable(
             route = NavScreen.Test.route

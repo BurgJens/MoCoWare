@@ -1,5 +1,6 @@
 package de.mocoware.view.screens
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,7 +23,7 @@ import de.mocoware.viewmodel.GameViewModel
 @Composable
 fun ScreenGameHandler(
     viewModel: GameViewModel,
-    serivceSystem: MainActivity.SerivceSystem
+    context: Context
 ){
     val game by viewModel.liveGame.observeAsState()
 
@@ -44,7 +45,6 @@ fun ScreenGameRender(
     gameID: String,
     gameName: String,
     viewModel: GameViewModel,
-    serivceSystem: MainActivity.SerivceSystem
 ){
 
     val timer by viewModel?.timer.observeAsState()
@@ -58,7 +58,6 @@ fun ScreenGameRender(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        serivceSystem.startSpeed()
         Text(text = gameName)
         Text(text = gameID)
         Text(modifier = Modifier.padding(20.dp), text ="Verbleibende Zeit: ${timer} Sekunden", color = Color.Red)

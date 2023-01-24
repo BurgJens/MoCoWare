@@ -66,6 +66,7 @@ class Accelerometer : Service(), SensorEventListener {
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         println("onAccuracyChanged")
+        // Hier wird der Sensor freigegeben, wenn sinnvoller Wert verfügbar.
     }
 
 

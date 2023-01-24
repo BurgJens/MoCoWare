@@ -23,42 +23,77 @@ import kotlinx.coroutines.delay
 import de.mocoware.R
 
 
+
 @Composable
-fun ScreenSplash(viewModel: ViewModel,
-                    navController: NavController
-) {
+fun SplashScreenStart(navController: NavController, ) {
     val scale = remember {
-        Animatable(0f)
+        Animatable(0.2f)
     }
 
     LaunchedEffect(key1 = true, block = {
-        scale.animateTo(targetValue = 2f,
+        scale.animateTo(targetValue = 10f,
             animationSpec = tween(
-                durationMillis = 1500,
+                durationMillis = 500,
             )
         )
-        delay(2000L)
+
         navController.popBackStack()
-        navController.navigate(NavScreen.Start.route)
-    })
+        navController.navigate(NavScreen.SplashEnd.route)
+
+    }
+    )
 
     Box(
-    modifier = Modifier
-    .background(color = White)
-    .scale(scale.value)
-    .fillMaxSize(),
-    contentAlignment = Alignment.Center
+        modifier = Modifier
+            .background(color = White)
+            .scale(scale.value)
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
         Column(modifier = Modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
-            Image(painter = painterResource(id = R.drawable.mocoware_logo),
+
+            Image(painter = painterResource(id = R.drawable.splash1),
                 contentDescription = "MocoWare",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(150.dp))
-            // Text(text = "MoCoWare",
-            //     style = MaterialTheme.typography.h5,
-            //     color = Color.Black)
+        }
+    }
+}
+
+@Composable
+fun SplashScreenEnd(navController: NavController) {
+    val scale = remember {
+        Animatable(15f)
+    }
+
+    LaunchedEffect(key1 = true, block = {
+        scale.animateTo(targetValue = 2.0f,
+            animationSpec = tween(
+                durationMillis = 200,
+            )
+        )
+        delay(1500L)
+        navController.popBackStack()
+        navController.navigate(NavScreen.Start.route)
+    }
+    )
+    Box(
+        modifier = Modifier
+            .background(color = White)
+            .scale(scale.value)
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(modifier = Modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center) {
+
+            Image(painter = painterResource(id = R.drawable.splash3),
+                contentDescription = "MocoWare",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(150.dp))
         }
     }
 }

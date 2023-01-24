@@ -39,6 +39,7 @@ fun GameScreen(
     val timer by viewModel.timer.observeAsState()
 
 
+
     Text(modifier = Modifier.padding(20.dp), text ="Verbleibende Zeit: ${timer} Sekunden", color = Color.Red)
 
 

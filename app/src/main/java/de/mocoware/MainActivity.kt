@@ -41,19 +41,16 @@ import de.mocoware.viewmodel.TestViewModel
 class MainActivity : ComponentActivity() {
 
 
-
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
 
 
         val joinGameViewModel: JoinGameViewModel by viewModels()
         val gameViewModel: GameViewModel by viewModels()
         val createGameViewModel: CreateGameViewModel by viewModels()
         val testViewModel: TestViewModel by viewModels()
-        val serviceObject =SerivceSystem()
+
 
         // register receiver
         LocalBroadcastManager.getInstance(this)
@@ -71,60 +68,14 @@ class MainActivity : ComponentActivity() {
                     gameViewModel = gameViewModel,
                     createGameViewModel = createGameViewModel,
                     testViewModel = testViewModel,
-                    serviceObject
+                    context = this@MainActivity
                 )
             }
         }
     }
-
-
-    inner class SerivceSystem{
-        var lichtIstActive:Boolean=false
-        var beschleuIstActive:Boolean=false
-        var speedIstActive:Boolean=false
-
-        val intentAccel = Intent(this@MainActivity, Accelerometer::class.java)
-        val intentSpeed = Intent(this@MainActivity, SpeedSensor::class.java)
-        val intentLight = Intent(this@MainActivity, LightSensor::class.java)
-
-        fun startLicht(){
-            if (!lichtIstActive) {
-                startService(intentLight)
-                lichtIstActive=true
-            }
-        }
-        fun startBeschleu(){
-            if(!beschleuIstActive) {
-                beschleuIstActive=true
-                startService(intentAccel)
-            }
-        }
-        fun startSpeed(){
-            if (!speedIstActive){
-                startService(intentSpeed)
-                speedIstActive=true
-            }
-        }
-        fun stopLicht(){
-            if (lichtIstActive){
-                stopService(intentLight)
-                lichtIstActive=false
-            }
-        }
-        fun stopBeschleu(){
-            if(beschleuIstActive) {
-                stopService(intentAccel)
-                beschleuIstActive=false
-            }
-        }
-        fun stopSpeed(){
-            if (speedIstActive){
-                stopService(intentSpeed)
-                speedIstActive=false
-            }
-        }
-    }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable

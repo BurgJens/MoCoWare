@@ -67,20 +67,11 @@ class MainActivity : ComponentActivity() {
                     startDestination = "Splash",
                 ) {
                     composable(route = NavRoutes.Splash.route) {
-
-                        SplashScreenStart(
-                            navController = navController,
-                            viewModel = viewModel,
-                        )
+                        SplashScreenStart(navController = navController)
                     }
                     composable(route = NavRoutes.SplashEnd.route) {
-
-                        SplashScreenEnd(
-                            navController = navController,
-                            viewModel = viewModel,
-                        )
+                        SplashScreenEnd(navController = navController)
                     }
-
                     composable(route = NavRoutes.Start.route) {
 
                         StartScreen(navController = navController,
@@ -124,7 +115,6 @@ class MainActivity : ComponentActivity() {
                             onItemClicked = { spiel ->
 
                                 viewModel.setTime(30)
-                                viewModel.countDownTimer.start()
                                 viewModel.spiel1 = mutableStateOf(spiel)
 
                                 navController.navigate(NavRoutes.GameScreen.route)
