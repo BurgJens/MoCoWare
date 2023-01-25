@@ -1,105 +1,84 @@
 package com.example.testalex
 
-
-import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.CallSuper
-import androidx.annotation.RequiresApi
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.ThumbUp
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.testalex.Sensor.NearbyConnections
-import com.example.testalex.databinding.ActivityMainBinding
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.testalex.util.Permission
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.example.testalex.sensor.Accelerometer
+import com.example.testalex.sensor.LightSensor
+import com.example.testalex.sensor.SpeedSensor
 import com.example.testalex.ui.theme.MoCoWareTheme
-import com.google.android.gms.location.*
-import com.google.android.gms.nearby.connection.Strategy
+import com.example.testalex.view.AppNavigation
+import com.example.testalex.viewmodel.CreateGameViewModel
+import com.example.testalex.viewmodel.GameViewModel
+import com.example.testalex.viewmodel.JoinGameViewModel
+import com.example.testalex.viewmodel.TestViewModel
 
 
 class MainActivity : ComponentActivity() {
 
-    private val REQUEST_CODE_REQUIRED_PERMISSIONS = 1
-    private lateinit var binding: ActivityMainBinding
 
-
-    @RequiresApi(Build.VERSION_CODES.M)
-
+    @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //setupPermission()
+
+        val joinGameViewModel: JoinGameViewModel by viewModels()
+        val gameViewModel: GameViewModel by viewModels()
+        val createGameViewModel: CreateGameViewModel by viewModels()
+        val testViewModel: TestViewModel by viewModels()
+
+
+        // register receiver
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testSpeed"))
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testAccel"))
+
+
+
         setContent {
-            //val location by applicationViewModel.getLocationLiveData().observeAsState()
+
             MoCoWareTheme {
-
-            }
-                val navController = rememberNavController()
-
-                NavHost(
-                    navController = navController,
-                    startDestination = "Start",
-                ) {
-                    composable(route = "Nearby") {
-                        NearbyConnections().startActivity()
-                    }
-
-                }
+                AppNavigation(
+                    joinGameViewModel = joinGameViewModel,
+                    gameViewModel = gameViewModel,
+                    createGameViewModel = createGameViewModel,
+                    testViewModel = testViewModel,
+                    context = this@MainActivity
+                )
             }
         }
-
-
-
-
-
-        @CallSuper
-        override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
-        ) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-            val errMsg = "Cannot start without required permissions"
-            if (requestCode == REQUEST_CODE_REQUIRED_PERMISSIONS) {
-                grantResults.forEach {
-                    if (it == PackageManager.PERMISSION_DENIED) {
-                        Toast.makeText(this, errMsg, Toast.LENGTH_LONG).show()
-                        finish()
-                        return
-                    }
-                }
-                recreate()
-            }
-        }
-
-
-
     }
+}
 
 
 
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
 
-
-
+}

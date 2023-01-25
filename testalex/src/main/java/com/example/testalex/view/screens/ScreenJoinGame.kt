@@ -1,0 +1,90 @@
+package com.example.testalex.view.screens
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Text
+import com.example.testalex.viewmodel.JoinGameViewModel
+import com.example.testalex.model.AvailableGame
+import com.example.testalex.view.elements.ButtonChooseGame
+import com.example.testalex.view.elements.ButtonStandard
+import com.example.testalex.view.elements.TextFieldStandard
+
+
+@Composable
+fun ScreenJoinGameHandler(
+    viewModel: JoinGameViewModel,
+    navigateJoinGame: (String) -> Unit,
+){
+    val availableGames by viewModel.availableGames.observeAsState()
+
+    ScreenJoinGameRender(
+        availableGames = availableGames,
+        clickJoinGame = {
+            if(viewModel.getGameID() != "")navigateJoinGame(viewModel.getGameID())
+        },
+        clickSelectGame = {gameID: String -> viewModel.setGameID(gameID)}
+    )
+}
+
+@Composable
+fun ScreenJoinGameRender(
+    clickJoinGame: () -> Unit,
+    clickSelectGame: (String) -> Unit,
+    availableGames: List<AvailableGame>?
+)
+{
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.surface),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Column(
+                modifier = Modifier
+                    .background(MaterialTheme.colors.primary)
+                    .border(2.dp, MaterialTheme.colors.background)
+                    .padding(3.dp),
+//                    .fillMaxSize()
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    availableGames?.let{
+                        items(availableGames){
+                            ButtonChooseGame(
+                                text = it.name,
+                                modifier = Modifier,
+                                onClick = {clickSelectGame(it.gameID)}
+                            )
+                        }
+                    } ?: run{
+                            item {
+                                Text(text = "no games found")
+                        }
+                    }
+                }
+            }
+            TextFieldStandard("Filter", {})
+            ButtonStandard(
+                onClick = clickJoinGame,
+                text = "Join Game",
+                modifier = Modifier
+            )
+        }
+}
+
+
