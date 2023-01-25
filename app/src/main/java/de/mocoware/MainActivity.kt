@@ -31,7 +31,8 @@ import de.mocoware.sensor.Accelerometer
 import de.mocoware.sensor.LightSensor
 import de.mocoware.sensor.SpeedSensor
 import de.mocoware.ui.theme.MoCoWareTheme
-import de.mocoware.view.AppNavigation
+import de.mocoware.view.navigation.AppNavigation
+//import de.mocoware.view.AppNavigation
 import de.mocoware.viewmodel.CreateGameViewModel
 import de.mocoware.viewmodel.GameViewModel
 import de.mocoware.viewmodel.JoinGameViewModel
@@ -49,16 +50,12 @@ class MainActivity : ComponentActivity() {
         val joinGameViewModel: JoinGameViewModel by viewModels()
         val gameViewModel: GameViewModel by viewModels()
         val createGameViewModel: CreateGameViewModel by viewModels()
-        val testViewModel: TestViewModel by viewModels()
 
-
-        // register receiver
-        LocalBroadcastManager.getInstance(this)
-            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testSpeed"))
-        LocalBroadcastManager.getInstance(this)
-            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testAccel"))
-
-
+//        // register receiver
+//        LocalBroadcastManager.getInstance(this)
+//            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testSpeed"))
+//        LocalBroadcastManager.getInstance(this)
+//            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testAccel"))
 
         setContent {
 
@@ -67,7 +64,6 @@ class MainActivity : ComponentActivity() {
                     joinGameViewModel = joinGameViewModel,
                     gameViewModel = gameViewModel,
                     createGameViewModel = createGameViewModel,
-                    testViewModel = testViewModel,
                     context = this@MainActivity
                 )
             }

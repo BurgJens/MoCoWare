@@ -42,7 +42,7 @@ object ActiveGame{
         val nextMinigame = miniGameEnumValues[Random.nextInt(MiniGameEnum.values().size)]
         repeat(amount){
             when(nextMinigame){
-                MiniGameEnum.TestMinigame -> miniGames.add(MiniGameListe().zufallSpiel())
+                MiniGameEnum.MGannoyingButtons -> miniGames.add(MiniGameListe().zufallSpiel())
             }
         }
     }

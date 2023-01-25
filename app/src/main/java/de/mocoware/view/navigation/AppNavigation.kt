@@ -1,4 +1,4 @@
-package de.mocoware.view
+package de.mocoware.view.navigation
 
 import android.content.Context
 import android.content.Intent
@@ -20,7 +20,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.testrobert.Permission
 import de.mocoware.MainActivity
 import de.mocoware.view.screens.*
-import de.mocoware.view.screens.minigames.MiniGameNavigation
 import de.mocoware.view.screens.minigames.ScreenGameTestHandler
 import de.mocoware.viewmodel.CreateGameViewModel
 import de.mocoware.viewmodel.GameViewModel
@@ -49,7 +48,6 @@ fun AppNavigation(
     joinGameViewModel: JoinGameViewModel,
     gameViewModel: GameViewModel,
     createGameViewModel: CreateGameViewModel,
-    testViewModel: TestViewModel,
     context: Context
 
 ){
@@ -98,18 +96,17 @@ fun AppNavigation(
         composable(
             route = NavScreen.Game.route,
         ){
-            ScreenGameHandler(
-                viewModel = gameViewModel,
-                context = context
+            GameNavigation(
+                viewModel = gameViewModel
             )
         }
 
-        composable(
-            route = NavScreen.Test.route
-        ){
-            MiniGameNavigation(
-                testViewModel
-            )
-        }
+//        composable(
+//            route = NavScreen.Test.route
+//        ){
+//            MiniGameNavigation(
+//                testViewModel
+//            )
+//        }
     }
 }

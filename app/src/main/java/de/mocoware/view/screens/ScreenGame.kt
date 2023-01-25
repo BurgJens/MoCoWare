@@ -20,46 +20,46 @@ import de.mocoware.MainActivity
 import de.mocoware.viewmodel.GameViewModel
 
 
-@Composable
-fun ScreenGameHandler(
-    viewModel: GameViewModel,
-    context: Context
-){
-    val game by viewModel.liveGame.observeAsState()
-
-    Column() {
-        Text(text = viewModel.getCurrentGameName())
-        Text(text = viewModel.getCurrentGameID())
-    }
+//@Composable
+//fun ScreenGameHandler(
+//    viewModel: GameViewModel,
+//    context: Context
+//){
+//    val game by viewModel.liveGame.observeAsState()
+//
+//    Column() {
+//        Text(text = viewModel.getCurrentGameName())
+//        Text(text = viewModel.getCurrentGameID())
+//    }
 //    ScreenGameRender(
 //        gameID = viewModel.getCurrentGameID(),
 //        gameName = viewModel.getCurrentGameName(),
 //        viewModel,
 //        serivceSystem
 //    )
-}
+//}
 
 
-@Composable
-fun ScreenGameRender(
-    gameID: String,
-    gameName: String,
-    viewModel: GameViewModel,
-){
-
-    val timer by viewModel?.timer.observeAsState()
-
-
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.surface),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Text(text = gameName)
-        Text(text = gameID)
-        Text(modifier = Modifier.padding(20.dp), text ="Verbleibende Zeit: ${timer} Sekunden", color = Color.Red)
-    }
-}
+//@Composable
+//fun ScreenGameRender(
+//    gameID: String,
+//    gameName: String,
+//    viewModel: GameViewModel,
+//){
+//
+//    val timer by viewModel?.timer.observeAsState()
+//
+//
+//
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(MaterialTheme.colors.surface),
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.Center,
+//    ) {
+//        Text(text = gameName)
+//        Text(text = gameID)
+//        Text(modifier = Modifier.padding(20.dp), text ="Verbleibende Zeit: ${timer} Sekunden", color = Color.Red)
+//    }
+//}

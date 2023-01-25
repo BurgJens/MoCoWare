@@ -18,10 +18,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
-import de.mocoware.view.NavScreen
 import kotlinx.coroutines.delay
 import de.mocoware.R
-
+import de.mocoware.view.navigation.NavScreen
 
 
 @Composable
