@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.testrobert.Permission
 import de.mocoware.MainActivity
 import de.mocoware.view.screens.*
+import de.mocoware.view.screens.minigames.MiniGameNavigation
 import de.mocoware.view.screens.minigames.ScreenGameTestHandler
 import de.mocoware.viewmodel.CreateGameViewModel
 import de.mocoware.viewmodel.GameViewModel
@@ -106,7 +107,7 @@ fun AppNavigation(
         composable(
             route = NavScreen.Test.route
         ){
-            ScreenGameTestHandler(
+            MiniGameNavigation(
                 testViewModel
             )
         }

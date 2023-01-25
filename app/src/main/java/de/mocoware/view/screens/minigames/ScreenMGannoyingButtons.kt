@@ -12,12 +12,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import de.mocoware.model.minigames.DataMGannoyingButtons
-import de.mocoware.model.minigames.MGannoyingButtons
 
 @Composable
 fun ScreenMGannoyingButtons(
     gameData : DataMGannoyingButtons,
-    finishGame : () -> Unit
+    navigate : () -> Unit
 ){
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -39,7 +38,7 @@ fun ScreenMGannoyingButtons(
                         FinalButton(
                             offsetX = each.offsetX.dp,
                             offsetY = each.offsetY.dp,
-                            rotation = each.rotation) {finishGame()}
+                            rotation = each.rotation) {navigate()}
                 }
         }
     }

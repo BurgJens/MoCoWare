@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.minigames.GameData
 import de.mocoware.model.minigames.MGannoyingButtons
+import de.mocoware.view.screens.minigames.NavMG
 
 class TestViewModel : ViewModel() {
 
@@ -22,6 +23,8 @@ class TestViewModel : ViewModel() {
     var currentGameData : GameData = currentMG.gameData
 
     val gameDataLive = MutableLiveData<GameData>()
+
+    var navigateNext = NavMG.MGannoyingButton.route
 
     init {
         gameDataLive.postValue(currentGameData)
