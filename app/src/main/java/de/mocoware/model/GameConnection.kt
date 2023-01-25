@@ -7,7 +7,12 @@ import java.util.*
 
 data class AvailableGame(val name: String, val gameID: String)
 
+private const val REQUEST_CODE_PERMISSIONS = 1
+private const val TAG: String = "nearbytest"
+private const val SERVICE_ID: String = "com.github.JensBurg.MocoWare"
+
 object GameConnection{
+
 
     private var onlineMode = false
 
@@ -83,7 +88,7 @@ object GameConnection{
 
     fun startDiscovery(){
         mConnectionsClient.startDiscovery(
-            packageName,
+            packageName(),
             mEndpointDiscoveryCallback,
             DiscoveryOptions(Strategy.P2P_CLUSTER)
         )
@@ -94,6 +99,9 @@ object GameConnection{
 
             }
     }
+
+
+
     private fun stopDiscovery() {
         mConnectionsClient.stopDiscovery()
     }
@@ -212,12 +220,11 @@ object GameConnection{
     }
 
 
-    fun onConnectionInitiated(){
-        TODO()
 
-    }
 
     private fun getNickName() = UUID.randomUUID().toString()
+
+    private fun packageName() = UUID.randomUUID().toString()
 
 
 
