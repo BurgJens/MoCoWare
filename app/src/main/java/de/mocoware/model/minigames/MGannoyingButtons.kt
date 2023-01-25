@@ -3,7 +3,7 @@ package de.mocoware.model.minigames
 import androidx.compose.ui.graphics.Color
 import kotlin.random.Random
 
-data class DataMGannoyingButtons(var data: MutableList<AnnoyingButton>) : GameData()
+data class DataMGannoyingButtons(var data: MutableList<AnnoyingButton>) : GameData
 
 data class AnnoyingButton(
     val finalButton : Boolean,
@@ -22,13 +22,11 @@ data class AnnoyingButton(
     }
 }
 
-data class MGannoyingButtons(
-    val gameData : DataMGannoyingButtons = DataMGannoyingButtons(mutableListOf()))
-    : MiniGame(){
+data class MGannoyingButtons(var gameData : DataMGannoyingButtons = DataMGannoyingButtons(mutableListOf())) : MiniGame {
 
     val possibleText = listOf(
         "Yolo!",":3",":O",":D","D:","( ͡❛ ͜ʖ ͡❛)","(ㆆ_ㆆ)","3===>","(っ＾▿＾)っ","( ˘︹˘ )",
-        "( ͡ಠ ͜ʖ ͡ಠ)", ";_;"
+        "( ͡ಠ ͜ʖ ͡ಠ)",";_;"
     )
 
     val possibleColor = listOf(
@@ -54,12 +52,12 @@ data class MGannoyingButtons(
                     finalButton = true
                 ){}
             )
-            repeat(10) {
+            repeat(100) {
                 gameData.data.add(
                     AnnoyingButton(
                         finalButton = false,
-                        buttonText = possibleText[Random.nextInt(0, possibleText.size)],
-                        color = possibleColor[Random.nextInt(0, possibleColor.size)]
+                        buttonText = possibleText.random(),
+                        color = possibleColor.random()
                     ){}
                 )
             }

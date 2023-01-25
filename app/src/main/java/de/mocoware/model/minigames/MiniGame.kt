@@ -5,7 +5,52 @@ import de.mocoware.sensor.LightSensor
 import de.mocoware.sensor.SpeedSensor
 
 
-abstract class MiniGame {}
+interface MiniGame
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class MiniGame2(var name :String, var aufgabe:String, var service: Service?)
 

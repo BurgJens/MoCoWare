@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.minigames.GameData
 import de.mocoware.model.minigames.MGannoyingButtons
-import de.mocoware.view.screens.minigames.NavMG
+import de.mocoware.view.navigation.NavMG
 
 class TestViewModel : ViewModel() {
 

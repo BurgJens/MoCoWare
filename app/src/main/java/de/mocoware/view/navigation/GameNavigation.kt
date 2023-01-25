@@ -1,32 +1,31 @@
-package de.mocoware.view.screens.minigames
+package de.mocoware.view.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import de.mocoware.model.minigames.DataMGannoyingButtons
-import de.mocoware.viewmodel.TestViewModel
+import de.mocoware.view.screens.minigames.ScreenMGannoyingButtons
+import de.mocoware.viewmodel.GameViewModel
 
 sealed class NavMG(val route : String){
     object MGannoyingButton : NavMG("annoyingButtons")
 }
 
 @Composable
-fun MiniGameNavigation(
-    viewModel: TestViewModel
+fun GameNavigation(
+    viewModel: GameViewModel
 ) {
     val navController = rememberNavController()
-
 
     NavHost(navController = navController, startDestination = NavMG.MGannoyingButton.route) {
         composable(
             route = NavMG.MGannoyingButton.route
         ) {
             ScreenMGannoyingButtons(
-                viewModel.currentGameData as DataMGannoyingButtons
+                viewModel.currentGameData
             ) {
                 viewModel.finishGame()
-                navController.navigate(viewModel.navigateNext)
+                navController.navigate(NavMG.MGannoyingButton.route)
             }
         }
     }
