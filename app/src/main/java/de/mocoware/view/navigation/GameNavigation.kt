@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import de.mocoware.model.minigames.DataMGannoyingButtons
 import de.mocoware.view.screens.minigames.ScreenMGannoyingButtons
 import de.mocoware.viewmodel.GameViewModel
 
@@ -21,12 +22,16 @@ fun GameNavigation(
         composable(
             route = NavMG.MGannoyingButton.route
         ) {
+            println("__________________________________________________NAVIGATED")
+            viewModel.countDownTimer.start()
             ScreenMGannoyingButtons(
-                viewModel.currentGameData
-            ) {
-                viewModel.finishGame()
-                navController.navigate(NavMG.MGannoyingButton.route)
-            }
+                viewModel.currentGameData as DataMGannoyingButtons,
+                {
+                    viewModel.finishGame()
+                    navController.navigate(viewModel.routeToMG)
+                },
+                viewModel.timer
+            )
         }
     }
 }

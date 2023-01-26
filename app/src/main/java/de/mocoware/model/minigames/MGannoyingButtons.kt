@@ -1,9 +1,12 @@
 package de.mocoware.model.minigames
 
 import androidx.compose.ui.graphics.Color
+import de.mocoware.view.navigation.NavMG
 import kotlin.random.Random
 
-data class DataMGannoyingButtons(var data: MutableList<AnnoyingButton>) : GameData
+data class DataMGannoyingButtons(override var data: Any) : GameData {
+    var annoyingButtonList = data as MutableList<AnnoyingButton>
+}
 
 data class AnnoyingButton(
     val finalButton : Boolean,
@@ -12,17 +15,19 @@ data class AnnoyingButton(
     val offsetY: Int = Random.nextInt(-130, 130),
     val rotation : Float = Random.nextInt(0, 360).toFloat(),
     val color : Color = Color(0,250,0),
-    var clicked : Boolean = false,
+    var visible : Boolean = true,
     val update: () -> Unit){
-
 
     fun click(){
         update()
-        clicked = true
+        visible = false
     }
 }
 
-data class MGannoyingButtons(var gameData : DataMGannoyingButtons = DataMGannoyingButtons(mutableListOf())) : MiniGame {
+class MGannoyingButtons(
+    override var gameData : GameData = DataMGannoyingButtons(mutableListOf<AnnoyingButton>()),
+    override val gameRoute: String = NavMG.MGannoyingButton.route
+) : MiniGame {
 
     val possibleText = listOf(
         "Yolo!",":3",":O",":D","D:","( ͡❛ ͜ʖ ͡❛)","(ㆆ_ㆆ)","3===>","(っ＾▿＾)っ","( ˘︹˘ )",
@@ -46,14 +51,15 @@ data class MGannoyingButtons(var gameData : DataMGannoyingButtons = DataMGannoyi
     )
 
     init {
-        if (gameData.data.size == 0) {
-            gameData.data.add(
+        var annoyingButtonList = gameData as DataMGannoyingButtons
+        if (annoyingButtonList.annoyingButtonList.size == 0) {
+            annoyingButtonList.annoyingButtonList.add(
                 AnnoyingButton(
                     finalButton = true
                 ){}
             )
             repeat(100) {
-                gameData.data.add(
+                annoyingButtonList.annoyingButtonList.add(
                     AnnoyingButton(
                         finalButton = false,
                         buttonText = possibleText.random(),

@@ -11,18 +11,22 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
 import de.mocoware.model.minigames.DataMGannoyingButtons
+import de.mocoware.view.elements.MiniGameTimer
 
 @Composable
 fun ScreenMGannoyingButtons(
     gameData : DataMGannoyingButtons,
-    navigate : () -> Unit
+    navigate : () -> Unit,
+    timer : LiveData<Int>
 ){
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        for (each in gameData.data)           {
+        println("__________________________________________________SCREENDRAW")
+        for (each in gameData.annoyingButtonList) {
                 when (each.finalButton) {
                     false ->
                         AnnoyingButton(
@@ -31,7 +35,7 @@ fun ScreenMGannoyingButtons(
                             text = each.buttonText,
                             color = each.color,
                             rotation = each.rotation,
-                            clicked =  each.clicked,
+                            clicked =  each.visible,
                             onClick = {each.click()}
                         )
                     true ->
@@ -41,6 +45,7 @@ fun ScreenMGannoyingButtons(
                             rotation = each.rotation) {navigate()}
                 }
         }
+        MiniGameTimer(timer)
     }
 }
 

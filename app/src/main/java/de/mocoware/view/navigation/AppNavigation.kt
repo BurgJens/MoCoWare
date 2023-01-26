@@ -72,6 +72,7 @@ fun AppNavigation(
                     viewModel = joinGameViewModel,
                     navigateNewGame = { navController.navigate(NavScreen.CreateGame.route) },
                     navigateJoinGame = { navController.navigate(NavScreen.JoinGame.route) },
+//                    navigateTest = { navController.navigate(NavScreen.Test.route) },
                     navigateTest = { navController.navigate(NavScreen.Test.route) },
                     context=context
                 )

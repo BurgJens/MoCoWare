@@ -26,14 +26,14 @@ fun ScreenGameTestRender(
     println("                                    RERENDER")
 
     Box {
-        if (gameData != null) {
-            when(gameData) {
-                is DataMGannoyingButtons ->
-                    ScreenMGannoyingButtons(
-                        gameData,
-                        finishGame
-                    )
-            }
-        }
+//        if (gameData != null) {
+//            when(gameData) {
+//                is DataMGannoyingButtons ->
+//                    ScreenMGannoyingButtons(
+//                        gameData,
+//                        finishGame
+//                    )
+//            }
+//        }
     }
 }

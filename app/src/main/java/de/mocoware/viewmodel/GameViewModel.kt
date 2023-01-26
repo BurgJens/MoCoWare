@@ -8,61 +8,62 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.Game
-import java.util.*
-import de.mocoware.model.GameConnection
 import de.mocoware.model.minigames.GameData
-import de.mocoware.model.minigames.MGannoyingButtons
 import de.mocoware.view.navigation.NavMG
 
 
 class GameViewModel : ViewModel(){
 
-//    var game = Game("Bla")
+    var game = Game("Bla")
 
-    var game = mutableListOf(
-        MGannoyingButtons(),
-        MGannoyingButtons(),
-        MGannoyingButtons(),
-        MGannoyingButtons(),
-        MGannoyingButtons(),
-        MGannoyingButtons(),
-        MGannoyingButtons(),
-        MGannoyingButtons(),
-    )
-    var current = 0
-
-    var currentMG = game[0]
+    var currentMG = game.getCurrentGame()
 
     var currentGameData = currentMG.gameData
 
-    val gameDataLive = MutableLiveData<GameData>()
+//    val gameDataLive = MutableLiveData<GameData>()
 
-    var navigateNext = NavMG.MGannoyingButton.route
+    var routeToMG = currentMG.gameRoute
 
     init {
-        gameDataLive.postValue(currentGameData)
-
+//        gameDataLive.postValue(currentGameData)
+//
 //        setSpeed(0.0)
 //        setTime(30)
     }
 
-    fun updateGamedata(){
-        gameDataLive.postValue(currentGameData)
-    }
+//    fun updateGamedata(){
+//        gameDataLive.postValue(currentGameData)
+//    }
 
     fun finishGame(){
-        current++
-
-        currentMG = game[current]
+        game.nextGame()
+        currentMG = game.getCurrentGame()
         currentGameData = currentMG.gameData
-        updateGamedata()
+        routeToMG = game.routeToNextMG()
+//        updateGamedata()
     }
 
 
+    // LiveDate für die Werte von dern Services
+    private val _timer : MutableLiveData<Int> = MutableLiveData<Int>(30)
+    var timer : LiveData<Int> = _timer
 
+    var countDownTimer = object : CountDownTimer(30000, 1000) {
 
+        // override object functions here, do it quicker by setting cursor on object, then type alt + enter ; implement members
+        override fun onTick(millisUntilFinished: Long) {
+            _timer.postValue(timer.value?.minus(1))
+        }
 
+        override fun onFinish() {
+            println("Zeit ist vorbei!")
+        }
+    }
 
+//        fun setTime(int: Int){
+//        _timer.postValue(int)
+//
+//    }
 
 
 
@@ -113,9 +114,6 @@ class GameViewModel : ViewModel(){
 //        }
 //    }
 //
-//    // LiveDate für die Werte von dern Services
-//    private val _timer : MutableLiveData<Int> = MutableLiveData<Int>()
-//    var timer : LiveData<Int> = _timer
 //
 //    private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
 //    var speed : LiveData<Double> = _speed
@@ -146,10 +144,7 @@ class GameViewModel : ViewModel(){
 ////        game = newGame
 ////        _game.postValue(game)
 ////    }
-//    fun setTime(int: Int){
-//        _timer.postValue(int)
-//
-//    }
+
 //
 //    fun setSpeed(double: Double){
 //        _speed.postValue(double)
@@ -171,17 +166,7 @@ class GameViewModel : ViewModel(){
 //        }
 //    }
 //
-//    var countDownTimer = object : CountDownTimer(30000, 1000) {
-//
-//        // override object functions here, do it quicker by setting cursor on object, then type alt + enter ; implement members
-//        override fun onTick(millisUntilFinished: Long) {
-//            _timer.postValue(timer.value?.minus(1))
-//        }
-//
-//        override fun onFinish() {
-//            println("Zeit ist vorbei!")
-//        }
-//    }
+
 //
 //    fun getCurrentGameName(): String{
 //        return GameConnection?.getCurrentGameName() ?: "NoCurrentGame"

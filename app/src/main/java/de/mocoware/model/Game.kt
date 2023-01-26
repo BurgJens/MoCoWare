@@ -11,7 +11,7 @@ enum class MiniGameEnum{
     MGannoyingButtons
 }
 
-class Game (private var name: String, private var rounds: Int = 5){
+class Game (private var name: String, rounds: Int = 5){
 
     private var gameId = generateGameId()
 
@@ -48,11 +48,14 @@ class Game (private var name: String, private var rounds: Int = 5){
         currentGame++
     }
 
+    fun routeToNextMG() : String{
+        return miniGames[currentGame+1].gameRoute
+    }
+
     fun addMinigames(amount: Int){
         miniGames.clear()
-        val miniGameEnumValues = MiniGameEnum.values()
-        val nextMinigame = MiniGameEnum.values().random()
         repeat(amount){
+            val nextMinigame = MiniGameEnum.values().random()
             when(nextMinigame){
                 MiniGameEnum.MGannoyingButtons -> miniGames.add(MGannoyingButtons())
             }
