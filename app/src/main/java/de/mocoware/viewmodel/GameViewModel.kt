@@ -43,20 +43,23 @@ class GameViewModel : ViewModel(){
 //        updateGamedata()
     }
 
+    val timeToPlay = 10
 
     // LiveDate für die Werte von dern Services
-    private val _timer : MutableLiveData<Int> = MutableLiveData<Int>(30)
+    private val _timer : MutableLiveData<Int> = MutableLiveData<Int>(timeToPlay)
     var timer : LiveData<Int> = _timer
 
-    var countDownTimer = object : CountDownTimer(30000, 1000) {
+    var countDownTimer = object : CountDownTimer(timeToPlay*1000.toLong(), 1000) {
 
         // override object functions here, do it quicker by setting cursor on object, then type alt + enter ; implement members
         override fun onTick(millisUntilFinished: Long) {
-            _timer.postValue(timer.value?.minus(1))
+            if(_timer.value!! > 0)
+                _timer.postValue(timer.value?.minus(1))
         }
 
         override fun onFinish() {
-            println("Zeit ist vorbei!")
+            finishGame()
+            _timer.postValue(timeToPlay)
         }
     }
 
@@ -176,3 +179,4 @@ class GameViewModel : ViewModel(){
 //        return GameConnection?.getCurrentGameID() ?: "NONE"
 //    }
 }
+

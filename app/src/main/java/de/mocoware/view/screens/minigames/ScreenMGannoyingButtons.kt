@@ -1,5 +1,8 @@
 package de.mocoware.view.screens.minigames
 
+import android.app.Activity
+import android.content.pm.ActivityInfo
+import android.os.CountDownTimer
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -9,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
@@ -19,13 +23,23 @@ import de.mocoware.view.elements.MiniGameTimer
 fun ScreenMGannoyingButtons(
     gameData : DataMGannoyingButtons,
     navigate : () -> Unit,
-    timer : LiveData<Int>
+    timer : CountDownTimer,
+    timerData : LiveData<Int>
 ){
+    var startTimer by remember {mutableStateOf(true)}
+    if(startTimer){
+        startTimer = false
+        timer.cancel()
+        println("Start")
+        timer.start()
+    }
+
+    val context = LocalContext.current as Activity
+    context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        println("__________________________________________________SCREENDRAW")
         for (each in gameData.annoyingButtonList) {
                 when (each.finalButton) {
                     false ->
@@ -45,7 +59,12 @@ fun ScreenMGannoyingButtons(
                             rotation = each.rotation) {navigate()}
                 }
         }
-        MiniGameTimer(timer)
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.TopStart
+        ){
+            MiniGameTimer(timerData)
+        }
     }
 }
 
@@ -69,7 +88,7 @@ fun FinalButton(offsetX: Dp, offsetY: Dp, rotation : Float, onClick : () -> Unit
 
 @Composable
 fun AnnoyingButton(offsetX: Dp, offsetY: Dp, text: String, color: Color, rotation : Float, clicked : Boolean, onClick: () -> Unit) {
-    var visible by remember {mutableStateOf(true)}
+    var visible by remember {mutableStateOf(clicked)}
     if(visible)
         GenericButton(offsetX, offsetY, text, color, rotation) {
             onClick()

@@ -83,12 +83,12 @@ fun ScreenStartRender(
                     Log.d("Button", "Was clicked")
                 }
             )
-            ButtonStandard(
-                text = "Test",
-                modifier = Modifier,
-                onClick = {navigateTest()
-                    Log.d("Button", "Was clicked")
-                }
-            )
+//            ButtonStandard(
+//                text = "Test",
+//                modifier = Modifier,
+//                onClick = {navigateTest()
+//                    Log.d("Button", "Was clicked")
+//                }
+//            )
         }
 }

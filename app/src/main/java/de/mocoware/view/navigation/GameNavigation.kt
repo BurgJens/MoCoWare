@@ -5,10 +5,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import de.mocoware.model.minigames.DataMGannoyingButtons
+import de.mocoware.view.screens.ScreenLobby
 import de.mocoware.view.screens.minigames.ScreenMGannoyingButtons
 import de.mocoware.viewmodel.GameViewModel
 
 sealed class NavMG(val route : String){
+    object Lobby : NavMG("lobby")
+
     object MGannoyingButton : NavMG("annoyingButtons")
 }
 
@@ -18,19 +21,25 @@ fun GameNavigation(
 ) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = NavMG.MGannoyingButton.route) {
+    NavHost(navController = navController, startDestination = NavMG.Lobby.route) {
+        composable(
+            route = NavMG.Lobby.route
+        ) {
+            ScreenLobby(
+                startGame = {navController.navigate(viewModel.routeToMG)}
+            )
+        }
         composable(
             route = NavMG.MGannoyingButton.route
         ) {
-            println("__________________________________________________NAVIGATED")
-            viewModel.countDownTimer.start()
             ScreenMGannoyingButtons(
                 viewModel.currentGameData as DataMGannoyingButtons,
                 {
                     viewModel.finishGame()
                     navController.navigate(viewModel.routeToMG)
                 },
-                viewModel.timer
+                viewModel.countDownTimer,
+                viewModel.timer,
             )
         }
     }
