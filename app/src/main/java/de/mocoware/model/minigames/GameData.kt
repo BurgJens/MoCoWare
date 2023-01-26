@@ -1,3 +1,5 @@
 package de.mocoware.model.minigames
 
-interface GameData
+interface GameData{
+    var data : Any
+}

@@ -1,11 +1,15 @@
 package de.mocoware.model.minigames
 import android.app.Service
+import de.mocoware.model.Game
 import de.mocoware.sensor.Accelerometer
 import de.mocoware.sensor.LightSensor
 import de.mocoware.sensor.SpeedSensor
 
 
-interface MiniGame
+interface MiniGame{
+    var gameData : GameData
+    val gameRoute : String
+}
 
 
 
