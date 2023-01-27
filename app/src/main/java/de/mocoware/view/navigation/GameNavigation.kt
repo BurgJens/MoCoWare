@@ -12,6 +12,7 @@ import de.mocoware.viewmodel.GameViewModel
 sealed class NavMG(val route : String){
     object Lobby : NavMG("lobby")
 
+    object MGconfusingButtons : NavMG("confusingButtons")
     object MGannoyingButton : NavMG("annoyingButtons")
 }
 
@@ -32,14 +33,11 @@ fun GameNavigation(
         composable(
             route = NavMG.MGannoyingButton.route
         ) {
+            println("__________________________________________MGannoyingButtons")
             ScreenMGannoyingButtons(
+                viewModel,
                 viewModel.currentGameData as DataMGannoyingButtons,
-                {
-                    viewModel.finishGame()
-                    navController.navigate(viewModel.routeToMG)
-                },
-                viewModel.countDownTimer,
-                viewModel.timer,
+                {navController.navigate(viewModel.routeToMG)}
             )
         }
     }

@@ -1,14 +1,8 @@
 package de.mocoware.viewmodel
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.os.CountDownTimer
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.Game
-import de.mocoware.model.minigames.GameData
+import de.mocoware.model.MiniGameTimer
 import de.mocoware.view.navigation.NavMG
 
 
@@ -24,44 +18,37 @@ class GameViewModel : ViewModel(){
 
     var routeToMG = currentMG.gameRoute
 
-    init {
+//    init {
 //        gameDataLive.postValue(currentGameData)
 //
 //        setSpeed(0.0)
 //        setTime(30)
-    }
+//    }
 
 //    fun updateGamedata(){
 //        gameDataLive.postValue(currentGameData)
 //    }
 
     fun finishGame(){
-        game.nextGame()
+
+        miniGameTimer._time.postValue(10)
+        miniGameTimer._isTimeUp.postValue(false)
+        miniGameTimer.timer.cancel()
+
+        val nextGame = game.nextGame()
         currentMG = game.getCurrentGame()
         currentGameData = currentMG.gameData
-        routeToMG = game.routeToNextMG()
+        if(nextGame){
+            routeToMG = game.routeToNextMG()
+        }else{
+            routeToMG = NavMG.Lobby.route
+        }
+        println("                                                                    $routeToMG")
+
 //        updateGamedata()
     }
 
-    val timeToPlay = 10
-
-    // LiveDate für die Werte von dern Services
-    private val _timer : MutableLiveData<Int> = MutableLiveData<Int>(timeToPlay)
-    var timer : LiveData<Int> = _timer
-
-    var countDownTimer = object : CountDownTimer(timeToPlay*1000.toLong(), 1000) {
-
-        // override object functions here, do it quicker by setting cursor on object, then type alt + enter ; implement members
-        override fun onTick(millisUntilFinished: Long) {
-            if(_timer.value!! > 0)
-                _timer.postValue(timer.value?.minus(1))
-        }
-
-        override fun onFinish() {
-            finishGame()
-            _timer.postValue(timeToPlay)
-        }
-    }
+    val miniGameTimer = MiniGameTimer()
 
 //        fun setTime(int: Int){
 //        _timer.postValue(int)

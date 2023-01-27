@@ -1,8 +1,6 @@
 package de.mocoware.view.screens.minigames
 
 import android.app.Activity
-import android.content.pm.ActivityInfo
-import android.os.CountDownTimer
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -15,27 +13,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LiveData
 import de.mocoware.model.minigames.DataMGannoyingButtons
-import de.mocoware.view.elements.MiniGameTimer
+import de.mocoware.view.elements.MiniGameTimerComposable
+import de.mocoware.viewmodel.GameViewModel
 
 @Composable
 fun ScreenMGannoyingButtons(
+    viewModel : GameViewModel,
     gameData : DataMGannoyingButtons,
     navigate : () -> Unit,
-    timer : CountDownTimer,
-    timerData : LiveData<Int>
 ){
-    var startTimer by remember {mutableStateOf(true)}
-    if(startTimer){
-        startTimer = false
-        timer.cancel()
-        println("Start")
-        timer.start()
-    }
 
     val context = LocalContext.current as Activity
-    context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+//    context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -56,14 +46,24 @@ fun ScreenMGannoyingButtons(
                         FinalButton(
                             offsetX = each.offsetX.dp,
                             offsetY = each.offsetY.dp,
-                            rotation = each.rotation) {navigate()}
+                            rotation = each.rotation)
+                        {
+                        viewModel.finishGame()
+                        navigate()
+                        }
                 }
         }
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.TopStart
         ){
-            MiniGameTimer(timerData)
+            MiniGameTimerComposable(
+                viewModel,
+                {
+                    viewModel.finishGame()
+                    navigate()
+                }
+            )
         }
     }
 }
