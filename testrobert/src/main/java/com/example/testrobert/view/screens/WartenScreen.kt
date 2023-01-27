@@ -34,7 +34,6 @@ fun WartenScreen(
     ){
 
 
-
     if (viewModel.spielIstAktiv.value&& viewModel.timer.value!! ==0) {
 
         context.stopService(Intent(context,LightSensor::class.java))
