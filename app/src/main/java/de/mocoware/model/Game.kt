@@ -44,8 +44,13 @@ class Game (private var name: String, rounds: Int = 5){
         return miniGames[currentGame]
     }
 
-    fun nextGame(){
+    fun nextGame(): Boolean{
         currentGame++
+        if(currentGame == miniGames.size){
+            currentGame = 0
+            return false
+        }
+        return true
     }
 
     fun routeToNextMG() : String{
@@ -61,5 +66,4 @@ class Game (private var name: String, rounds: Int = 5){
             }
         }
     }
-
 }

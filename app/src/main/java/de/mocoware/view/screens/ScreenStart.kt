@@ -13,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import com.example.testrobert.Permission
 import de.mocoware.view.elements.ButtonStandard
@@ -42,6 +43,7 @@ fun ScreenStartRender(
     navigateTest: () -> Unit,
     context:Context
 ){
+//    LocalLifecycleOwner.
 
     Permission(
     permissionNotAvailableContent = {
