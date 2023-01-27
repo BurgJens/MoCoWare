@@ -73,7 +73,7 @@ fun SpielShake(
 ){
     val accelObserve by viewModel.accel.observeAsState()
 
-    if (!viewModel.accelSensorAktiv.value) {
+    if (!viewModel.accelSensorAktiv.value && viewModel.timer.value!! >20) {
         println("test")
         context.startService(Intent(context, Accelerometer::class.java))
 
@@ -102,7 +102,7 @@ fun SpielLight(
     ){
     val lightObserve by viewModel.light.observeAsState()
 
-    if (!viewModel.lichtSensorAktiv.value) {
+    if (!viewModel.lichtSensorAktiv.value && viewModel.timer.value!! >20) {
         context.startService(Intent(context, LightSensor::class.java))
         viewModel.spielIstAktiv.value=true
         viewModel.lichtSensorAktiv.value=true
@@ -129,7 +129,7 @@ fun SpielDruecken(
 
     val iPuschen = remember { mutableStateOf(0) }
 
-    if(!viewModel.spielIstAktiv.value) {
+    if(!viewModel.spielIstAktiv.value&& viewModel.timer.value!! >20) {
         viewModel.spielIstAktiv.value=true }
 
     if (viewModel.timer.value!! <=0 && viewModel.spielIstAktiv.value){
@@ -164,7 +164,7 @@ fun SpielLaufen(
 
 ){
 
-    if (!viewModel.speedSensorAktiv.value) {
+    if (!viewModel.speedSensorAktiv.value&& viewModel.timer.value!! >20) {
         context.startService(Intent(context, SpeedSensor::class.java))
         viewModel.spielIstAktiv.value=true
         viewModel.speedSensorAktiv.value=true
