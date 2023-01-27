@@ -141,12 +141,14 @@ fun SpielDruecken(
 
         iPuschen.value += 1
 
-        if (iPuschen.value==30) {
-            iPuschen.value = 0
+        if (iPuschen.value>=30) {
+            iPuschen.value = 30
 
             println("Die benötigte Zeit: ${30- viewModel.timer.value!!}")
 
-            navController.navigate(NavRoutes.Warten.route)
+
+            if (viewModel.timer.value!! <=0 && viewModel.spielIstAktiv.value){
+                navController.navigate(NavRoutes.Warten.route) }
         }
 
 
