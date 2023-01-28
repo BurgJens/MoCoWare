@@ -51,11 +51,11 @@ class MainActivity : ComponentActivity() {
         val gameViewModel: GameViewModel by viewModels()
         val createGameViewModel: CreateGameViewModel by viewModels()
 
-//        // register receiver
-//        LocalBroadcastManager.getInstance(this)
-//            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testSpeed"))
-//        LocalBroadcastManager.getInstance(this)
-//            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testAccel"))
+        // register receiver
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testSpeed"))
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testAccel"))
 
         setContent {
 

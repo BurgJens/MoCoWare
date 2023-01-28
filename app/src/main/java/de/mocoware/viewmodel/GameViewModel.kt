@@ -1,12 +1,37 @@
 package de.mocoware.viewmodel
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.Game
 import de.mocoware.model.MiniGameTimer
 import de.mocoware.view.navigation.NavMG
+import java.util.*
 
 
 class GameViewModel : ViewModel(){
+
+
+    inner class Receiver: BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
+
+            val axisX = Objects.requireNonNull(intent.extras)?.getFloat("axisX")
+            val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
+            val axisZ = Objects.requireNonNull(intent.extras)?.getFloat("axisZ")
+
+            if (speed != null) {
+                println(speed)
+            }
+
+            if(axisX != null && axisY!=null && axisZ != null){
+                println(axisX)
+                println(axisY)
+                println(axisZ)
+            }
+        }
+    }
 
     var game = Game("Bla")
 
@@ -82,27 +107,10 @@ class GameViewModel : ViewModel(){
 
 
 
-//
-//
-//
-//    inner class Receiver: BroadcastReceiver() {
-//        override fun onReceive(context: Context, intent: Intent) {
-//            val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
-//
-//            val axisX = Objects.requireNonNull(intent.extras)?.getFloat("axisX")
-//            val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
-//            val axisZ = Objects.requireNonNull(intent.extras)?.getFloat("axisZ")
-//
-//            if (speed != null) {
-//                setSpeed(speed)
-//            }
-//
-//            if(axisX != null && axisY!=null && axisZ != null){
-//                setAcc(axisX,axisY,axisY)
-//
-//            }
-//        }
-//    }
+
+
+
+
 //
 //
 //    private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
