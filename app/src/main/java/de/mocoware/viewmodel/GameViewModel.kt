@@ -43,12 +43,10 @@ class GameViewModel : ViewModel(){
 
     var routeToMG = currentMG.gameRoute
 
-//    init {
-//        gameDataLive.postValue(currentGameData)
-//
-//        setSpeed(0.0)
-//        setTime(30)
-//    }
+   init {
+
+       println("test${currentMG.gameRoute}")
+   }
 
 //    fun updateGamedata(){
 //        gameDataLive.postValue(currentGameData)

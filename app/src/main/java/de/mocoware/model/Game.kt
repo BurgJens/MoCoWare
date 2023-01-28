@@ -39,6 +39,7 @@ class Game (private var name: String, rounds: Int = 5){
     }
 
     fun getCurrentGame() : MiniGame{
+
         return miniGames[currentGame]
     }
 
@@ -63,6 +64,8 @@ class Game (private var name: String, rounds: Int = 5){
                 MiniGameEnum.MGannoyingButtons -> miniGames.add(MGannoyingButtons())
                 MiniGameEnum.MGlaufenWithService -> miniGames.add(MGlaufenWithService())
             }
+            println("GamneKlase                     ${miniGames[currentGame].gameRoute}")
         }
+        println(miniGames)
     }
 }

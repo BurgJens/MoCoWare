@@ -1,6 +1,7 @@
 package de.mocoware.model.minigames
 
 import android.app.Service
+import de.mocoware.sensor.SpeedSensor
 import de.mocoware.view.navigation.NavMG
 
 
@@ -18,7 +19,10 @@ data class LaufenWithService(
 
 
 class MGlaufenWithService(
-    override var gameData: GameData = DataMGlaufenWithService(mutableListOf<LaufenWithService>()),
+    override var gameData: GameData = DataMGlaufenWithService(LaufenWithService(
+        "Laufe 14 KM/H schnell !!!",
+        SpeedSensor()
+    )),
     override val gameRoute: String = NavMG.MGlaufenWithSerivce.route
 ):MiniGame{
 
