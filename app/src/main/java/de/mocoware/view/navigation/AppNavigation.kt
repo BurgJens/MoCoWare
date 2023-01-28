@@ -98,7 +98,8 @@ fun AppNavigation(
             route = NavScreen.Game.route,
         ){
             GameNavigation(
-                viewModel = gameViewModel
+                viewModel = gameViewModel,
+                context = context               // Context für Service.start()
             )
         }
 

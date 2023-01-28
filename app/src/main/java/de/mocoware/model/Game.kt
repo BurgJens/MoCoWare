@@ -1,14 +1,12 @@
 package de.mocoware.model
 
-import de.mocoware.model.minigames.MGannoyingButtons
-import de.mocoware.model.minigames.MiniGame
-import de.mocoware.model.minigames.MiniGame2
-import de.mocoware.model.minigames.MiniGameListe
+import de.mocoware.model.minigames.*
 
 import kotlin.random.Random
 
 enum class MiniGameEnum{
-    MGannoyingButtons
+    MGannoyingButtons,
+    MGlaufenWithService
 }
 
 class Game (private var name: String, rounds: Int = 5){
@@ -63,6 +61,7 @@ class Game (private var name: String, rounds: Int = 5){
             val nextMinigame = MiniGameEnum.values().random()
             when(nextMinigame){
                 MiniGameEnum.MGannoyingButtons -> miniGames.add(MGannoyingButtons())
+                MiniGameEnum.MGlaufenWithService -> miniGames.add(MGlaufenWithService())
             }
         }
     }

@@ -1,11 +1,13 @@
 package de.mocoware.view.navigation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import de.mocoware.model.minigames.DataMGannoyingButtons
 import de.mocoware.view.screens.ScreenLobby
+import de.mocoware.view.screens.minigames.ScreeenMGlaufenWithService
 import de.mocoware.view.screens.minigames.ScreenMGannoyingButtons
 import de.mocoware.viewmodel.GameViewModel
 
@@ -14,11 +16,13 @@ sealed class NavMG(val route : String){
 
     object MGconfusingButtons : NavMG("confusingButtons")
     object MGannoyingButton : NavMG("annoyingButtons")
+    object MGlaufenWithSerivce : NavMG("laufenWithService")
 }
 
 @Composable
 fun GameNavigation(
-    viewModel: GameViewModel
+    viewModel: GameViewModel,
+    context: Context
 ) {
     val navController = rememberNavController()
 
@@ -39,6 +43,16 @@ fun GameNavigation(
                 viewModel.currentGameData as DataMGannoyingButtons,
                 {navController.navigate(viewModel.routeToMG)}
             )
+        }
+        composable(
+            route = NavMG.MGlaufenWithSerivce.route
+        ){
+            ScreeenMGlaufenWithService(
+                viewModel = viewModel,
+                navController = navController,
+                context = context
+            )
+
         }
     }
 }
