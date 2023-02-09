@@ -6,7 +6,7 @@ import kotlin.random.Random
 
 enum class MiniGameEnum{
     MGannoyingButtons,
-    MGlaufenWithService
+//    MGlaufenWithService
 }
 
 class Game (private var name: String, rounds: Int = 5){
@@ -62,7 +62,7 @@ class Game (private var name: String, rounds: Int = 5){
             val nextMinigame = MiniGameEnum.values().random()
             when(nextMinigame){
                 MiniGameEnum.MGannoyingButtons -> miniGames.add(MGannoyingButtons())
-                MiniGameEnum.MGlaufenWithService -> miniGames.add(MGlaufenWithService())
+//                MiniGameEnum.MGlaufenWithService -> miniGames.add(MGlaufenWithService())
             }
             println("GamneKlase                     ${miniGames[currentGame].gameRoute}")
         }
