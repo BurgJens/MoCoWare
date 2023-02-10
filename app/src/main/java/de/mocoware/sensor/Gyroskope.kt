@@ -51,9 +51,9 @@ class Gyroskope: Service(), SensorEventListener {
         event ?: return
 
 
-        var axisX: Float = Math.abs(event.values[0])
-        var axisY: Float = Math.abs(event.values[1])
-        var axisZ: Float = Math.abs(event.values[2])
+        var axisX: Float = event.values[0]
+        var axisY: Float = event.values[1]
+        var axisZ: Float = event.values[2]
 
 
 

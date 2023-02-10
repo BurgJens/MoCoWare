@@ -11,7 +11,9 @@ import java.util.*
 
 
 class GameViewModel : ViewModel(){
-
+    var axisXGyro:Float= 0.0F       // Für Gyroskope start Orientierung
+    var axisYGyro:Float= 0.0F       // ..
+    var axisZGyro:Float= 0.0F       // ..
 
     inner class Receiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -21,17 +23,20 @@ class GameViewModel : ViewModel(){
             val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
             val axisZ = Objects.requireNonNull(intent.extras)?.getFloat("axisZ")
 
-            val axisXGyro = Objects.requireNonNull(intent.extras)?.getFloat("axisXGyro")
-            val axisYGyro = Objects.requireNonNull(intent.extras)?.getFloat("axisYGyro")
-            val axisZGyro = Objects.requireNonNull(intent.extras)?.getFloat("axisZGyro")
+            val axisXGyroReciv = Objects.requireNonNull(intent.extras)?.getFloat("axisXGyro")
+            val axisYGyroReciv = Objects.requireNonNull(intent.extras)?.getFloat("axisYGyro")
+            val axisZGyroreciv = Objects.requireNonNull(intent.extras)?.getFloat("axisZGyro")
 
-            if(axisXGyro != null && axisYGyro!=null && axisZGyro != null){
-                println("axisXGyro")
+            if(axisXGyroReciv != null && axisYGyroReciv!=null && axisZGyroreciv != null){
+                axisXGyro+=axisXGyroReciv
                 println(axisXGyro)
-                println("axisYGyro")
+
+                axisYGyro+=axisYGyroReciv
                 println(axisYGyro)
-                println("axisZGyro")
+
+                axisZGyro+=axisZGyroreciv
                 println(axisZGyro)
+
             }
 
           // if (speed != null) {
