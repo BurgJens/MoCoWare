@@ -55,7 +55,7 @@ class SpeedSensor:Service() {
             lastLocation.set(location)
             lastTime = System.currentTimeMillis()
 
-            val intent = Intent("testSpeed")
+            val intent = Intent("Speed")
             intent.putExtra("speed", speed)
             LocalBroadcastManager.getInstance(this@SpeedSensor).sendBroadcast(intent)
 
