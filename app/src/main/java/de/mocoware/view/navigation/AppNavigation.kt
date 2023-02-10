@@ -99,7 +99,7 @@ fun AppNavigation(
         ){
             GameNavigation(
                 viewModel = gameViewModel,
-                context = context               // Context für Service.start()
+                context = context               // Context für Service.start()/.cancel()
             )
         }
 

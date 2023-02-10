@@ -52,7 +52,6 @@ class MainActivity : ComponentActivity() {
         val gameViewModel: GameViewModel by viewModels()
         val createGameViewModel: CreateGameViewModel by viewModels()
 
-        startService(Intent(this, Gyroskope::class.java))
 
         // register receiver
         LocalBroadcastManager.getInstance(this)

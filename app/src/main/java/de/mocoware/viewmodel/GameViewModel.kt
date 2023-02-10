@@ -15,6 +15,9 @@ class GameViewModel : ViewModel(){
     var axisYGyro:Float= 0.0F       // ..
     var axisZGyro:Float= 0.0F       // ..
 
+
+
+
     inner class Receiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")

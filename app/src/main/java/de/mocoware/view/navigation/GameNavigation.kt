@@ -9,6 +9,7 @@ import de.mocoware.model.minigames.DataMGannoyingButtons
 import de.mocoware.view.screens.ScreenLobby
 import de.mocoware.view.screens.minigames.ScreeenMGlaufenWithService
 import de.mocoware.view.screens.minigames.ScreenMGannoyingButtons
+import de.mocoware.view.screens.minigames.ScreenMGshake
 import de.mocoware.viewmodel.GameViewModel
 
 sealed class NavMG(val route : String){
@@ -17,6 +18,8 @@ sealed class NavMG(val route : String){
     object MGconfusingButtons : NavMG("confusingButtons")
     object MGannoyingButton : NavMG("annoyingButtons")
     object MGlaufenWithSerivce : NavMG("laufenWithService")
+    object MGshake : NavMG("shake")
+    object MGbeleuchtung : NavMG("beleuchtung")
 }
 
 @Composable
@@ -40,7 +43,7 @@ fun GameNavigation(
             println("__________________________________________MGannoyingButtons")
             ScreenMGannoyingButtons(
                 viewModel,
-                viewModel.currentGameData as DataMGannoyingButtons,
+                viewModel.currentGameData as DataMGannoyingButtons,  // <- lieber gesammte data class?
                 {navController.navigate(viewModel.routeToMG)}
             )
         }
@@ -48,6 +51,26 @@ fun GameNavigation(
             route = NavMG.MGlaufenWithSerivce.route
         ){
             ScreeenMGlaufenWithService(
+                viewModel = viewModel,
+                navController = navController,
+                context = context
+            )
+
+        }
+        composable(
+            route = NavMG.MGshake.route
+        ){
+            ScreenMGshake(
+                viewModel = viewModel,
+                navController = navController,
+                context = context
+            )
+
+        }
+        composable(
+            route = NavMG.MGbeleuchtung.route
+        ){
+            ScreenMGshake(
                 viewModel = viewModel,
                 navController = navController,
                 context = context
