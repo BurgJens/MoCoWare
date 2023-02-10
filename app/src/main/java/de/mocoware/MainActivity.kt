@@ -28,6 +28,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.testrobert.Permission
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import de.mocoware.sensor.Accelerometer
+import de.mocoware.sensor.Gyroskope
 import de.mocoware.sensor.LightSensor
 import de.mocoware.sensor.SpeedSensor
 import de.mocoware.ui.theme.MoCoWareTheme
@@ -51,11 +52,15 @@ class MainActivity : ComponentActivity() {
         val gameViewModel: GameViewModel by viewModels()
         val createGameViewModel: CreateGameViewModel by viewModels()
 
+        startService(Intent(this, Gyroskope::class.java))
+
         // register receiver
         LocalBroadcastManager.getInstance(this)
-            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testSpeed"))
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter("Speed"))
         LocalBroadcastManager.getInstance(this)
-            .registerReceiver(gameViewModel.Receiver(), IntentFilter("testAccel"))
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter("Accel"))
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter("Gyro"))
 
         setContent {
 
@@ -70,6 +75,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 
 

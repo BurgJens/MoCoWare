@@ -48,7 +48,7 @@ class LightSensor:Service(),SensorEventListener {
 
 
 
-        val intent = Intent("testLight")
+        val intent = Intent("Light")
         intent.putExtra("lichtWert", lichtWert1)
 
 

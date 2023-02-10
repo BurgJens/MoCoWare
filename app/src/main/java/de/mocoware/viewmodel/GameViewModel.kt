@@ -21,15 +21,28 @@ class GameViewModel : ViewModel(){
             val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
             val axisZ = Objects.requireNonNull(intent.extras)?.getFloat("axisZ")
 
-            if (speed != null) {
-                println(speed)
+            val axisXGyro = Objects.requireNonNull(intent.extras)?.getFloat("axisXGyro")
+            val axisYGyro = Objects.requireNonNull(intent.extras)?.getFloat("axisYGyro")
+            val axisZGyro = Objects.requireNonNull(intent.extras)?.getFloat("axisZGyro")
+
+            if(axisXGyro != null && axisYGyro!=null && axisZGyro != null){
+                println("axisXGyro")
+                println(axisXGyro)
+                println("axisYGyro")
+                println(axisYGyro)
+                println("axisZGyro")
+                println(axisZGyro)
             }
 
-            if(axisX != null && axisY!=null && axisZ != null){
-                println(axisX)
-                println(axisY)
-                println(axisZ)
-            }
+          // if (speed != null) {
+          //     println(speed)
+          // }
+
+          // if(axisX != null && axisY!=null && axisZ != null){
+          //     println(axisX)
+          //     println(axisY)
+          //     println(axisZ)
+          // }
         }
     }
 
