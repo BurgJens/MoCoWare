@@ -59,9 +59,4 @@ object GameConnection{
     fun getCurrentGameID() : String?{
         return currentGame?.getID()
     }
-
-
-
-
-
 }
