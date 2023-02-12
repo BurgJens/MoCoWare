@@ -1,10 +1,14 @@
 package de.mocoware.view.elements
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -46,5 +50,18 @@ fun ButtonChooseGame(
         modifier = modifier
     ) {
         Text(text = text)
+    }
+}
+
+@Composable
+fun GenericButton(offsetX: Dp, offsetY: Dp, text: String, color: Color, textColor: Color, rotation : Float, onClick : () -> Unit) {
+    Button(
+        modifier = Modifier
+            .absoluteOffset(offsetX, offsetY)
+            .rotate(rotation),
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(backgroundColor = color)
+    ) {
+        Text(text = text, color = textColor)
     }
 }

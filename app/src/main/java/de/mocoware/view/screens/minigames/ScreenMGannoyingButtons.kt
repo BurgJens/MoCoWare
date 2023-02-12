@@ -1,19 +1,18 @@
 package de.mocoware.view.screens.minigames
 
 import android.app.Activity
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import de.mocoware.model.minigames.DataMGannoyingButtons
+import de.mocoware.model.minigames.DataMGconfusingButtons
+import de.mocoware.view.elements.GenericButton
 import de.mocoware.view.elements.MiniGameTimerComposable
 import de.mocoware.viewmodel.GameViewModel
 
@@ -23,9 +22,9 @@ fun ScreenMGannoyingButtons(
     gameData : DataMGannoyingButtons,
     navigate : () -> Unit,
 ){
-
     val context = LocalContext.current as Activity
-//    context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+    context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -43,7 +42,7 @@ fun ScreenMGannoyingButtons(
                             onClick = {each.click()}
                         )
                     true ->
-                        FinalButton(
+                        FinalButtonAnnoying(
                             offsetX = each.offsetX.dp,
                             offsetY = each.offsetY.dp,
                             rotation = each.rotation)
@@ -69,28 +68,15 @@ fun ScreenMGannoyingButtons(
 }
 
 @Composable
-fun GenericButton(offsetX: Dp, offsetY: Dp, text: String, color: Color, rotation : Float, onClick : () -> Unit) {
-    Button(
-        modifier = Modifier
-            .absoluteOffset(offsetX, offsetY)
-            .rotate(rotation),
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(backgroundColor = color)
-    ) {
-        Text(text = text)
-    }
-}
-
-@Composable
-fun FinalButton(offsetX: Dp, offsetY: Dp, rotation : Float, onClick : () -> Unit) {
-    GenericButton(offsetX, offsetY, text = "Here!", color = Color.Green, rotation, onClick)
+fun FinalButtonAnnoying(offsetX: Dp, offsetY: Dp, rotation : Float, onClick : () -> Unit) {
+    GenericButton(offsetX, offsetY, text = "Here!", color = Color.Green, Color.Black, rotation, onClick)
 }
 
 @Composable
 fun AnnoyingButton(offsetX: Dp, offsetY: Dp, text: String, color: Color, rotation : Float, clicked : Boolean, onClick: () -> Unit) {
     var visible by remember {mutableStateOf(clicked)}
     if(visible)
-        GenericButton(offsetX, offsetY, text, color, rotation) {
+        GenericButton(offsetX, offsetY, text, color, Color.Black, rotation) {
             onClick()
             visible = false
         }

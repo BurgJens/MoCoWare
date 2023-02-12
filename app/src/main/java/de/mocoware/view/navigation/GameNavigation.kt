@@ -6,9 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import de.mocoware.model.minigames.DataMGannoyingButtons
+import de.mocoware.model.minigames.DataMGconfusingButtons
 import de.mocoware.view.screens.ScreenLobby
 import de.mocoware.view.screens.minigames.ScreeenMGlaufenWithService
 import de.mocoware.view.screens.minigames.ScreenMGannoyingButtons
+import de.mocoware.view.screens.minigames.ScreenMGconfusingColorButtons
 import de.mocoware.view.screens.minigames.ScreenMGshake
 import de.mocoware.viewmodel.GameViewModel
 
@@ -40,10 +42,18 @@ fun GameNavigation(
         composable(
             route = NavMG.MGannoyingButton.route
         ) {
-            println("__________________________________________MGannoyingButtons")
             ScreenMGannoyingButtons(
                 viewModel,
                 viewModel.currentGameData as DataMGannoyingButtons,  // <- lieber gesammte data class?
+                {navController.navigate(viewModel.routeToMG)}
+            )
+        }
+        composable(
+            route = NavMG.MGconfusingButtons.route
+        ) {
+            ScreenMGconfusingColorButtons(
+                viewModel,
+                viewModel.currentGameData as DataMGconfusingButtons,
                 {navController.navigate(viewModel.routeToMG)}
             )
         }

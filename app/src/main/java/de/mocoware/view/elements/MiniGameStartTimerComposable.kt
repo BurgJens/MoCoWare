@@ -1,11 +1,14 @@
 package de.mocoware.view.elements
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -15,20 +18,19 @@ import androidx.compose.ui.unit.sp
 import de.mocoware.viewmodel.GameViewModel
 
 @Composable
-fun MiniGameTimerComposable(
+fun MiniGameStartTimerComposable(
     viewModel : GameViewModel,
     onTimeFinished : () -> Unit,
-    bgColor : Color = Color.LightGray,
 ){
-    val isTimeUp by viewModel.gameTimer.isTimeUp.observeAsState()
-    val time by viewModel.gameTimer.time.observeAsState()
+    val isTimeUp by viewModel.gameStartTimer.isTimeUp.observeAsState()
+    val time by viewModel.gameStartTimer.time.observeAsState()
 
     var shouldNavigate by remember { mutableStateOf(true) }
     var firstDraw by remember { mutableStateOf(true) }
 
     if (firstDraw){
         firstDraw = false
-        viewModel.gameTimer.tryStart()
+        viewModel.gameStartTimer.tryStart()
     }
 
     if (isTimeUp!! && shouldNavigate){
@@ -38,15 +40,20 @@ fun MiniGameTimerComposable(
 
     Card(
         modifier = Modifier
-            .height(80.dp)
-            .width(80.dp),
-        backgroundColor = bgColor
+            .fillMaxSize(),
+        backgroundColor = Color.White
     ) {
-        Text(
-            text = "$time",
-            fontWeight = FontWeight.ExtraBold,
-            fontSize = 64.sp,
-            textAlign = TextAlign.Center
-        )
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                text = "$time",
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 64.sp,
+                textAlign = TextAlign.Center,
+                color = Color.Black
+            )
+        }
     }
 }
