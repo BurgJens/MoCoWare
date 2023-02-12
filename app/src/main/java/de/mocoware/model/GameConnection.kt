@@ -1,7 +1,7 @@
 package de.mocoware.model
 
 import android.util.Log
-import com.google.android.gms.nearby.connection.*
+import com.google.android.gms.nearby.*
 import java.util.*
 
 

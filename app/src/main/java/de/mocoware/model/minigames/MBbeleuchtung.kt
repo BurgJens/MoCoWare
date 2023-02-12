@@ -1,6 +1,7 @@
 package de.mocoware.model.minigames
 
 import android.app.Service
+import de.mocoware.model.MiniGame
 import de.mocoware.sensor.LightSensor
 import de.mocoware.view.navigation.NavMG
 
@@ -23,6 +24,6 @@ class MGbeleuchtung(
         LightSensor()
     )),
     override val gameRoute: String = NavMG.MGbeleuchtung.route
-):MiniGame{
+): MiniGame {
 
 }

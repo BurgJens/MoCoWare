@@ -1,6 +1,7 @@
 package de.mocoware.model.minigames
 
 import android.app.Service
+import de.mocoware.model.MiniGame
 import de.mocoware.sensor.SpeedSensor
 import de.mocoware.view.navigation.NavMG
 
@@ -24,6 +25,6 @@ class MGlaufenWithService(
         SpeedSensor()
     )),
     override val gameRoute: String = NavMG.MGlaufenWithSerivce.route
-):MiniGame{
+): MiniGame {
 
 }

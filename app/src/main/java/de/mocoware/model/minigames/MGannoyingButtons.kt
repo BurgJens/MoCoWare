@@ -1,6 +1,7 @@
 package de.mocoware.model.minigames
 
 import androidx.compose.ui.graphics.Color
+import de.mocoware.model.MiniGame
 import de.mocoware.view.navigation.NavMG
 import kotlin.random.Random
 
