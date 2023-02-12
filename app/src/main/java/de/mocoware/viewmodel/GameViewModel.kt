@@ -73,11 +73,15 @@ class GameViewModel : ViewModel(){
 //        gameDataLive.postValue(currentGameData)
 //    }
 
-    fun finishGame(){
+    fun finishGame(won : Boolean = false){
 
-        miniGameTimer._time.postValue(10)
-        miniGameTimer._isTimeUp.postValue(false)
-        miniGameTimer.timer.cancel()
+        gameTimer._time.postValue(timeToPlay+timeToStart)
+        gameTimer._isTimeUp.postValue(false)
+        gameTimer.timer.cancel()
+
+        gameStartTimer._time.postValue(timeToStart)
+        gameStartTimer._isTimeUp.postValue(false)
+        gameStartTimer.timer.cancel()
 
         val nextGame = game.nextGame()
         currentMG = game.getCurrentGame()
@@ -92,7 +96,11 @@ class GameViewModel : ViewModel(){
 //        updateGamedata()
     }
 
-    val miniGameTimer = MiniGameTimer()
+    val timeToPlay = 10
+    val timeToStart = 3
+
+    val gameTimer = MiniGameTimer(timeToPlay+timeToStart)
+    val gameStartTimer = MiniGameTimer(timeToStart)
 
 //        fun setTime(int: Int){
 //        _timer.postValue(int)
