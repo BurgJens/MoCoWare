@@ -1,9 +1,15 @@
-package de.mocoware.model.minigames
+package com.example.testalex.model.minigames
 import android.app.Service
+<<<<<<< HEAD:testalex/src/main/java/com/example/testalex/model/minigames/MiniGame2.kt
+import com.example.testalex.sensor.Accelerometer
+import com.example.testalex.sensor.LightSensor
+import com.example.testalex.sensor.SpeedSensor
+=======
 import de.mocoware.model.Game
 import de.mocoware.sensor.Accelerometer
 import de.mocoware.sensor.LightSensor
 import de.mocoware.sensor.SpeedSensor
+>>>>>>> origin/main:app/src/main/java/de/mocoware/model/minigames/MiniGame.kt
 
 
 interface MiniGame{
