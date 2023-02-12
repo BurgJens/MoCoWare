@@ -7,7 +7,8 @@ import kotlin.random.Random
 enum class MiniGameEnum{
     MGannoyingButtons,
     MGlaufenWithService,
-    MGshake
+    MGshake,
+    MGbeleuchtung
 }
 
 class Game (private var name: String, rounds: Int = 5){
@@ -65,6 +66,7 @@ class Game (private var name: String, rounds: Int = 5){
                 MiniGameEnum.MGannoyingButtons -> miniGames.add(MGannoyingButtons())
                 MiniGameEnum.MGlaufenWithService -> miniGames.add(MGlaufenWithService())
                 MiniGameEnum.MGshake -> miniGames.add(MGshake())
+                MiniGameEnum.MGbeleuchtung -> miniGames.add(MGbeleuchtung())
             }
         }
     }

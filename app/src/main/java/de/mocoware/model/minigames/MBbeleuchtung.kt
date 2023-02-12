@@ -13,9 +13,7 @@ data class Beleuchtung(
     val testAufgabe: String,
     val service: Service
 ){
-
 }
-
 
 
 class MGbeleuchtung(
