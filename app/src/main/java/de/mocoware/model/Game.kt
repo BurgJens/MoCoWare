@@ -66,7 +66,7 @@ class Game (private var name: String, rounds: Int = 5){
 //            val nextMinigame = listOf(
 //                MiniGameEnum.MGannoyingButtons,
 //                MiniGameEnum.MGconfusingButtons
-            ).random()
+//            ).random()
             when(nextMinigame){
                 MiniGameEnum.MGannoyingButtons -> miniGames.add(MGannoyingButtons())
                 MiniGameEnum.MGlaufenWithService -> miniGames.add(MGlaufenWithService())
