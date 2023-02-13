@@ -91,17 +91,14 @@ fun ScreenMGconfusingColorButtons(
         if (failed) {
             failedCard()
         }
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.TopStart
-        ) {
-            MiniGameTimerComposable(viewModel,
-                {
-                    viewModel.finishGame()
-                    navigate()
-                }
-            )
-        }
+
+        MiniGameTimerComposable(viewModel,
+            {
+                viewModel.finishGame()
+                navigate()
+            }
+        )
+
     }
 }
 
