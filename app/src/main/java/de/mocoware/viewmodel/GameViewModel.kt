@@ -45,6 +45,9 @@ class GameViewModel : ViewModel(){
     private val _light: MutableLiveData<Float> = MutableLiveData<Float>()
     var light: LiveData<Float> = _light
 
+    private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
+    var speed : LiveData<Double> = _speed
+
 
      // Receiver für die Services
     inner class Receiver: BroadcastReceiver() {
@@ -71,6 +74,7 @@ class GameViewModel : ViewModel(){
             }
 
             if (speed != null) {
+                _speed.postValue(speed)
             }
 
             if (licht != null) {

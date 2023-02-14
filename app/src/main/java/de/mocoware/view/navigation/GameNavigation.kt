@@ -59,8 +59,8 @@ fun GameNavigation(
         ){
             ScreeenMGlaufenWithService(
                 viewModel = viewModel,
-                navController = navController,
-                context = context
+                context = context,
+                {navController.navigate(viewModel.routeToMG)}
             )
 
         }
