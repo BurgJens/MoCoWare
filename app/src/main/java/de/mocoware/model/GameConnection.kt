@@ -48,7 +48,11 @@ object GameConnection{
         currentGame = game
     }
 
-    fun getCurrentGame() : Game?{
+    fun setHost(isHost: Boolean) {
+        host = isHost
+    }
+
+    fun getCurrentGame() : Game? {
         return currentGame
     }
 

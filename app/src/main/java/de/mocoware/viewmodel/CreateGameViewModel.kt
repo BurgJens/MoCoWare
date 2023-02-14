@@ -10,7 +10,7 @@ class CreateGameViewModel() : ViewModel() {
     fun createGameAsHost(name: String, rounds: Int, online: Boolean){
         GameConnection.setCurrentGame(Game(name, rounds))
         GameConnection.setOnlineMode(online)
+        GameConnection.setHost(true)
     }
-
 
 }

@@ -1,8 +1,11 @@
 package de.mocoware.model
 
 import de.mocoware.model.minigames.*
-
-import kotlin.random.Random
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Semaphore
+import java.util.concurrent.atomic.AtomicBoolean
 
 enum class MiniGameEnum{
     MGannoyingButtons,
@@ -13,21 +16,28 @@ enum class MiniGameEnum{
 
 class Game (private var name: String, rounds: Int = 5){
 
-    private var gameId = generateGameId()
+    val initialised = AtomicBoolean(false)
 
-    val miniGames = mutableListOf<MiniGame>()
+    private val gameId = generateGameId()
+
+    val miniGamesSemaphore = Semaphore(1)
+    val miniGames = mutableListOf(getRandomMiniGame())
+
+    val wonGames = mutableListOf<Boolean>()
 
     var currentGame = 0
+    var currentRoute = miniGames[currentGame].gameRoute
 
     init {
-        addMinigames(rounds)
+        addMinigames(rounds-1)
+        initialised.set(true)
     }
 
     private fun generateGameId() : String{
         var newID = ""
         val charPool = ('a'..'z') + ('A'..'Z') + ('0'..'9')
         repeat(4){
-            newID += charPool[Random.nextInt(charPool.size)]
+            newID += charPool.random()
         }
         return newID
     }
@@ -41,7 +51,6 @@ class Game (private var name: String, rounds: Int = 5){
     }
 
     fun getCurrentGame() : MiniGame{
-
         return miniGames[currentGame]
     }
 
@@ -49,30 +58,39 @@ class Game (private var name: String, rounds: Int = 5){
         currentGame++
         if(currentGame == miniGames.size){
             currentGame = 0
+            currentRoute = miniGames[currentGame].gameRoute
             return false
         }
         return true
     }
 
-    fun routeToNextMG() : String{
-        return miniGames[currentGame+1].gameRoute
+    fun routeToMG() : String{
+        return miniGames[currentGame].gameRoute
     }
 
     fun addMinigames(amount: Int){
-        miniGames.clear()
-        repeat(amount){
-//            val nextMinigame = MiniGameEnum.values().random()
-            val nextMinigame = MiniGameEnum.MGconfusingButtons
-//            val nextMinigame = listOf(
-//                MiniGameEnum.MGannoyingButtons,
-//                MiniGameEnum.MGconfusingButtons
-//            ).random()
-            when(nextMinigame){
-                MiniGameEnum.MGannoyingButtons -> miniGames.add(MGannoyingButtons())
-                MiniGameEnum.MGlaufenWithService -> miniGames.add(MGlaufenWithService())
-                MiniGameEnum.MGshake -> miniGames.add(MGshake())
-                MiniGameEnum.MGconfusingButtons -> miniGames.add(MGconfusingButtons())
+        CoroutineScope(Dispatchers.Main).launch{
+            miniGamesSemaphore.acquire()
+            miniGames.clear()
+            repeat(amount){
+                miniGames.add(getRandomMiniGame())
             }
+            miniGamesSemaphore.release()
         }
+    }
+
+    fun getRandomMiniGame() : MiniGame{
+//        val nextMinigame = MiniGameEnum.values().random()
+        val nextMinigame = listOf(
+            MiniGameEnum.MGannoyingButtons,
+            MiniGameEnum.MGconfusingButtons
+        ).random()
+        when(nextMinigame){
+            MiniGameEnum.MGannoyingButtons -> return (MGannoyingButtons())
+            MiniGameEnum.MGlaufenWithService -> return (MGlaufenWithService())
+            MiniGameEnum.MGshake ->return (MGshake())
+            MiniGameEnum.MGconfusingButtons -> return (MGconfusingButtons())
+        }
+
     }
 }

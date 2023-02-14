@@ -5,9 +5,15 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.Game
+import de.mocoware.model.GameConnection
 import de.mocoware.model.MiniGameTimer
 import de.mocoware.view.navigation.NavMG
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 class GameViewModel : ViewModel(){
@@ -54,7 +60,13 @@ class GameViewModel : ViewModel(){
         }
     }
 
-    var game = Game("Bla")
+    val game : Game by lazy {
+        val test = GameConnection.getCurrentGame()
+        if (test == null){
+            Game("Kann nich sein",5)
+        } else
+            test
+    }
 
     var currentMG = game.getCurrentGame()
 
@@ -65,35 +77,44 @@ class GameViewModel : ViewModel(){
     var routeToMG = currentMG.gameRoute
 
    init {
-
        println("test${currentMG.gameRoute}")
    }
 
-//    fun updateGamedata(){
-//        gameDataLive.postValue(currentGameData)
-//    }
-
-    fun finishGame(won : Boolean = false){
-
-        gameTimer._time.postValue(timeToPlay+timeToStart)
-        gameTimer._isTimeUp.postValue(false)
-        gameTimer.timer.cancel()
-
-        gameStartTimer._time.postValue(timeToStart)
-        gameStartTimer._isTimeUp.postValue(false)
-        gameStartTimer.timer.cancel()
-
+    fun updateGamedata(){
         val nextGame = game.nextGame()
-        currentMG = game.getCurrentGame()
-        currentGameData = currentMG.gameData
         if(nextGame){
-            routeToMG = game.routeToNextMG()
+            routeToMG = game.routeToMG()
         }else{
             routeToMG = NavMG.Lobby.route
         }
-        println("                                                                    $routeToMG")
+    }
 
-//        updateGamedata()
+
+    val canFinish = AtomicBoolean(true)
+    fun finishMiniGame(won : Boolean = false, navigate : () -> Unit){
+        if (canFinish.get()) CoroutineScope(Dispatchers.Default).launch {
+            canFinish.set(false)
+
+            game.wonGames.add(won)
+
+            gameTimer._time.postValue(timeToPlay+timeToStart)
+            gameTimer._isTimeUp.postValue(false)
+            gameTimer.timer.cancel()
+
+            gameStartTimer._time.postValue(timeToStart)
+            gameStartTimer._isTimeUp.postValue(false)
+            gameStartTimer.timer.cancel()
+
+            updateGamedata()
+
+            println("                                                                    $routeToMG")
+
+            withContext(Dispatchers.Main){
+                navigate()
+            }
+
+            canFinish.set(true)
+        }
     }
 
     val timeToPlay = 10

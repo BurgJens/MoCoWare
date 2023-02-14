@@ -44,7 +44,7 @@ fun GameNavigation(
         ) {
             ScreenMGannoyingButtons(
                 viewModel,
-                viewModel.currentGameData as DataMGannoyingButtons,  // <- lieber gesammte data class?
+//                viewModel.currentGameData as DataMGannoyingButtons,  // <- lieber gesammte data class?
                 {navController.navigate(viewModel.routeToMG)}
             )
         }
@@ -53,7 +53,7 @@ fun GameNavigation(
         ) {
             ScreenMGconfusingColorButtons(
                 viewModel,
-                viewModel.currentGameData as DataMGconfusingButtons,
+//                viewModel.currentGameData as DataMGconfusingButtons,
                 {navController.navigate(viewModel.routeToMG)}
             )
         }

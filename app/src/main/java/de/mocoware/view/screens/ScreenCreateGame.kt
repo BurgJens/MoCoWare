@@ -93,18 +93,16 @@ fun ScreenCreateGameRender(
             }
         }
 
-        val boolState = remember{mutableStateOf(false)}
-
-
+        val isOnline = remember{mutableStateOf(false)}
         Row(
             modifier = Modifier
                 .padding(vertical = 18.dp)
         ){
             Button(
                 modifier = Modifier.padding(horizontal = 20.dp),
-                onClick = {boolState.value = false},
+                onClick = {isOnline.value = false},
                 colors = ButtonDefaults.buttonColors(
-                    if(boolState.value) MaterialTheme.colors.surface else Color.Green
+                    if(isOnline.value) MaterialTheme.colors.surface else Color.Green
                 )
             ){
                 Text(text = "offline")
@@ -114,7 +112,7 @@ fun ScreenCreateGameRender(
                 onClick = {},
 //                onClick = {boolState.value = true},
                 colors = ButtonDefaults.buttonColors(
-                    if(boolState.value) Color.Green else MaterialTheme.colors.surface
+                    if(isOnline.value) Color.Green else MaterialTheme.colors.surface
                 )
             ){
                 Text(text = "online")
@@ -126,7 +124,7 @@ fun ScreenCreateGameRender(
             text = "Create Game",
             onClick = {
                 if (textState.value.text != "") 
-                    clickCreateGame(textState.value.text,  intState.value, boolState.value)
+                    clickCreateGame(textState.value.text,  intState.value, isOnline.value)
                 else
                     {}
             }

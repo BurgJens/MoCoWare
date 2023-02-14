@@ -2,8 +2,6 @@ package de.mocoware.view.screens.minigames
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,14 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.mocoware.model.minigames.DataMGconfusingButtons
 import de.mocoware.view.elements.GenericButton
-import de.mocoware.view.elements.MiniGameStartTimerComposable
 import de.mocoware.view.elements.MiniGameTimerComposable
 import de.mocoware.viewmodel.GameViewModel
 
 @Composable
 fun ScreenMGconfusingColorButtons(
     viewModel : GameViewModel,
-    gameData : DataMGconfusingButtons,
+//    gameData : DataMGconfusingButtons,
     navigate : () -> Unit,
 ) {
 
@@ -37,6 +34,10 @@ fun ScreenMGconfusingColorButtons(
 
     var failed by remember {mutableStateOf(false)}
 
+    var gameData by remember {mutableStateOf(viewModel.currentGameData as DataMGconfusingButtons)}
+
+    viewModel.currentGameData as DataMGconfusingButtons
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -65,8 +66,7 @@ fun ScreenMGconfusingColorButtons(
                                 color = each.color,
                                 onClick = {
                                     if (!failed) {
-                                        viewModel.finishGame()
-                                        navigate()
+                                        viewModel.finishMiniGame(true, {navigate()})
                                     }
                                 }
                             )
@@ -92,91 +92,14 @@ fun ScreenMGconfusingColorButtons(
             failedCard()
         }
 
-        MiniGameTimerComposable(viewModel,
+        MiniGameTimerComposable(
+            viewModel,
             {
-                viewModel.finishGame()
-                navigate()
+                viewModel.finishMiniGame(false, {navigate()})
             }
         )
 
     }
-}
-
-@Composable
-fun ScreenMGconfusingColorButtonsContent(
-    viewModel : GameViewModel,
-    gameData : DataMGconfusingButtons,
-    navigate : () -> Unit,
-) {
-    var failed by remember {mutableStateOf(false)}
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
-                modifier = Modifier,
-                contentAlignment = Alignment.Center
-            ) {
-                for (each in gameData.confusingButtonList) {
-                    when (each.winButton) {
-                        false ->
-                            ConfusingButton(
-                                offsetX = each.x,
-                                text = "",
-                                color = each.color,
-                                onClick = { failed = true }
-                            )
-                        true ->
-                            FinalButtonConfusing(
-                                offsetX = each.x,
-                                text = "",
-                                color = each.color,
-                                onClick = {
-                                    if (!failed) {
-                                        viewModel.finishGame()
-                                        navigate()
-                                    }
-                                }
-                            )
-
-                    }
-                }
-            }
-
-            Row() {
-                Text(
-                    text = "Drück auf ",
-                    fontSize = 24.sp
-                )
-                Text(
-                    text = gameData.confusingText,
-                    color = gameData.fakeColor,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 24.sp
-                )
-            }
-        }
-        if (failed) {
-            failedCard()
-        }
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.TopStart
-        ) {
-            MiniGameTimerComposable(viewModel,
-                {
-                    viewModel.finishGame()
-                    navigate()
-                }
-            )
-        }
-    }
-
 }
 
 @Composable
