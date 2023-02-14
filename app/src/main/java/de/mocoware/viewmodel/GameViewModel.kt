@@ -68,13 +68,16 @@ class GameViewModel : ViewModel(){
             test
     }
 
-    var currentMG = game.getCurrentGame()
+    val currentMG
+        get() = game.getCurrentGame()
 
-    var currentGameData = currentMG.gameData
+    val currentGameData
+        get() =  currentMG.gameData
 
 //    val gameDataLive = MutableLiveData<GameData>()
 
-    var routeToMG = currentMG.gameRoute
+    val routeToMG
+        get() = currentMG.gameRoute
 
    init {
        println("test${currentMG.gameRoute}")
@@ -82,17 +85,17 @@ class GameViewModel : ViewModel(){
 
     fun updateGamedata(){
         val nextGame = game.nextGame()
-        if(nextGame){
+        /*if(nextGame){
             routeToMG = game.routeToMG()
         }else{
             routeToMG = NavMG.Lobby.route
-        }
+        }*/
     }
 
 
     val canFinish = AtomicBoolean(true)
-    fun finishMiniGame(won : Boolean = false, navigate : () -> Unit){
-        if (canFinish.get()) CoroutineScope(Dispatchers.Default).launch {
+    fun finishMiniGame(won : Boolean = false, navigate : (route: String) -> Unit){
+        if (canFinish.get())  {
             canFinish.set(false)
 
             game.wonGames.add(won)
@@ -109,9 +112,9 @@ class GameViewModel : ViewModel(){
 
             println("                                                                    $routeToMG")
 
-            withContext(Dispatchers.Main){
-                navigate()
-            }
+           // withContext(Dispatchers.Main){
+                navigate(routeToMG)
+            //}
 
             canFinish.set(true)
         }

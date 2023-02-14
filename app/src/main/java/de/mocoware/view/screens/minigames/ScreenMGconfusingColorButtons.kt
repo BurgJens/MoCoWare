@@ -25,17 +25,15 @@ import de.mocoware.viewmodel.GameViewModel
 @Composable
 fun ScreenMGconfusingColorButtons(
     viewModel : GameViewModel,
-//    gameData : DataMGconfusingButtons,
-    navigate : () -> Unit,
+    gameData : () -> DataMGconfusingButtons,
+    navigate : (route: String) -> Unit,
 ) {
 
     val context = LocalContext.current as Activity
     context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
     var failed by remember {mutableStateOf(false)}
-
-    var gameData by remember {mutableStateOf(viewModel.currentGameData as DataMGconfusingButtons)}
-
+    val g = gameData()
     viewModel.currentGameData as DataMGconfusingButtons
 
     Box(
@@ -50,7 +48,7 @@ fun ScreenMGconfusingColorButtons(
                 modifier = Modifier,
                 contentAlignment = Alignment.Center
             ) {
-                for (each in gameData.confusingButtonList) {
+                for (each in g.confusingButtonList) {
                     when (each.winButton) {
                         false ->
                             ConfusingButton(
@@ -66,7 +64,7 @@ fun ScreenMGconfusingColorButtons(
                                 color = each.color,
                                 onClick = {
                                     if (!failed) {
-                                        viewModel.finishMiniGame(true, {navigate()})
+                                        viewModel.finishMiniGame(true, {navigate(it)})
                                     }
                                 }
                             )
@@ -81,8 +79,8 @@ fun ScreenMGconfusingColorButtons(
                     fontSize = 24.sp
                 )
                 Text(
-                    text = gameData.confusingText,
-                    color = gameData.fakeColor,
+                    text = g.confusingText,
+                    color = g.fakeColor,
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 24.sp
                 )
@@ -95,7 +93,7 @@ fun ScreenMGconfusingColorButtons(
         MiniGameTimerComposable(
             viewModel,
             {
-                viewModel.finishMiniGame(false, {navigate()})
+                viewModel.finishMiniGame(false, {navigate(it)})
             }
         )
 
