@@ -5,8 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import de.mocoware.model.minigames.DataMGLoRButtonMasher
 import de.mocoware.model.minigames.DataMGannoyingButtons
 import de.mocoware.model.minigames.DataMGconfusingButtons
+import de.mocoware.model.minigames.MGLoRButtonMasher
 import de.mocoware.view.screens.ScreenLobby
 import de.mocoware.view.screens.minigames.*
 import de.mocoware.viewmodel.GameViewModel
@@ -19,6 +21,7 @@ sealed class NavMG(val route : String){
     object MGlaufenWithSerivce : NavMG("laufenWithService")
     object MGshake : NavMG("shake")
     object MGbeleuchtung : NavMG("beleuchtung")
+    object MGLoRButtonMasher : NavMG("ButtonMasher")
 }
 
 @Composable
@@ -81,6 +84,17 @@ fun GameNavigation(
             ScreenMGbeleuchtung(
                 viewModel = viewModel,
                 context = context,
+                {navController.navigate(viewModel.routeToMG)}
+
+            )
+
+        }
+        composable(
+            route = NavMG.MGLoRButtonMasher.route
+        ){
+            ScreenMGLoRButtonMasher(
+                viewModel = viewModel,
+                viewModel.currentGameData as DataMGLoRButtonMasher,
                 {navController.navigate(viewModel.routeToMG)}
 
             )
