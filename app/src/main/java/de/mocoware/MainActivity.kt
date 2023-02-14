@@ -60,6 +60,8 @@ class MainActivity : ComponentActivity() {
             .registerReceiver(gameViewModel.Receiver(), IntentFilter("Accel"))
         LocalBroadcastManager.getInstance(this)
             .registerReceiver(gameViewModel.Receiver(), IntentFilter("Gyro"))
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter("Light"))
 
         setContent {
 

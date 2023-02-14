@@ -47,7 +47,7 @@ fun MiniGameTimerComposable(
         Card(
             modifier = Modifier
                 .height(80.dp)
-                .width(80.dp),
+                .width(160.dp),
             backgroundColor = bgColor
         ) {
             Text(

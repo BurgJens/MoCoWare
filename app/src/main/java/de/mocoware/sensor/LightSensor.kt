@@ -34,17 +34,8 @@ class LightSensor:Service(),SensorEventListener {
     override fun onSensorChanged(event: SensorEvent?) {
         event?: return
 
-        var lichtWert1=event.values[0]
-        var lichtWert2=event.values[1]
-        var lichtWert3=event.values[2]
+        val lichtWert1=event.values[0]
 
-
-
-
-        println(" ")
-        println(lichtWert1)
-        println(lichtWert2)
-        println(lichtWert3)
 
 
 

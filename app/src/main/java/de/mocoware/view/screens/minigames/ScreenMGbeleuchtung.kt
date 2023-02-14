@@ -11,14 +11,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import de.mocoware.model.minigames.Beleuchtung
 import de.mocoware.model.minigames.Shake
 import de.mocoware.sensor.Accelerometer
+import de.mocoware.sensor.LightSensor
 import de.mocoware.view.elements.MiniGameTimerComposable
 import de.mocoware.viewmodel.GameViewModel
 import kotlin.math.roundToInt
 
+
 @Composable
-fun ScreenMGshake(
+fun ScreenMGbeleuchtung(
     viewModel : GameViewModel,
     context: Context,
     navigate : () -> Unit
@@ -29,12 +32,12 @@ fun ScreenMGshake(
         contentAlignment = Alignment.Center
     ) {
 
-        var test = viewModel.currentMG.gameData.data as Shake
-        val accelObserve by viewModel.accel.observeAsState()
+        var test = viewModel.currentMG.gameData.data as Beleuchtung
+        val beleuchtugObserve by viewModel.light.observeAsState()
 
-        if (!viewModel.serviceAccelIstAktiv){
-            context.startService(Intent(context,Accelerometer::class.java))
-            viewModel.serviceAccelIstAktiv=true
+        if (!viewModel.serviceLightIstAktiv){
+            context.startService(Intent(context, LightSensor::class.java))
+            viewModel.serviceLightIstAktiv=true
         }
 
 
@@ -44,12 +47,9 @@ fun ScreenMGshake(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(modifier = Modifier.padding(20.dp), text ="${test.testAufgabe}", color = Color.Black)
-            Text(modifier = Modifier.padding(20.dp), text ="max X Wert: ${accelObserve?.get(0)?.roundToInt()}", color = Color.Red)
-            Text(modifier = Modifier.padding(20.dp), text ="max Y Wert: ${accelObserve?.get(1)?.roundToInt()}", color = Color.Red)
-            Text(modifier = Modifier.padding(20.dp), text ="max Z Wert: ${accelObserve?.get(2)?.roundToInt()}", color = Color.Red)
+            Text(modifier = Modifier.padding(20.dp), text ="Licht Wert: ${beleuchtugObserve?.roundToInt()}", color = Color.Red)
+
         }
-
-
 
         MiniGameTimerComposable(
             viewModel,

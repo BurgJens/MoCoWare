@@ -3,6 +3,8 @@ package de.mocoware.viewmodel
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.Game
 import de.mocoware.model.MiniGameTimer
@@ -11,16 +13,45 @@ import java.util.*
 
 
 class GameViewModel : ViewModel(){
-    var axisXGyro:Float= 0.0F       // Für Gyroskope start Orientierung
-    var axisYGyro:Float= 0.0F       // ..
-    var axisZGyro:Float= 0.0F       // ..
+
+    var game = Game("Bla")
+
+    var currentMG = game.getCurrentGame()
+
+    var currentGameData = currentMG.gameData
+
+//  val gameDataLive = MutableLiveData<GameData>()
+
+    var routeToMG = currentMG.gameRoute
+
+    // Für Gyroskope start Orientierung
+    var axisXGyro:Float= 0.0F
+    var axisYGyro:Float= 0.0F
+    var axisZGyro:Float= 0.0F
+
+    // Maximale beschleunigungswerte
+    var maxXwert=0.0f
+    var maxYwert=0.0f
+    var maxZwert=0.0f
+
+    var serviceAccelIstAktiv=false
+    var serviceSpeedIstAktiv=false
+    var serviceLightIstAktiv=false
+    var serviceGyrpIstAktiv=false
+
+    private val _accel: MutableLiveData<Array<Float>> = MutableLiveData<Array<Float>>()
+    var accel: LiveData<Array<Float>> = _accel
+
+    private val _light: MutableLiveData<Float> = MutableLiveData<Float>()
+    var light: LiveData<Float> = _light
 
 
-
-
+     // Receiver für die Services
     inner class Receiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
+
+            val licht = Objects.requireNonNull(intent.extras)?.getFloat("lichtWert")
 
             val axisX = Objects.requireNonNull(intent.extras)?.getFloat("axisX")
             val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
@@ -32,40 +63,31 @@ class GameViewModel : ViewModel(){
 
             if(axisXGyroReciv != null && axisYGyroReciv!=null && axisZGyroreciv != null){
                 axisXGyro+=axisXGyroReciv
-                println(axisXGyro)
 
                 axisYGyro+=axisYGyroReciv
-                println(axisYGyro)
 
                 axisZGyro+=axisZGyroreciv
-                println(axisZGyro)
 
             }
 
-          // if (speed != null) {
-          //     println(speed)
-          // }
+            if (speed != null) {
+            }
 
-          // if(axisX != null && axisY!=null && axisZ != null){
-          //     println(axisX)
-          //     println(axisY)
-          //     println(axisZ)
-          // }
+            if (licht != null) {
+                if (_light.value==null) _light.value=licht
+                if (licht > _light.value!!) _light.value=licht
+
+
+            }
+            if(axisX != null && axisY!=null && axisZ != null){
+               setAcc(axisX,axisY,axisZ)
+            }
         }
     }
 
-    var game = Game("Bla")
 
-    var currentMG = game.getCurrentGame()
-
-    var currentGameData = currentMG.gameData
-
-//    val gameDataLive = MutableLiveData<GameData>()
-
-    var routeToMG = currentMG.gameRoute
 
    init {
-
        println("test${currentMG.gameRoute}")
    }
 
@@ -91,7 +113,7 @@ class GameViewModel : ViewModel(){
         }else{
             routeToMG = NavMG.Lobby.route
         }
-        println("                                                                    $routeToMG")
+        println("  $routeToMG")
 
 //        updateGamedata()
     }
@@ -108,6 +130,21 @@ class GameViewModel : ViewModel(){
 //    }
 
 
+   fun setAcc(floatX: Float,floatY: Float,floatZ: Float){
+
+       if (floatX>maxXwert) {
+           maxXwert=floatX
+           _accel.postValue(arrayOf(maxXwert,maxYwert,maxZwert))
+       }
+       if (floatY>maxYwert) {
+           maxYwert=floatY
+           _accel.postValue(arrayOf(maxXwert,maxYwert,maxZwert))
+       }
+       if (floatZ>maxZwert) {
+           maxZwert=floatZ
+           _accel.postValue(arrayOf(maxXwert,maxYwert,maxZwert))
+       }
+   }
 
 
 
@@ -143,17 +180,13 @@ class GameViewModel : ViewModel(){
 //    private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
 //    var speed : LiveData<Double> = _speed
 //
-//    private val _accel: MutableLiveData<Array<Float>> = MutableLiveData<Array<Float>>()
-//    var accel:LiveData<Array<Float>> = _accel
+
 //
 //////    private var game : Game = Game("anusBenus")
 ////    private val _game : MutableLiveData<Game> = MutableLiveData<Game>(game)
 ////    val liveGame : LiveData<Game> = _game
 //
-//    // Maximale beschleunigungswerte
-//    var maxXwet=0.0f
-//    var maxYwet=0.0f
-//    var maxZwet=0.0f
+
 //
 ////    init {
 ////        setSpeed(0.0)
@@ -175,22 +208,7 @@ class GameViewModel : ViewModel(){
 //        _speed.postValue(double)
 //    }
 //
-//    fun setAcc(floatX: Float,floatY: Float,floatZ: Float){
-//
-//        if (floatX>maxXwet) {
-//            maxXwet=floatX
-//            _accel.postValue(arrayOf(maxXwet,maxYwet,maxZwet))
-//        }
-//        if (floatY>maxYwet) {
-//            maxYwet=floatY
-//            _accel.postValue(arrayOf(maxXwet,maxYwet,maxZwet))
-//        }
-//        if (floatZ>maxZwet) {
-//            maxZwet=floatZ
-//            _accel.postValue(arrayOf(maxXwet,maxYwet,maxZwet))
-//        }
-//    }
-//
+
 
 //
 //    fun getCurrentGameName(): String{

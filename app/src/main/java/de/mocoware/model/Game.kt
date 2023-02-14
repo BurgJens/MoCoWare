@@ -8,7 +8,8 @@ enum class MiniGameEnum{
     MGannoyingButtons,
     MGlaufenWithService,
     MGshake,
-    MGconfusingButtons
+    MGconfusingButtons,
+    MGbeleuchtung
 }
 
 class Game (private var name: String, rounds: Int = 5){
@@ -62,7 +63,7 @@ class Game (private var name: String, rounds: Int = 5){
         miniGames.clear()
         repeat(amount){
 //            val nextMinigame = MiniGameEnum.values().random()
-            val nextMinigame = MiniGameEnum.MGconfusingButtons
+            val nextMinigame = MiniGameEnum.MGbeleuchtung
 //            val nextMinigame = listOf(
 //                MiniGameEnum.MGannoyingButtons,
 //                MiniGameEnum.MGconfusingButtons
@@ -72,6 +73,7 @@ class Game (private var name: String, rounds: Int = 5){
                 MiniGameEnum.MGlaufenWithService -> miniGames.add(MGlaufenWithService())
                 MiniGameEnum.MGshake -> miniGames.add(MGshake())
                 MiniGameEnum.MGconfusingButtons -> miniGames.add(MGconfusingButtons())
+                MiniGameEnum.MGbeleuchtung -> miniGames.add(MGbeleuchtung())
             }
         }
     }
