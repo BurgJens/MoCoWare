@@ -26,7 +26,7 @@ import de.mocoware.viewmodel.GameViewModel
 fun ScreenMGconfusingColorButtons(
     viewModel : GameViewModel,
     gameData : () -> DataMGconfusingButtons,
-    navigate : (route: String) -> Unit,
+    navigate : () -> Unit,
 ) {
 
     val context = LocalContext.current as Activity
@@ -34,7 +34,7 @@ fun ScreenMGconfusingColorButtons(
 
     var failed by remember {mutableStateOf(false)}
     val g = gameData()
-    viewModel.currentGameData as DataMGconfusingButtons
+    viewModel.currentMGgameData as DataMGconfusingButtons
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -64,7 +64,7 @@ fun ScreenMGconfusingColorButtons(
                                 color = each.color,
                                 onClick = {
                                     if (!failed) {
-                                        viewModel.finishMiniGame(true, {navigate(it)})
+                                        viewModel.finishMiniGame(true, {navigate()})
                                     }
                                 }
                             )
@@ -93,7 +93,7 @@ fun ScreenMGconfusingColorButtons(
         MiniGameTimerComposable(
             viewModel,
             {
-                viewModel.finishMiniGame(false, {navigate(it)})
+                viewModel.finishMiniGame(false, {navigate()})
             }
         )
 

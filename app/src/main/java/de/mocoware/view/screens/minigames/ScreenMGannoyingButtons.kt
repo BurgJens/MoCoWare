@@ -20,7 +20,7 @@ import de.mocoware.viewmodel.GameViewModel
 fun ScreenMGannoyingButtons(
     viewModel : GameViewModel,
     gameData : () -> DataMGannoyingButtons,
-    navigate : (route: String) -> Unit,
+    navigate : () -> Unit,
 ){
     val context = LocalContext.current as Activity
     context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -49,7 +49,7 @@ fun ScreenMGannoyingButtons(
                             offsetY = each.offsetY.dp,
                             rotation = each.rotation)
                         {
-                        viewModel.finishMiniGame(true, {navigate(it)})
+                        viewModel.finishMiniGame(true, {navigate()})
                         }
                 }
         }
@@ -57,7 +57,7 @@ fun ScreenMGannoyingButtons(
         MiniGameTimerComposable(
             viewModel,
             {
-                viewModel.finishMiniGame(false, {navigate(it)})
+                viewModel.finishMiniGame(false, {navigate()})
             }
         )
 

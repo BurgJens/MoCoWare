@@ -3,15 +3,10 @@ package de.mocoware.viewmodel
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import de.mocoware.model.Game
-import de.mocoware.model.GameConnection
-import de.mocoware.model.MiniGameTimer
-import de.mocoware.view.navigation.NavMG
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import de.mocoware.model.*
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -68,14 +63,17 @@ class GameViewModel : ViewModel(){
             test
     }
 
+    val currentMGlive = MutableLiveData(currentMG)
     val currentMG
         get() = game.getCurrentGame()
 
-    val currentGameData
+    val currentMGgameDataLive = MutableLiveData(currentMGgameData)
+    val currentMGgameData
         get() =  currentMG.gameData
 
 //    val gameDataLive = MutableLiveData<GameData>()
 
+    val routeToMGlive = MutableLiveData(routeToMG)
     val routeToMG
         get() = currentMG.gameRoute
 
@@ -85,16 +83,15 @@ class GameViewModel : ViewModel(){
 
     fun updateGamedata(){
         val nextGame = game.nextGame()
-        /*if(nextGame){
-            routeToMG = game.routeToMG()
-        }else{
-            routeToMG = NavMG.Lobby.route
-        }*/
+
+        currentMGlive.postValue(currentMG)
+        currentMGgameDataLive.postValue(currentMGgameData)
+        routeToMGlive.postValue(routeToMG)
     }
 
 
     val canFinish = AtomicBoolean(true)
-    fun finishMiniGame(won : Boolean = false, navigate : (route: String) -> Unit){
+    fun finishMiniGame(won : Boolean = false, navigate : () -> Unit){
         if (canFinish.get())  {
             canFinish.set(false)
 
@@ -113,7 +110,7 @@ class GameViewModel : ViewModel(){
             println("                                                                    $routeToMG")
 
            // withContext(Dispatchers.Main){
-                navigate(routeToMG)
+                navigate()
             //}
 
             canFinish.set(true)

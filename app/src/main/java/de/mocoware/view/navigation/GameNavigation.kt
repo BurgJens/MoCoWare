@@ -1,8 +1,10 @@
 package de.mocoware.view.navigation
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -32,6 +34,10 @@ fun GameNavigation(
 ) {
     val navController = rememberNavController()
 
+    val currentMGlive by viewModel.currentMGlive.observeAsState()
+    val currentMGgameDataLive by viewModel.currentMGgameDataLive.observeAsState()
+    val routeToMGlive by viewModel.routeToMGlive.observeAsState()
+
     NavHost(navController = navController, startDestination = NavMG.Lobby.route) {
         composable(
             route = NavMG.Lobby.route
@@ -43,29 +49,25 @@ fun GameNavigation(
         composable(
             route = NavMG.MGannoyingButton.route
         ) {
-            if (viewModel.currentGameData is DataMGannoyingButtons) {
-                ScreenMGannoyingButtons(
-                    viewModel,
-                    { viewModel.currentGameData as DataMGannoyingButtons },
-                    {
-                        navController.navigate(it)
-                    }
-                )
-            }
+            ScreenMGannoyingButtons(
+                viewModel,
+                { currentMGgameDataLive as DataMGannoyingButtons },
+                {
+                    routeToMGlive?.let { it1 -> navController.navigate(it1) }
+                }
+            )
 
         }
         composable(
             route = NavMG.MGconfusingButtons.route
         ) {
-            if (viewModel.currentGameData is DataMGconfusingButtons) {
-                ScreenMGconfusingColorButtons(
-                    viewModel,
-                    { viewModel.currentGameData as DataMGconfusingButtons },
-                    {
-                        navController.navigate(it)
-                    }
-                )
-            }
+            ScreenMGconfusingColorButtons(
+                viewModel,
+                { currentMGgameDataLive as DataMGconfusingButtons },
+                {
+                    routeToMGlive?.let { it1 -> navController.navigate(it1) }
+                }
+            )
         }
         composable(
             route = NavMG.MGlaufenWithSerivce.route
