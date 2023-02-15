@@ -1,9 +1,6 @@
 package de.mocoware.view.elements
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -39,23 +36,53 @@ fun MiniGameTimerComposable(
         onTimeFinished()
     }
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.TopStart
-    ) {
 
-        Card(
-            modifier = Modifier
-                .height(80.dp)
-                .width(160.dp),
-            backgroundColor = bgColor
+    if (time!! <= 10){
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.TopStart
         ) {
+
+            Card(
+                modifier = Modifier
+                    .height(80.dp)
+                    .width(160.dp),
+                backgroundColor = bgColor
+            ) {
+                Text(
+                    text = "$time",
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 64.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+    }
+    if (time!! >10){
+
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+
+            Card(
+                modifier=Modifier.fillMaxSize(),
+                backgroundColor = bgColor
+            ) {
+
+            }
             Text(
-                text = "$time",
+                text = "${time!! -10}",
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 64.sp,
+                fontSize = 90.sp,
                 textAlign = TextAlign.Center
             )
+
         }
+
     }
+
+
+
 }

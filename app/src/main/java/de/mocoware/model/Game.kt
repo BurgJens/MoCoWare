@@ -1,6 +1,8 @@
 package de.mocoware.model
 
 import de.mocoware.model.minigames.*
+import de.mocoware.view.navigation.NavMG
+import de.mocoware.view.navigation.NavScreen
 
 import kotlin.random.Random
 
@@ -56,6 +58,7 @@ class Game (private var name: String, rounds: Int = 5){
     }
 
     fun routeToNextMG() : String{
+        if (currentGame==miniGames.size-1) return NavMG.Lobby.route
         return miniGames[currentGame+1].gameRoute
     }
 

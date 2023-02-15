@@ -123,7 +123,7 @@ class GameViewModel : ViewModel(){
     }
 
     val timeToPlay = 10
-    val timeToStart = 3
+    val timeToStart = 4
 
     val gameTimer = MiniGameTimer(timeToPlay+timeToStart)
     val gameStartTimer = MiniGameTimer(timeToStart)
