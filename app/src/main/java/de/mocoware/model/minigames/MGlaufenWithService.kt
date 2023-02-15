@@ -7,6 +7,7 @@ import de.mocoware.view.navigation.NavMG
 
 
 data class DataMGlaufenWithService(override var data: Any):GameData{
+    var text="Laufe 14 KM/H schnell !!!"
 }
 
 

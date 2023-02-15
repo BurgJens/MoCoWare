@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.Game
 import de.mocoware.model.MiniGameTimer
+import de.mocoware.model.minigames.*
 import de.mocoware.view.navigation.NavMG
 import java.util.*
 
@@ -47,6 +48,15 @@ class GameViewModel : ViewModel(){
 
     private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
     var speed : LiveData<Double> = _speed
+
+
+    // Nur wegen Cats problem
+    val gameDatMGannoyingButtons = MGannoyingButtons().gameData as DataMGannoyingButtons
+    val gameDatMGlaufenWithService = MGlaufenWithService().gameData  as DataMGlaufenWithService
+    val gameDatMGconfusingButtons = MGconfusingButtons().gameData as DataMGconfusingButtons
+    val gameDatMGshake = MGshake().gameData as DataMGshake
+    val gameDatMGbeleuchtung = MGbeleuchtung().gameData  as DataMGbeleuchtung
+
 
 
      // Receiver für die Services

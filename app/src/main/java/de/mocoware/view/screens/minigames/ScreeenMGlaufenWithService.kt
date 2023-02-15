@@ -34,7 +34,7 @@ fun ScreeenMGlaufenWithService(
         contentAlignment = Alignment.Center
     ) {
 
-        var test = viewModel.currentMG.gameData.data as LaufenWithService
+        var test = viewModel.gameDatMGlaufenWithService
         val speedObserve by viewModel.speed.observeAsState()
 
         if (!viewModel.serviceSpeedIstAktiv){
@@ -50,7 +50,7 @@ fun ScreeenMGlaufenWithService(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(modifier = Modifier.padding(20.dp), text ="${test.testAufgabe}", color = Color.Black)
+            Text(modifier = Modifier.padding(20.dp), text ="${test.text}", color = Color.Black)
             Text(modifier = Modifier.padding(20.dp), text ="Geschwindigkeit: ${speedObserve}", color = Color.Red)
 
         }

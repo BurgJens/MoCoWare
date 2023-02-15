@@ -29,7 +29,7 @@ fun ScreenMGshake(
         contentAlignment = Alignment.Center
     ) {
 
-        var test = viewModel.currentMG.gameData.data as Shake
+        val test = viewModel.gameDatMGshake
         val accelObserve by viewModel.accel.observeAsState()
 
         if (!viewModel.serviceAccelIstAktiv){
@@ -43,7 +43,7 @@ fun ScreenMGshake(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(modifier = Modifier.padding(20.dp), text ="${test.testAufgabe}", color = Color.Black)
+            Text(modifier = Modifier.padding(20.dp), text ="${test.text}", color = Color.Black)
             Text(modifier = Modifier.padding(20.dp), text ="max X Wert: ${accelObserve?.get(0)?.roundToInt()}", color = Color.Red)
             Text(modifier = Modifier.padding(20.dp), text ="max Y Wert: ${accelObserve?.get(1)?.roundToInt()}", color = Color.Red)
             Text(modifier = Modifier.padding(20.dp), text ="max Z Wert: ${accelObserve?.get(2)?.roundToInt()}", color = Color.Red)

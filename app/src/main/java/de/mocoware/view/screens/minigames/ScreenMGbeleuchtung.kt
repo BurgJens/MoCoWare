@@ -32,7 +32,7 @@ fun ScreenMGbeleuchtung(
         contentAlignment = Alignment.Center
     ) {
 
-        var test = viewModel.currentMG.gameData.data as Beleuchtung
+        var test = viewModel.gameDatMGbeleuchtung
         val beleuchtugObserve by viewModel.light.observeAsState()
 
         if (!viewModel.serviceLightIstAktiv){
@@ -46,7 +46,7 @@ fun ScreenMGbeleuchtung(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(modifier = Modifier.padding(20.dp), text ="${test.testAufgabe}", color = Color.Black)
+            Text(modifier = Modifier.padding(20.dp), text ="${test.text}", color = Color.Black)
             Text(modifier = Modifier.padding(20.dp), text ="Licht Wert: ${beleuchtugObserve?.roundToInt()}", color = Color.Red)
 
         }

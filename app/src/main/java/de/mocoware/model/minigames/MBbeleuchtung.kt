@@ -6,6 +6,7 @@ import de.mocoware.sensor.LightSensor
 import de.mocoware.view.navigation.NavMG
 
 data class DataMGbeleuchtung(override var data: Any):GameData{
+    var text = "Beleuchte dein Handy so stark du kannst !"
 }
 
 
