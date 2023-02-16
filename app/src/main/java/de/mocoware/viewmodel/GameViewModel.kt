@@ -21,9 +21,11 @@ class GameViewModel : ViewModel(){
 
     var game = Game("Bla")
 
-    var currentMG = game.getCurrentGame()
+    var currentMG = game.getCurrentMG()
 
     var currentGameData = currentMG.gameData
+
+    val wonGames = mutableListOf<Boolean>()
 
 //  val gameDataLive = MutableLiveData<GameData>()
 
@@ -55,11 +57,11 @@ class GameViewModel : ViewModel(){
 
 
     // Nur wegen cast problem
-    val gameDatMGannoyingButtons = MGannoyingButtons().gameData as DataMGannoyingButtons
-    val gameDatMGlaufenWithService = MGlaufenWithService().gameData  as DataMGlaufenWithService
-    val gameDatMGconfusingButtons = MGconfusingButtons().gameData as DataMGconfusingButtons
-    val gameDatMGshake = MGshake().gameData as DataMGshake
-    val gameDatMGbeleuchtung = MGbeleuchtung().gameData  as DataMGbeleuchtung
+    var gameDatMGannoyingButtons = MGannoyingButtons().gameData as DataMGannoyingButtons
+    var gameDatMGlaufenWithService = MGlaufenWithService().gameData  as DataMGlaufenWithService
+    var gameDatMGconfusingButtons = MGconfusingButtons().gameData as DataMGconfusingButtons
+    var gameDatMGshake = MGshake().gameData as DataMGshake
+    var gameDatMGbeleuchtung = MGbeleuchtung().gameData  as DataMGbeleuchtung
 
 
 
@@ -109,46 +111,59 @@ class GameViewModel : ViewModel(){
        println("test${currentMG.gameRoute}")
    }
 
-//    fun updateGamedata(){
-//        gameDataLive.postValue(currentGameData)
-//    }
+    fun updateMGdata(){
+        when (currentMG.gameData){
+            is DataMGannoyingButtons ->{
+                gameDatMGannoyingButtons = currentMG.gameData as DataMGannoyingButtons
+            }
+            is DataMGlaufenWithService ->{
+                gameDatMGlaufenWithService = currentMG.gameData as DataMGlaufenWithService
+            }
+            is DataMGconfusingButtons ->{
+                gameDatMGconfusingButtons = currentMG.gameData as DataMGconfusingButtons
+            }
+            is DataMGshake ->{
+                gameDatMGshake = currentMG.gameData as DataMGshake
+            }
+            is DataMGbeleuchtung ->{
+                gameDatMGbeleuchtung = currentMG.gameData as DataMGbeleuchtung
+            }
+        }
+    }
 
-    fun finishGame(won : Boolean = false){
+    fun finishGame(navigate : () -> Unit, won : Boolean = false){
 
-        gameTimer._time.postValue(timeToPlay+timeToStart)
-        gameTimer._isTimeUp.postValue(false)
-        gameTimer.timer.cancel()
-
-        gameStartTimer._time.postValue(timeToStart)
-        gameStartTimer._isTimeUp.postValue(false)
-        gameStartTimer.timer.cancel()
+        wonGames.add(won)
 
         val nextGame = game.nextGame()
-        currentMG = game.getCurrentGame()
+        currentMG = game.getCurrentMG()
         currentGameData = currentMG.gameData
+
         if(nextGame){
-            routeToMG = game.routeToNextMG()
+            routeToMG = game.getRouteToMG()
         }else{
             routeToMG = NavMG.Lobby.route
         }
-        println("  $routeToMG")
 
-//        updateGamedata()
+        updateMGdata()
+
+        navigate()
     }
 
     val timeToPlay = 10
-    val timeToStart = 4
+    val timeToStart = 3
 
-    val gameTimer = MiniGameTimer(timeToPlay+timeToStart)
-    val gameStartTimer = MiniGameTimer(timeToStart)
+    var gameTimer = MiniGameTimer(timeToPlay)
+    fun resetGameTimer(){
+        gameTimer = MiniGameTimer(timeToPlay)
+    }
 
-//        fun setTime(int: Int){
-//        _timer.postValue(int)
-//
-//    }
+    var gameStartTimer = MiniGameTimer(timeToStart)
+    fun resetGameStartTimer(){
+        gameStartTimer = MiniGameTimer(timeToStart)
+    }
 
-
-   fun setAcc(floatX: Float,floatY: Float,floatZ: Float){
+    fun setAcc(floatX: Float,floatY: Float,floatZ: Float){
 
        if (floatX>maxXwert) {
            maxXwert=floatX
@@ -162,79 +177,6 @@ class GameViewModel : ViewModel(){
            maxZwert=floatZ
            _accel.postValue(arrayOf(maxXwert,maxYwert,maxZwert))
        }
-   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//
-//    private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
-//    var speed : LiveData<Double> = _speed
-//
-
-//
-//////    private var game : Game = Game("anusBenus")
-////    private val _game : MutableLiveData<Game> = MutableLiveData<Game>(game)
-////    val liveGame : LiveData<Game> = _game
-//
-
-//
-////    init {
-////        setSpeed(0.0)
-////        setTime(30)
-////    }
-//
-////    fun withGame(newGame: Game): GameViewModel{
-////        setGame(newGame)
-////        return this
-////    }
-//
-////    fun setGame(newGame: Game){
-////        game = newGame
-////        _game.postValue(game)
-////    }
-
-//
-//    fun setSpeed(double: Double){
-//        _speed.postValue(double)
-//    }
-//
-
-
-//
-//    fun getCurrentGameName(): String{
-//        return GameConnection?.getCurrentGameName() ?: "NoCurrentGame"
-//    }
-//
-//    fun getCurrentGameID(): String{
-//        return GameConnection?.getCurrentGameID() ?: "NONE"
-//    }
+    }
 }
 

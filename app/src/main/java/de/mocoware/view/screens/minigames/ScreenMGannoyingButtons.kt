@@ -47,8 +47,7 @@ fun ScreenMGannoyingButtons(
                             offsetY = each.offsetY.dp,
                             rotation = each.rotation)
                         {
-                        viewModel.finishGame()
-                        navigate()
+                        viewModel.finishGame({ navigate() }, true)
                         }
                 }
         }
@@ -56,8 +55,7 @@ fun ScreenMGannoyingButtons(
         MiniGameTimerComposable(
             viewModel,
             {
-                viewModel.finishGame()
-                navigate()
+                viewModel.finishGame({ navigate() }, false)
             }
         )
 

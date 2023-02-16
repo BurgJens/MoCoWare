@@ -29,6 +29,7 @@ fun MiniGameTimerComposable(
     if (firstDraw){
         firstDraw = false
         viewModel.gameTimer.tryStart()
+        viewModel.resetGameStartTimer()
     }
 
     if (isTimeUp!! && shouldNavigate){
@@ -36,8 +37,6 @@ fun MiniGameTimerComposable(
         onTimeFinished()
     }
 
-
-    if (time!! <= 10){
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.TopStart
@@ -57,32 +56,4 @@ fun MiniGameTimerComposable(
                 )
             }
         }
-
-    }
-    if (time!! >10){
-
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-
-            Card(
-                modifier=Modifier.fillMaxSize(),
-                backgroundColor = bgColor
-            ) {
-
-            }
-            Text(
-                text = "${time!! -10}",
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 90.sp,
-                textAlign = TextAlign.Center
-            )
-
-        }
-
-    }
-
-
-
 }

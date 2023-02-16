@@ -31,6 +31,7 @@ fun MiniGameStartTimerComposable(
     if (firstDraw){
         firstDraw = false
         viewModel.gameStartTimer.tryStart()
+        viewModel.resetGameTimer()
     }
 
     if (isTimeUp!! && shouldNavigate){

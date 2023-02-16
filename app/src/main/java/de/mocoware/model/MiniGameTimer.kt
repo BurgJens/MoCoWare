@@ -30,6 +30,7 @@ class MiniGameTimer(val timeToPlay : Int= 10) {
 
     fun tryStart():Boolean{
         if(canStart.get()) {
+            canStart.set(false)
             timer.start()
             return true
         }else{

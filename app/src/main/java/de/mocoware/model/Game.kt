@@ -2,7 +2,6 @@ package de.mocoware.model
 
 import de.mocoware.model.minigames.*
 import de.mocoware.view.navigation.NavMG
-import de.mocoware.view.navigation.NavScreen
 
 import kotlin.random.Random
 
@@ -43,8 +42,7 @@ class Game (private var name: String, rounds: Int = 5){
         return name
     }
 
-    fun getCurrentGame() : MiniGame{
-
+    fun getCurrentMG() : MiniGame{
         return miniGames[currentGame]
     }
 
@@ -57,8 +55,8 @@ class Game (private var name: String, rounds: Int = 5){
         return true
     }
 
-    fun routeToNextMG() : String{
-        if (currentGame==miniGames.size-1) return NavMG.highScore.route
+    fun getRouteToMG() : String{
+        if (currentGame==miniGames.size-1) return NavMG.ScoreScreen.route
         return miniGames[currentGame+1].gameRoute
     }
 
@@ -70,9 +68,9 @@ class Game (private var name: String, rounds: Int = 5){
             val nextMinigame = listOf(
                 MiniGameEnum.MGannoyingButtons,
                 MiniGameEnum.MGconfusingButtons,
-                MiniGameEnum.MGbeleuchtung,
-                MiniGameEnum.MGshake,
-                MiniGameEnum.MGlaufenWithService
+//                MiniGameEnum.MGbeleuchtung,
+//                MiniGameEnum.MGshake,
+//                MiniGameEnum.MGlaufenWithService
             ).random()
 
             when(nextMinigame){

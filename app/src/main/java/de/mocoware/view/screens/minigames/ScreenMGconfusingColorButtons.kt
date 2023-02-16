@@ -65,8 +65,8 @@ fun ScreenMGconfusingColorButtons(
                                 color = each.color,
                                 onClick = {
                                     if (!failed) {
-                                        viewModel.finishGame()
-                                        navigate()
+                                        viewModel.finishGame({ navigate() })
+
                                     }
                                 }
                             )
@@ -94,90 +94,13 @@ fun ScreenMGconfusingColorButtons(
 
         MiniGameTimerComposable(viewModel,
             {
-                viewModel.finishGame()
-                navigate()
+                viewModel.finishGame({ navigate() })
             }
         )
 
     }
 }
 
-@Composable
-fun ScreenMGconfusingColorButtonsContent(
-    viewModel : GameViewModel,
-    gameData : DataMGconfusingButtons,
-    navigate : () -> Unit,
-) {
-    var failed by remember {mutableStateOf(false)}
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
-                modifier = Modifier,
-                contentAlignment = Alignment.Center
-            ) {
-                for (each in gameData.confusingButtonList) {
-                    when (each.winButton) {
-                        false ->
-                            ConfusingButton(
-                                offsetX = each.x,
-                                text = "",
-                                color = each.color,
-                                onClick = { failed = true }
-                            )
-                        true ->
-                            FinalButtonConfusing(
-                                offsetX = each.x,
-                                text = "",
-                                color = each.color,
-                                onClick = {
-                                    if (!failed) {
-                                        viewModel.finishGame()
-                                        navigate()
-                                    }
-                                }
-                            )
-
-                    }
-                }
-            }
-
-            Row() {
-                Text(
-                    text = "Drück auf ",
-                    fontSize = 24.sp
-                )
-                Text(
-                    text = gameData.confusingText,
-                    color = gameData.fakeColor,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 24.sp
-                )
-            }
-        }
-        if (failed) {
-            failedCard()
-        }
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.TopStart
-        ) {
-            MiniGameTimerComposable(viewModel,
-                {
-                    viewModel.finishGame()
-                    navigate()
-                }
-            )
-        }
-    }
-
-}
 
 @Composable
 fun FinalButtonConfusing(offsetX: Dp, text: String, color:Color, onClick : () -> Unit) {

@@ -54,8 +54,7 @@ fun ScreenMGbeleuchtung(
         MiniGameTimerComposable(
             viewModel,
             {
-                viewModel.finishGame()
-                navigate()
+                viewModel.finishGame({ navigate() })
             }
         )
     }
