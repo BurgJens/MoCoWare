@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.mocoware.MainActivity
 import de.mocoware.model.HighScore
+import de.mocoware.view.elements.ButtonStandard
 import de.mocoware.viewmodel.GameViewModel
 
 
@@ -45,9 +46,11 @@ fun ScreenScore(
                 )
             }
         }
-        Button(onClick = { context.startActivity(Intent(context,MainActivity::class.java)) }) {
-            Text(text = "Close", color = Color.Black)
-        }
+        ButtonStandard(
+            text = "Close",
+            modifier = Modifier.padding(20.dp),
+            onClick = { context.startActivity(Intent(context,MainActivity::class.java)) }
+        )
 
     }
 
