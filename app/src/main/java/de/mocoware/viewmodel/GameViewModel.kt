@@ -54,7 +54,7 @@ class GameViewModel : ViewModel(){
     var speed : LiveData<Double> = _speed
 
 
-    // Nur wegen Cats problem
+    // Nur wegen cast problem
     val gameDatMGannoyingButtons = MGannoyingButtons().gameData as DataMGannoyingButtons
     val gameDatMGlaufenWithService = MGlaufenWithService().gameData  as DataMGlaufenWithService
     val gameDatMGconfusingButtons = MGconfusingButtons().gameData as DataMGconfusingButtons

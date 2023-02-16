@@ -39,7 +39,6 @@ class Accelerometer : Service(), SensorEventListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        Toast.makeText(this, "Stop: Accelerometer", Toast.LENGTH_SHORT).show()
         sensorManager.unregisterListener(this)
 
     }

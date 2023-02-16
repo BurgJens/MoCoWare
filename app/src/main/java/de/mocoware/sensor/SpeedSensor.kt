@@ -118,7 +118,6 @@ class SpeedSensor:Service() {
 
 
     override fun onDestroy() {
-        Toast.makeText(this, "Stop: Speedsensor", Toast.LENGTH_SHORT).show()
         super.onDestroy()
         if (locationManager != null) {
             for (mLocationListener in locationListeners) {
