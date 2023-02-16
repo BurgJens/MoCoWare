@@ -58,7 +58,7 @@ class Game (private var name: String, rounds: Int = 5){
     }
 
     fun routeToNextMG() : String{
-        if (currentGame==miniGames.size-1) return NavMG.Lobby.route
+        if (currentGame==miniGames.size-1) return NavMG.highScore.route
         return miniGames[currentGame+1].gameRoute
     }
 

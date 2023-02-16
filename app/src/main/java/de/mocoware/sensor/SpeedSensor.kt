@@ -70,7 +70,6 @@ class SpeedSensor:Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        Toast.makeText(this, "Start: Speedsensor", Toast.LENGTH_SHORT).show()
         return START_STICKY
     }
 

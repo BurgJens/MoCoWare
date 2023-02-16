@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.mocoware.model.Game
+import de.mocoware.model.HighScore
 import de.mocoware.model.MiniGameTimer
 import de.mocoware.model.minigames.*
 import de.mocoware.view.navigation.NavMG
@@ -14,6 +15,9 @@ import java.util.*
 
 
 class GameViewModel : ViewModel(){
+
+
+    val highscores = listOf<HighScore>(HighScore("test","test",false,5))
 
     var game = Game("Bla")
 

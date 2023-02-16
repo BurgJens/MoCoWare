@@ -19,6 +19,7 @@ sealed class NavMG(val route : String){
     object MGlaufenWithSerivce : NavMG("laufenWithService")
     object MGshake : NavMG("shake")
     object MGbeleuchtung : NavMG("beleuchtung")
+    object highScore : NavMG("highScore")
 }
 
 @Composable
@@ -33,7 +34,16 @@ fun GameNavigation(
             route = NavMG.Lobby.route
         ) {
             ScreenLobby(
-                startGame = {navController.navigate(viewModel.routeToMG)}
+                startGame = {navController.navigate(viewModel.routeToMG)},
+                context = context
+            )
+        }
+        composable(
+            route = NavMG.highScore.route
+        ) {
+            ScreenScore(
+                viewModel=viewModel,
+                context = context
             )
         }
         composable(
