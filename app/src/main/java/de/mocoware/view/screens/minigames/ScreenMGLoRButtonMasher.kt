@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_EXPRESSION")
-
 package de.mocoware.view.screens.minigames
 
 import android.app.Activity
@@ -35,50 +33,38 @@ fun ScreenMGLoRButtonMasher(
     val context = LocalContext.current as Activity
     context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-    var failed by remember { mutableStateOf(false) }
 
-    var clickCount1 by remember { mutableStateOf(0) }
 
-   Card(
-        modifier = Modifier.fillMaxSize(),
-
+   Box(
+       modifier = Modifier.fillMaxSize(),
+       contentAlignment = Alignment.Center
     ) {
+       for (each in gameData.ButtonMasherList){
+           when(each.winButton) {
+               false ->
+                   falscherButton(
+                                offsetX = each.x,
+                                text = "",
+                                color = each.color,
+                                onClick = { each.click() }
+                   )
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Box(modifier = Modifier,
-            contentAlignment = Alignment.Center
-            )
-            {
-                for (each in gameData.ButtonMasherList){
-                    when(each.winButton){
-                    false -> {
-                        falscherButton(
-                            offsetX = each.x,
-                            text = "",
-                            color = each.color,
-                            onClick = { failed = true })
-                    }
 
-                    true -> {
-                        richtigerButton(
-                            offsetX = each.x,
-                            text = "",
-                            color = each.color,
-                            onClick = { clickCount1++})
+               true ->
+                   richtigerButton(
+                                offsetX = each.x,
+                                text = "",
+                                color = each.color,
+                                )
+                            {
+                                viewModel.finishGame()
+                                navigate()
                             }
-                    }
-
-                }
-            }
-            if (clickCount1 == 20) {
-                viewModel.finishGame()
             }
 
         }
        Row {
-           Text(text = "Drück 20 mal auf Grün",
+           Text(text = "Drück 20 mal auf den Grünen Button",
            fontSize = 24.sp
            )
        }
@@ -99,7 +85,7 @@ fun falscherButton(offsetX: Dp, text: String, color: Color, onClick : () -> Unit
         offsetY = 0.dp,
         text = text,
         color = color,
-        textColor = Color.Black,
+        textColor = Color.Gray,
         rotation = 0f) {
         onClick()
     }
@@ -112,7 +98,7 @@ fun richtigerButton(offsetX: Dp, text: String, color:Color, onClick : () -> Unit
         offsetY = 0.dp,
         text = text,
         color = color,
-        textColor = Color.Black,
+        textColor = Color.Green,
         rotation = 0f) {
         onClick()
     }
@@ -134,4 +120,30 @@ fun verkacktCard(){
             )
         }
     }
+}
+
+@Composable
+fun ButtonCard(){
+    Card (
+        Modifier.fillMaxSize()
+    ){
+        Row() {
+
+
+            falscherButton(
+                offsetX = 0.dp,
+                text = "",
+                color = Color.Black
+            ) {
+
+        }
+            richtigerButton(
+                offsetX = 0.dp,
+                text = "",
+                color = Color.Green
+            ) {
+
+            }
+    }}
+
 }

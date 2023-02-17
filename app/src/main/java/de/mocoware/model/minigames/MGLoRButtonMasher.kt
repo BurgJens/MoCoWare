@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.dp
 import de.mocoware.model.MiniGame
 import de.mocoware.view.navigation.NavMG
 
+
 data class DataMGLoRButtonMasher(override var data: Any) : GameData{
     var ButtonMasherList = data as MutableList<lorColorButton>
     var fakeColor = Color.Black
@@ -14,9 +15,16 @@ data class DataMGLoRButtonMasher(override var data: Any) : GameData{
 
     data class lorColorButton(
         val x : Dp,
-        val color : Color,
-        val winButton : Boolean = false
+        val winButton : Boolean = false,
+        val color: Color,
+        var visible : Boolean = true,
+        val update: ()->Unit
     ){
+
+        fun click(){
+            update()
+            visible =false
+        }
 
     }
 
@@ -34,39 +42,31 @@ class MGLoRButtonMasher(
         Color(132, 132, 132),
     )
 
-    init {
-        var gameData = gameData as DataMGLoRButtonMasher
-        if (gameData.ButtonMasherList.size == 0) {
-            val finButtonPos = possiblePos.random()
-            possiblePos.remove(finButtonPos)
-
-            val finButtonCol = possibleColor.random()
-            possibleColor.remove(finButtonCol)
-            gameData.fakeColor = possibleColor.random()
-
-            gameData.ButtonMasherList.add(
+    init{
+        var ButtonMasherlist = gameData as DataMGLoRButtonMasher
+        if(ButtonMasherlist.ButtonMasherList.size == 0){
+            ButtonMasherlist.ButtonMasherList.add(
                 lorColorButton(
-                    finButtonPos,
-                    finButtonCol,
-                    winButton = true
-                )
+                    x = possiblePos.random(),
+                   winButton = true,
+                    color = possibleColor.random()
+
+
+                ){}
             )
-            repeat(20) {
-                val sumButtonPos = possiblePos.random()
-                possiblePos.remove(sumButtonPos)
-
-                val sumButtonCol = possibleColor.random()
-                possibleColor.remove(sumButtonCol)
-
-                gameData.ButtonMasherList.add(
+            repeat(20){
+                ButtonMasherlist.ButtonMasherList.add(
                     lorColorButton(
-                        sumButtonPos,
-                        sumButtonCol
-                    )
+                        x = possiblePos.random(),
+                        winButton = false,
+                        color = possibleColor.random()
+                    ){}
                 )
             }
         }
+
     }
+
 }
 
 
