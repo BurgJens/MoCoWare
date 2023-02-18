@@ -1,6 +1,7 @@
 package de.mocoware.view.navigation
 
 import android.content.Context
+import android.provider.ContactsContract.Data
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -22,6 +23,7 @@ sealed class NavMG(val route : String){
     object MGlaufenWithSerivce : NavMG("laufenWithService")
     object MGshake : NavMG("shake")
     object MGbeleuchtung : NavMG("beleuchtung")
+    object MGLoRButtonMasher : NavMG("lorButtonMasher")
 
 }
 
@@ -107,5 +109,17 @@ fun GameNavigation(
             )
 
         }
+        composable(
+            route= NavMG.MGLoRButtonMasher.route
+        ){
+            ScreenMGLoRButtonMasher(
+                viewModel,
+                viewModel.gameDatMGLoRButtonMasher,
+                {navController.navigate(NavMG.CountDown.route)})
+            }
+
+
+
+
     }
 }

@@ -62,6 +62,7 @@ class GameViewModel : ViewModel(){
     var gameDatMGconfusingButtons = MGconfusingButtons().gameData as DataMGconfusingButtons
     var gameDatMGshake = MGshake().gameData as DataMGshake
     var gameDatMGbeleuchtung = MGbeleuchtung().gameData  as DataMGbeleuchtung
+    var gameDatMGLoRButtonMasher = MGLoRButtonMasher().gameData as DataMGLoRButtonMasher
 
 
 
