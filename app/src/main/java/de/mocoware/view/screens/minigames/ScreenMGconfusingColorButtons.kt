@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import de.mocoware.model.HighScore
 import de.mocoware.model.minigames.DataMGconfusingButtons
 import de.mocoware.view.elements.GenericButton
 import de.mocoware.view.elements.MiniGameStartTimerComposable
@@ -137,7 +138,10 @@ fun ScreenMGconfusingColorButtonsContent(
                                 text = "",
                                 color = each.color,
                                 onClick = {
+
                                     if (!failed) {
+                                        println("test")
+                                        viewModel.highscores.add(HighScore("DeinName","ConfusingButton","ja","${14- viewModel?.gameTimer?.time?.value!!}"))
                                         viewModel.finishGame()
                                         navigate()
                                     }
@@ -170,6 +174,7 @@ fun ScreenMGconfusingColorButtonsContent(
         ) {
             MiniGameTimerComposable(viewModel,
                 {
+
                     viewModel.finishGame()
                     navigate()
                 }

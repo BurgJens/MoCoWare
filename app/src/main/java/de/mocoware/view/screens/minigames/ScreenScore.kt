@@ -38,7 +38,7 @@ fun ScreenScore(
         LazyColumn {
             items(viewModel.highscores) { entry ->
                 Text(
-                    text = "${entry.nameSpieler}: ${entry.nameGame}:${entry.bestanden}:${entry.zeit}",
+                    text = "${entry.nameSpieler}    ${entry.nameGame}    ${entry.bestanden}    ${entry.zeit}",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier

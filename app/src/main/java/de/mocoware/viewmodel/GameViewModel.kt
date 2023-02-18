@@ -17,7 +17,7 @@ import java.util.*
 class GameViewModel : ViewModel(){
 
 
-    val highscores = listOf<HighScore>(HighScore("test","test",false,5))
+    val highscores = mutableListOf<HighScore>(HighScore("Spieler","Game","Bestanden","Zeit"),HighScore("","","",""))
 
     var game = Game("Bla")
 

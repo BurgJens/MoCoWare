@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import de.mocoware.model.HighScore
 import de.mocoware.model.minigames.DataMGannoyingButtons
 import de.mocoware.model.minigames.DataMGconfusingButtons
 import de.mocoware.view.elements.GenericButton
@@ -45,8 +46,12 @@ fun ScreenMGannoyingButtons(
                         FinalButtonAnnoying(
                             offsetX = each.offsetX.dp,
                             offsetY = each.offsetY.dp,
-                            rotation = each.rotation,
-                            onClick = navigate)
+                            rotation = each.rotation,)
+                        {
+                      viewModel.finishGame()
+                      viewModel.highscores.add(HighScore("DeinName","AnnoyingButton","ja","${14- viewModel?.gameTimer?.time?.value!!}"))
+                        navigate()
+                        }
                 }
         }
 
