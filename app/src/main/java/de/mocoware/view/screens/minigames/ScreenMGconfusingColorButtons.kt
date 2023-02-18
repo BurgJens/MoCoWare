@@ -33,7 +33,7 @@ fun ScreenMGconfusingColorButtons(
 ) {
 
     val context = LocalContext.current as Activity
-    context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+ //   context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
     var failed by remember {mutableStateOf(false)}
 

@@ -23,7 +23,7 @@ fun ScreenMGannoyingButtons(
     navigate : () -> Unit,
 ){
     val context = LocalContext.current as Activity
-    context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+  //  context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -45,11 +45,8 @@ fun ScreenMGannoyingButtons(
                         FinalButtonAnnoying(
                             offsetX = each.offsetX.dp,
                             offsetY = each.offsetY.dp,
-                            rotation = each.rotation)
-                        {
-                        viewModel.finishGame()
-                        navigate()
-                        }
+                            rotation = each.rotation,
+                            onClick = navigate)
                 }
         }
 

@@ -37,51 +37,52 @@ fun MiniGameTimerComposable(
     }
 
 
-    if (time!! <= 10){
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.TopStart
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopStart
+    ) {
+
+        Card(
+            modifier = Modifier
+                .height(80.dp)
+                .width(160.dp),
+            backgroundColor = bgColor
         ) {
-
-            Card(
-                modifier = Modifier
-                    .height(80.dp)
-                    .width(160.dp),
-                backgroundColor = bgColor
-            ) {
-                Text(
-                    text = "$time",
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 64.sp,
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-
-    }
-    if (time!! >10){
-
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-
-            Card(
-                modifier=Modifier.fillMaxSize(),
-                backgroundColor = bgColor
-            ) {
-
-            }
             Text(
-                text = "${time!! -10}",
+                text = "$time",
                 fontWeight = FontWeight.ExtraBold,
-                fontSize = 90.sp,
+                fontSize = 64.sp,
                 textAlign = TextAlign.Center
             )
-
         }
-
     }
+
+
+
+ //   if (time!! >10){
+//
+ //       Box(
+ //           modifier = Modifier.fillMaxSize(),
+ //           contentAlignment = Alignment.Center
+ //       ) {
+//
+ //           Card(
+ //               modifier=Modifier.fillMaxSize(),
+ //               backgroundColor = bgColor
+ //           ) {
+//
+ //           }
+ //           Text(
+ //               text = "${time!! -10}",
+ //               fontWeight = FontWeight.ExtraBold,
+ //               fontSize = 90.sp,
+ //               textAlign = TextAlign.Center
+ //           )
+//
+ //       }
+//
+ //   }
 
 
 
