@@ -4,6 +4,8 @@ package de.mocoware.view.screens.minigames
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults.buttonColors
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -12,12 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.mocoware.model.minigames.DataMGLoRButtonMasher
-import de.mocoware.model.minigames.lorColorButton
-import de.mocoware.view.elements.GenericButton
 import de.mocoware.view.elements.MiniGameTimerComposable
 import de.mocoware.viewmodel.GameViewModel
 
@@ -33,22 +31,26 @@ fun ScreenMGLoRButtonMasher(
 
 
 
-    Column(
+    Card(
         Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        for (each in gameData.ButtonMasherList){
-            buttonCard()
+        backgroundColor = Color(255,255,255)
 
-        Row (
-            Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
-                ){
-            Text(text = "Drück 20 mal auf den Grünen Button",
+    ) {
+         Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+
+
+            ButtonCard(viewModel)
+
+            Text(
+                text = "Drück 20 mal auf den Grünen Button",
                 fontSize = 24.sp
             )
         }
+
+    }
+
         MiniGameTimerComposable(
             viewModel,
             {
@@ -56,50 +58,46 @@ fun ScreenMGLoRButtonMasher(
 
             }
         )
-    }
-    }
+
+
 }
 
 @Composable
-fun falscherButton(offsetX: Dp, text: String, color: Color, onClick : () -> Unit) {
-    GenericButton(
-        offsetX = offsetX,
-        offsetY = 0.dp,
-        text = text,
-        color = color,
-        textColor = Color.Gray,
-        rotation = 0f) {
+fun FalscherButton(onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier,
+        colors = buttonColors(Color.Gray)
+        ) {
+        Text("PUSH ME", color = Color.Black)
         onClick()
     }
 }
 @Composable
-fun nextCardButton(offsetX: Dp, text: String, color : Color, onClick: () -> Unit){
-    GenericButton(
-        offsetX = offsetX,
-        offsetY = 0.dp,
-        text = text,
-        color = color,
-        textColor = Color.Green,
-        rotation = 0f) {
+fun NextCardButton(onClick: () -> Unit){
+    Button(
+        onClick = onClick,
+        modifier = Modifier,
+        colors = buttonColors(Color.Green)
+        ) {
+        Text("PUSH ME", color = Color.Black)
         onClick()
-
     }
 }
 
 @Composable
-fun richtigerButton(offsetX: Dp, text: String, color:Color, onClick : () -> Unit) {
-    GenericButton(
-        offsetX = offsetX,
-        offsetY = 0.dp,
-        text = text,
-        color = color,
-        textColor = Color.Green,
-        rotation = 0f) {
+fun RichtigerButton( onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier,
+        colors = buttonColors(Color.Green)
+        ) {
+        Text("PUSH ME", color = Color.Black)
         onClick()
     }
 }
 @Composable
-fun verkacktCard(){
+fun VerkacktCard(){
     Card(
         Modifier.fillMaxSize(),
         backgroundColor = Color(255,150,150)
@@ -118,42 +116,42 @@ fun verkacktCard(){
 }
 
 @Composable
-fun buttonCard(){
+fun ButtonCard(viewModel : GameViewModel){
     Card (
         Modifier.fillMaxSize()
     ){
-        Row() {
+        Row(
+            Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
 
-            falscherButton(
-                offsetX = 0.dp,
-                text = "",
-                color = Color.Gray
-            ) {
-
-            }
-            nextCardButton(
-                offsetX = 0.dp,
-                text = "",
-                color = Color.Green
-            ) {
+            FalscherButton() {
 
             }
-        }}
+            NextCardButton() {
+
+            }
+        }
+    }
 
 }
 @Composable
-fun finalButtonCard(){
+fun finalButtonCard(viewModel : GameViewModel){
     Card(
         Modifier.fillMaxSize()
     ){
-        Row(){
-            falscherButton(offsetX = 0.dp, text = "", color = Color.Gray) {
+        Row(
+            Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            FalscherButton() {
                 
             }
-            richtigerButton(offsetX = 0.dp, text = "", color = Color.Green) {
-                
-            }
+            RichtigerButton { viewModel.onGreenClick() }
+
         }
     }
 }

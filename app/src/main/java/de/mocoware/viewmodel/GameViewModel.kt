@@ -106,6 +106,10 @@ class GameViewModel : ViewModel(){
         }
     }
 
+    // LORBUTTONMASHER FUNKTIONEN
+    fun onGreenClick(){
+        println("ich funktioniere")
+    }
 
 
    init {

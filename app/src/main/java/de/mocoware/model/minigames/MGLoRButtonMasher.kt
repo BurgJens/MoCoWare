@@ -21,10 +21,7 @@ data class lorColorButton(
     val update: ()->Unit
 ){
 
-    fun click(){
-        update()
-        visible =false
-    }
+
 
 }
 
