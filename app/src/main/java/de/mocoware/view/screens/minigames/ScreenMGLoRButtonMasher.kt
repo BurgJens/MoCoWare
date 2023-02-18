@@ -3,10 +3,7 @@ package de.mocoware.view.screens.minigames
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -36,18 +33,18 @@ fun ScreenMGLoRButtonMasher(
 
 
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+    Column(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column() {
-            
-
         for (each in gameData.ButtonMasherList){
-           buttonCard()
+            buttonCard()
 
-        }
-        Row {
+        Row (
+            Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
+                ){
             Text(text = "Drück 20 mal auf den Grünen Button",
                 fontSize = 24.sp
             )
@@ -59,7 +56,8 @@ fun ScreenMGLoRButtonMasher(
 
             }
         )
-    }}
+    }
+    }
 }
 
 @Composable
