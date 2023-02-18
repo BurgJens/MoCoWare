@@ -26,6 +26,8 @@ fun ScreenMGLoRButtonMasher(
     navigate : () -> Unit,
 ){
 
+    var lordata = viewModel.currentMG.gameData
+
     val context = LocalContext.current as Activity
     context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
@@ -127,12 +129,10 @@ fun ButtonCard(viewModel : GameViewModel){
         ) {
 
 
-            FalscherButton() {
+            FalscherButton{}
 
-            }
-            NextCardButton() {
 
-            }
+            NextCardButton {viewModel.wertButtonMasher()}
         }
     }
 
@@ -147,9 +147,7 @@ fun finalButtonCard(viewModel : GameViewModel){
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ){
-            FalscherButton() {
-                
-            }
+            FalscherButton{}
             RichtigerButton { viewModel.onGreenClick() }
 
         }

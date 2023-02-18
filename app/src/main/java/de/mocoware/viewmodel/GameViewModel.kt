@@ -27,6 +27,7 @@ class GameViewModel : ViewModel(){
 
     val wonGames = mutableListOf<Boolean>()
 
+
 //  val gameDataLive = MutableLiveData<GameData>()
 
     var routeToMG = currentMG.gameRoute
@@ -110,7 +111,17 @@ class GameViewModel : ViewModel(){
     fun onGreenClick(){
         println("ich funktioniere")
     }
+    fun wertButtonMasher(){
+        val counter : Int = 0
 
+        if (counter == 20){
+
+        }
+        else
+        {
+
+        }
+    }
 
    init {
        println("test${currentMG.gameRoute}")
