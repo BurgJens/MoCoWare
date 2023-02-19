@@ -67,21 +67,14 @@ fun ScreenMGLoRButtonMasher(
 
 
                  FalscherButton(
-                     offsetX = 0.dp,
-                     offsetY = 0.dp,
-                     scale= 0.dp,
-                     rotation = 0.0F
-
+                     scale= 0.dp
                  ){
 
                  }
 
 
                  NextCardButton(
-                     offsetX = 0.dp,
-                     offsetY = 0.dp,
-                     scale= 0.dp,
-                     rotation = 0.0F,
+                     scale= 0.dp
                  ) {viewModel.wertButtonMasher()}
              }
 
@@ -102,15 +95,12 @@ fun ScreenMGLoRButtonMasher(
 }
 
 @Composable
-fun FalscherButton(offsetX: Dp, offsetY: Dp, scale: Dp, rotation : Float, onClick : () -> Unit) {
+fun FalscherButton(scale: Dp, onClick : () -> Unit) {
     GenericScaleButton(
-        offsetX = 0.dp,
-        offsetY,
         scale = 390.dp,
         text = "PUSH ME",
         color = Color.Gray,
         Color.Black,
-        rotation,
         onClick
     )
 }
@@ -127,15 +117,12 @@ fun FalscherButton(offsetX: Dp, offsetY: Dp, scale: Dp, rotation : Float, onClic
 //}
 
 @Composable
-fun NextCardButton(offsetX: Dp, offsetY: Dp,scale: Dp, rotation : Float, onClick : () -> Unit){
+fun NextCardButton(scale: Dp, onClick : () -> Unit){
     GenericScaleButton(
-        offsetX,
-        offsetY,
         scale = 390.dp,
         text = "PUSH ME",
         color = Color.Green,
         Color.Black,
-        rotation,
         onClick
     )
 }
