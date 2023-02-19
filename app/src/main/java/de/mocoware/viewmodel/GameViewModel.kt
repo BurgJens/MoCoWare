@@ -3,9 +3,12 @@ package de.mocoware.viewmodel
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.service.autofill.OnClickAction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
 import de.mocoware.model.Game
 import de.mocoware.model.HighScore
 import de.mocoware.model.MiniGameTimer
@@ -108,19 +111,20 @@ class GameViewModel : ViewModel(){
     }
 
     // LORBUTTONMASHER FUNKTIONEN
-    fun onGreenClick(){
-        println("ich funktioniere")
-    }
+
+    var LoRcounter : Int = 0
+
     fun wertButtonMasher(){
-        val counter : Int = 0
 
-        if (counter == 20){
+        LoRcounter++
+        println("I Increment")
+        println("$LoRcounter")
+        if (LoRcounter == 20){
+            println("ITS 20 I SHOULD MOVE NOW")
+            LoRcounter = 0
 
         }
-        else
-        {
 
-        }
     }
 
    init {
@@ -143,6 +147,9 @@ class GameViewModel : ViewModel(){
             }
             is DataMGbeleuchtung ->{
                 gameDatMGbeleuchtung = currentMG.gameData as DataMGbeleuchtung
+            }
+            is DataMGLoRButtonMasher ->{
+                gameDatMGLoRButtonMasher = currentMG.gameData as DataMGLoRButtonMasher
             }
         }
     }

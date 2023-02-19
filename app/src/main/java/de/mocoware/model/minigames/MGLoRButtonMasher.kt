@@ -14,8 +14,6 @@ data class DataMGLoRButtonMasher(override var data: Any) : GameData{
 
 data class lorColorButton(
     val x : Dp,
-    val winButton : Boolean = false,
-    val color: Color,
     val looseButton : Boolean = true,
     var visible : Boolean = true,
     val update: ()->Unit
@@ -32,36 +30,12 @@ class MGLoRButtonMasher(
 ) : MiniGame {
 
 
-    val possiblePos = mutableListOf(-150.dp, 150.dp)
-
-    val winColor =
-        Color(0, 200, 0)
-    val looseColor =
-        Color(132, 132, 132)
-
-    init{
-        var ButtonMasherlist = gameData as DataMGLoRButtonMasher
-        if(ButtonMasherlist.ButtonMasherList.size == 0)repeat(20){
-            ButtonMasherlist.ButtonMasherList.add(
-                lorColorButton(
-                    x = possiblePos.random(),
-                    winButton = true,
-                    color = winColor
 
 
-                ){}
-            )
-                ButtonMasherlist.ButtonMasherList.add(
-                    lorColorButton(
-                        x = possiblePos.random(),
-                        winButton = false,
-                        color = looseColor
-                    ){}
-                )
-            }
+
 
 
     }
 
-}
+
 
