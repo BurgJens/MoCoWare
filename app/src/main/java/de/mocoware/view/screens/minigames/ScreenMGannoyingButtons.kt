@@ -22,9 +22,6 @@ fun ScreenMGannoyingButtons(
     gameData : DataMGannoyingButtons,
     navigate : () -> Unit,
 ){
-    val context = LocalContext.current as Activity
-    context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

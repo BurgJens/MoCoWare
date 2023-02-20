@@ -1,9 +1,12 @@
 package de.mocoware.view.navigation
 
+import android.app.Activity
 import android.content.Context
+import android.content.pm.ActivityInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -31,6 +34,7 @@ fun GameNavigation(
     context: Context
 ) {
     val navController = rememberNavController()
+    val context = LocalContext.current as Activity
 
     NavHost(navController = navController, startDestination = NavMG.Lobby.route) {
         composable(
@@ -60,6 +64,8 @@ fun GameNavigation(
         composable(
             route = NavMG.MGannoyingButton.route
         ) {
+            context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
             ScreenMGannoyingButtons(
                 viewModel,
                 viewModel.gameDatMGannoyingButtons,  // <- lieber gesammte data class?
@@ -69,6 +75,8 @@ fun GameNavigation(
         composable(
             route = NavMG.MGconfusingButtons.route
         ) {
+            context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
             ScreenMGconfusingColorButtons(
                 viewModel,
                 viewModel.gameDatMGconfusingButtons,
