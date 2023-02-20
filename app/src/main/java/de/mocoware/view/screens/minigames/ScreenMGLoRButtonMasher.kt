@@ -38,7 +38,6 @@ fun ScreenMGLoRButtonMasher(
     navigate : () -> Unit,
 ){
 
-    //var lordata = viewModel.currentMG.gameData
 
     val context = LocalContext.current as Activity
     context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
