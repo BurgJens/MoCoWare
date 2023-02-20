@@ -70,9 +70,10 @@ fun GenericButton(offsetX: Dp, offsetY: Dp, text: String, color: Color, textColo
     }
 }
 @Composable
-fun GenericScaleButton(scale: Dp, text: String, color: Color, textColor: Color, onClick: () -> Unit) {
+fun GenericScaleButton(offsetX:Dp, scale: Dp, text: String, color: Color, textColor: Color, onClick: () -> Unit) {
     Button(
-        modifier = Modifier.size(scale,scale),
+        modifier = Modifier.size(scale,scale)
+            .absoluteOffset(offsetX),
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(backgroundColor = color)
     ) {

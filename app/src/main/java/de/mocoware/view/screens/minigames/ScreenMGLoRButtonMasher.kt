@@ -21,12 +21,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Scale
+import de.mocoware.model.Game
 import de.mocoware.model.minigames.DataMGLoRButtonMasher
 import de.mocoware.view.elements.GenericButton
 import de.mocoware.view.elements.GenericScaleButton
 import de.mocoware.view.elements.MiniGameTimerComposable
 import de.mocoware.viewmodel.GameViewModel
+import kotlin.random.Random
 
 @Composable
 fun ScreenMGLoRButtonMasher(
@@ -35,12 +38,12 @@ fun ScreenMGLoRButtonMasher(
     navigate : () -> Unit,
 ){
 
-    var lordata = viewModel.currentMG.gameData
+    //var lordata = viewModel.currentMG.gameData
 
     val context = LocalContext.current as Activity
     context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-
+    var failed by remember {mutableStateOf(false)}
 
     Card(
         Modifier.fillMaxSize(),
@@ -50,7 +53,7 @@ fun ScreenMGLoRButtonMasher(
          Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
-             horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
              Text(
@@ -59,34 +62,44 @@ fun ScreenMGLoRButtonMasher(
                  color = Color.Black
              )
 
-             Row(
+             Box(
                  Modifier.fillMaxSize(),
-                 horizontalArrangement = Arrangement.Center,
-                 verticalAlignment = Alignment.CenterVertically
-             ) {
+                 Alignment.Center
+
+             ) {for (each in gameData.buttonCardList){
+                 when (each.finalCard){
+                     false ->
+                         ButtonCard(
+                             onClickRight = {},
+                             onClickWrong = { failed = true},
+                             each.leftcorrectButton
+                         )
 
 
-                 FalscherButton(
-                     scale= 0.dp
-                 ){
+                     true ->
+                         ButtonCard(
+                             onClickRight = {viewModel.finishGame({navigate()}, true)},
+                             onClickWrong = { failed = true},
+                             each.leftcorrectButton
+                         )
 
                  }
-
-
-                 NextCardButton(
-                     scale= 0.dp
-                 ) {viewModel.wertButtonMasher()}
              }
-
+             }
 
         }
 
+
+    }
+
+    if(failed){
+        VerkacktCard()
     }
 
         MiniGameTimerComposable(
             viewModel,
             {
-                viewModel.finishGame({navigate()})
+                viewModel.finishGame({navigate()}, false)
 
             }
         )
@@ -95,37 +108,72 @@ fun ScreenMGLoRButtonMasher(
 }
 
 @Composable
-fun FalscherButton(scale: Dp, onClick : () -> Unit) {
+fun FalscherButton(offsetX: Dp, scale: Dp, onClick : () -> Unit) {
     GenericScaleButton(
+        offsetX = offsetX,
         scale = 390.dp,
         text = "",
         color = Color.Gray,
-        Color.Black,
-        onClick
-    )
+        textColor = Color.Black){
+        onClick()
+    }
 }
-//@Composable
-//fun NextCardButton(onClick: () -> Unit){
-//    Button(
-//        onClick = onClick,
-//        modifier = Modifier.scale(3.0F,5.0F),
-//        colors = buttonColors(Color.Green)
-//        ) {
-//        Text("PUSH ME", color = Color.Black)
-//        onClick()
-//    }
-//}
 
 @Composable
-fun NextCardButton(scale: Dp, onClick : () -> Unit){
+fun NextCardButton(offsetX: Dp,scale: Dp,  onClick : () -> Unit){
     GenericScaleButton(
+        offsetX = offsetX,
         scale = 390.dp,
         text = "",
         color = Color.Green,
-        Color.Black,
-        onClick
-    )
+        textColor = Color.Black){
+        onClick()
+    }
+
 }
+@Composable
+fun ButtonCard(onClickRight: () -> Unit, onClickWrong:()->Unit, leftRightRandom : Boolean){
+    var cardVisibleState by remember {mutableStateOf(true)}
+
+    var correctButtonOffset = 200.dp
+    var wrongButtonOffset = -200.dp
+
+    if(leftRightRandom){
+        correctButtonOffset = -200.dp
+        wrongButtonOffset = 200.dp
+    }
+
+    if (cardVisibleState) {
+        Card(
+            Modifier.fillMaxSize()
+        ) {
+            Box(
+                //Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+
+            ) {
+
+                NextCardButton(
+                    offsetX = correctButtonOffset,
+                    scale = 390.dp,
+                ) {
+                    onClickRight()
+                    cardVisibleState = false
+                }
+
+                FalscherButton(
+                    offsetX = wrongButtonOffset,
+                    scale = 390.dp,
+                ) {
+                    onClickWrong()
+                    cardVisibleState = false
+
+                }
+            }
+        }
+    }
+}
+
 
 
 
@@ -148,26 +196,7 @@ fun VerkacktCard(){
     }
 }
 
-//@Composable
-//fun ButtonCard(viewModel : GameViewModel){
-//    Card (
-//        Modifier.fillMaxSize()
-//    ){
-//        Row(
-//            Modifier.fillMaxSize(),
-//            horizontalArrangement = Arrangement.Center,
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//
-//
-//            FalscherButton(){}
-//
-//
-//            NextCardButton {viewModel.wertButtonMasher()}
-//        }
-//    }
-//
-//}
+
 
 
 

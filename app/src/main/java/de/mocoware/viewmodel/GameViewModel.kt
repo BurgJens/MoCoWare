@@ -14,6 +14,7 @@ import de.mocoware.model.HighScore
 import de.mocoware.model.MiniGameTimer
 import de.mocoware.model.minigames.*
 import de.mocoware.view.navigation.NavMG
+import java.lang.Thread.sleep
 import java.util.*
 
 
@@ -112,20 +113,18 @@ class GameViewModel : ViewModel(){
 
     // LORBUTTONMASHER FUNKTIONEN
 
-    var LoRcounter : Int = 0
-
-    fun wertButtonMasher(){
-
-        LoRcounter++
-        println("I Increment")
-        println("$LoRcounter")
-        if (LoRcounter == 20){
-            println("ITS 20 I SHOULD MOVE NOW")
-            LoRcounter = 0
-
-        }
-
-    }
+//    var LoRcounter : Int = 0
+//
+//    fun wertButtonMasher(){
+//
+//        LoRcounter++
+//        println("$LoRcounter")
+//        if (LoRcounter == 21){
+//            LoRcounter = 0
+//
+//        }
+//
+//    }
 
    init {
        println("test${currentMG.gameRoute}")
