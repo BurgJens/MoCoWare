@@ -98,7 +98,7 @@ fun ScreenMGLoRButtonMasher(
 fun FalscherButton(scale: Dp, onClick : () -> Unit) {
     GenericScaleButton(
         scale = 390.dp,
-        text = "PUSH ME",
+        text = "",
         color = Color.Gray,
         Color.Black,
         onClick
@@ -120,7 +120,7 @@ fun FalscherButton(scale: Dp, onClick : () -> Unit) {
 fun NextCardButton(scale: Dp, onClick : () -> Unit){
     GenericScaleButton(
         scale = 390.dp,
-        text = "PUSH ME",
+        text = "",
         color = Color.Green,
         Color.Black,
         onClick
