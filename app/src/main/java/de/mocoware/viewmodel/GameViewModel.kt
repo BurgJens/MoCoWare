@@ -111,20 +111,7 @@ class GameViewModel : ViewModel(){
         }
     }
 
-    // LORBUTTONMASHER FUNKTIONEN
 
-//    var LoRcounter : Int = 0
-//
-//    fun wertButtonMasher(){
-//
-//        LoRcounter++
-//        println("$LoRcounter")
-//        if (LoRcounter == 21){
-//            LoRcounter = 0
-//
-//        }
-//
-//    }
 
    init {
        println("test${currentMG.gameRoute}")

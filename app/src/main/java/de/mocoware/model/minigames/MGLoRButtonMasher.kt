@@ -1,7 +1,6 @@
 package de.mocoware.model.minigames
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+
 import de.mocoware.model.MiniGame
 import de.mocoware.view.navigation.NavMG
 
