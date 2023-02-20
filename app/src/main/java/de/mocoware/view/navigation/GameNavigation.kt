@@ -26,7 +26,7 @@ sealed class NavMG(val route : String){
     object MGshake : NavMG("shake")
     object MGbeleuchtung : NavMG("beleuchtung")
     object MGLoRButtonMasher : NavMG("loRButtonMasher")
-
+    object MGHangman : NavMG("hangman")
 }
 
 @Composable
@@ -117,7 +117,18 @@ fun GameNavigation(
 
         }
         composable(
-            route = NavMG.MGconfusingButtons.route
+            route = NavMG.MGLoRButtonMasher.route
+        ) {
+            context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
+            ScreenMGLoRButtonMasher(
+                viewModel,
+                viewModel.gameDatMGLoRButtonMasher,
+                {navController.navigate(NavMG.CountDown.route)}
+            )
+        }
+        composable(
+            route = NavMG.MGLoRButtonMasher.route
         ) {
             context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
