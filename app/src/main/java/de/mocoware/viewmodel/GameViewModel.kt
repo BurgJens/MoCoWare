@@ -3,14 +3,18 @@ package de.mocoware.viewmodel
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.service.autofill.OnClickAction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
 import de.mocoware.model.Game
 import de.mocoware.model.HighScore
 import de.mocoware.model.MiniGameTimer
 import de.mocoware.model.minigames.*
 import de.mocoware.view.navigation.NavMG
+import java.lang.Thread.sleep
 import java.util.*
 
 
@@ -26,6 +30,7 @@ class GameViewModel : ViewModel(){
     var currentGameData = currentMG.gameData
 
     val wonGames = mutableListOf<Boolean>()
+
 
 //  val gameDataLive = MutableLiveData<GameData>()
 
@@ -62,6 +67,7 @@ class GameViewModel : ViewModel(){
     var gameDatMGconfusingButtons = MGconfusingButtons().gameData as DataMGconfusingButtons
     var gameDatMGshake = MGshake().gameData as DataMGshake
     var gameDatMGbeleuchtung = MGbeleuchtung().gameData  as DataMGbeleuchtung
+    var gameDatMGLoRButtonMasher = MGLoRButtonMasher().gameData as DataMGLoRButtonMasher
 
 
 
@@ -105,7 +111,20 @@ class GameViewModel : ViewModel(){
         }
     }
 
+    // LORBUTTONMASHER FUNKTIONEN
 
+//    var LoRcounter : Int = 0
+//
+//    fun wertButtonMasher(){
+//
+//        LoRcounter++
+//        println("$LoRcounter")
+//        if (LoRcounter == 21){
+//            LoRcounter = 0
+//
+//        }
+//
+//    }
 
    init {
        println("test${currentMG.gameRoute}")
@@ -127,6 +146,9 @@ class GameViewModel : ViewModel(){
             }
             is DataMGbeleuchtung ->{
                 gameDatMGbeleuchtung = currentMG.gameData as DataMGbeleuchtung
+            }
+            is DataMGLoRButtonMasher ->{
+                gameDatMGLoRButtonMasher = currentMG.gameData as DataMGLoRButtonMasher
             }
         }
     }

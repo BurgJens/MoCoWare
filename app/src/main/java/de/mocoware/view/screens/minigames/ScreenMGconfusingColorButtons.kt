@@ -2,8 +2,6 @@ package de.mocoware.view.screens.minigames
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import de.mocoware.model.minigames.DataMGconfusingButtons
 import de.mocoware.view.elements.GenericButton
-import de.mocoware.view.elements.MiniGameStartTimerComposable
 import de.mocoware.view.elements.MiniGameTimerComposable
 import de.mocoware.viewmodel.GameViewModel
 
