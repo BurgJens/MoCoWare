@@ -26,12 +26,14 @@ fun ScreenStartHandler(
     navigateNewGame: () -> Unit,
     navigateJoinGame: () -> Unit,
     navigateTest: () -> Unit,
+    navigateStatistics: () -> Unit,
     context: Context
 ){
     ScreenStartRender(
         navigateNewGame = navigateNewGame,
         navigateJoinGame = navigateJoinGame,
         navigateTest = navigateTest,
+        navigateStatistics = navigateStatistics,
         context = context
     )
 }
@@ -41,6 +43,7 @@ fun ScreenStartRender(
     navigateNewGame: () -> Unit,
     navigateJoinGame: () -> Unit,
     navigateTest: () -> Unit,
+    navigateStatistics: () -> Unit,
     context:Context
 ){
 //    LocalLifecycleOwner.
@@ -81,9 +84,12 @@ fun ScreenStartRender(
             ButtonStandard(
                 text = "Join Game",
                 modifier = Modifier.padding(20.dp),
-                onClick = {navigateJoinGame()
-                    Log.d("Button", "Was clicked")
-                }
+                onClick = navigateJoinGame
+            )
+            ButtonStandard(
+                text = "Statistics",
+                modifier = Modifier.padding(20.dp),
+                onClick = navigateStatistics
             )
 //            ButtonStandard(
 //                text = "Test",

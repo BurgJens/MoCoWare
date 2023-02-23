@@ -5,15 +5,6 @@ import de.mocoware.view.navigation.NavMG
 
 import kotlin.random.Random
 
-enum class MiniGameEnum{
-    MGannoyingButtons,
-    MGlaufenWithService,
-    MGshake,
-    MGconfusingButtons,
-    MGbeleuchtung,
-    MGLoRButtonMasher
-}
-
 class Game (private var name: String, rounds: Int = 5){
 
     private var gameId = generateGameId()

@@ -21,10 +21,7 @@ import com.example.testrobert.Permission
 import de.mocoware.MainActivity
 import de.mocoware.view.screens.*
 import de.mocoware.view.screens.minigames.ScreenGameTestHandler
-import de.mocoware.viewmodel.CreateGameViewModel
-import de.mocoware.viewmodel.GameViewModel
-import de.mocoware.viewmodel.JoinGameViewModel
-import de.mocoware.viewmodel.TestViewModel
+import de.mocoware.viewmodel.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
@@ -35,6 +32,7 @@ sealed class NavScreen(val route : String){
     object JoinGame : NavScreen("joingame")
     object CreateGame : NavScreen("creategame")
     object Test : NavScreen("test")
+    object Statistics : NavScreen("statistics")
 
     object Game: NavScreen("game")
 //    object Game: NavScreen("game/{gameID}"){
@@ -48,6 +46,7 @@ fun AppNavigation(
     joinGameViewModel: JoinGameViewModel,
     gameViewModel: GameViewModel,
     createGameViewModel: CreateGameViewModel,
+    statisticsViewModel: StatisticsViewModel,
     context: Context
 
 ){
@@ -74,6 +73,7 @@ fun AppNavigation(
                     navigateJoinGame = { navController.navigate(NavScreen.JoinGame.route) },
 //                    navigateTest = { navController.navigate(NavScreen.Test.route) },
                     navigateTest = { navController.navigate(NavScreen.Test.route) },
+                    navigateStatistics = {navController.navigate(NavScreen.Statistics.route)},
                     context=context
                 )
 
@@ -100,6 +100,13 @@ fun AppNavigation(
             GameNavigation(
                 viewModel = gameViewModel,
                 context = context               // Context für Service.start()/.cancel()
+            )
+        }
+        composable(
+            route = NavScreen.Statistics.route,
+        ){
+            ScreenStatistics(
+            statisticsViewModel
             )
         }
 
