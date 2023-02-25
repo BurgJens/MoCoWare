@@ -20,7 +20,7 @@ class Gyroskope: Service(), SensorEventListener {
     override fun onCreate() {
         super.onCreate()
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        sensorBeschleunigung = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+        sensorBeschleunigung = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED)
 
         sensorManager.registerListener(
             this,
@@ -52,8 +52,6 @@ class Gyroskope: Service(), SensorEventListener {
         var axisX: Float = event.values[0]
         var axisY: Float = event.values[1]
         var axisZ: Float = event.values[2]
-
-
 
 
         val intent = Intent("Gyro")

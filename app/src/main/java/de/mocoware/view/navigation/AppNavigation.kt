@@ -109,7 +109,7 @@ fun AppNavigation(
             GameNavigation(
                 viewModel = gameViewModel              // Context für Service.start()/.cancel()
             ){
-                navController.navigate(NavScreen.Game.route)
+                navController.navigate(NavScreen.Start.route)
             }
         }
         composable(

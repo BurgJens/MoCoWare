@@ -17,6 +17,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import com.example.testrobert.Permission
+import de.mocoware.sensor.Accelerometer
+import de.mocoware.sensor.Gyroskope
 import de.mocoware.view.elements.ButtonStandard
 import de.mocoware.viewmodel.JoinGameViewModel
 
@@ -30,6 +32,9 @@ fun ScreenStartHandler(
     navigateStatistics: () -> Unit
 ){
     val context = LocalContext.current
+
+
+//    context.startService(Intent(context, Gyroskope::class.java))
 
     ScreenStartRender(
         navigateNewGame = navigateNewGame,

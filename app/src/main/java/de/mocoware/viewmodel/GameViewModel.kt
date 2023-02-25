@@ -3,18 +3,14 @@ package de.mocoware.viewmodel
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.service.autofill.OnClickAction
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
 import de.mocoware.model.Game
 import de.mocoware.model.HighScore
 import de.mocoware.model.MiniGameTimer
 import de.mocoware.model.minigames.*
 import de.mocoware.view.navigation.NavMG
-import java.lang.Thread.sleep
 import java.util.*
 
 
@@ -59,6 +55,12 @@ class GameViewModel : ViewModel(){
 
     private val _speed : MutableLiveData<Double> = MutableLiveData<Double>()
     var speed : LiveData<Double> = _speed
+
+    private val _gyro : MutableLiveData<Triple<Float,Float,Float>> = MutableLiveData<Triple<Float,Float,Float>>()
+    var gyro : LiveData<Triple<Float,Float,Float>> = _gyro
+
+    private val _gyroGrad : MutableLiveData<Triple<Double,Double,Double>> = MutableLiveData<Triple<Double,Double,Double>>()
+    var gyroGrad : LiveData<Triple<Double,Double,Double>> = _gyroGrad
 
 
     // Nur wegen cast problem
@@ -106,7 +108,11 @@ class GameViewModel : ViewModel(){
 
             }
             if(axisX != null && axisY!=null && axisZ != null){
-               setAcc(axisX,axisY,axisZ)
+               updateAcceleration(axisX,axisY,axisZ)
+            }
+
+            if(axisXGyroReciv != null && axisYGyroReciv!=null && axisZGyroreciv != null) {
+                updateGyro(axisXGyroReciv, axisYGyroReciv, axisZGyroreciv)
             }
         }
     }
@@ -172,7 +178,7 @@ class GameViewModel : ViewModel(){
         gameStartTimer = MiniGameTimer(timeToStart)
     }
 
-    fun setAcc(floatX: Float,floatY: Float,floatZ: Float){
+    fun updateAcceleration(floatX: Float, floatY: Float, floatZ: Float){
 
        if (floatX>maxXwert) {
            maxXwert=floatX
@@ -186,6 +192,26 @@ class GameViewModel : ViewModel(){
            maxZwert=floatZ
            _accel.postValue(arrayOf(maxXwert,maxYwert,maxZwert))
        }
+    }
+
+    fun updateGyro(floatX: Float, floatY: Float, floatZ: Float){
+        val oldVal = _gyro.value
+        val newVal = Triple(
+            (oldVal?.first ?: 0f) +floatX,
+            (oldVal?.second ?: 0f) +floatY,
+            (oldVal?.third ?: 0f) +floatZ
+        )
+
+        val newValDegree = Triple(
+            Math.toDegrees(newVal.first.toDouble()),
+            Math.toDegrees(newVal.second.toDouble()),
+            Math.toDegrees(newVal.third.toDouble())
+        )
+
+        println(newValDegree)
+
+        _gyro.postValue(newVal)
+        _gyroGrad.postValue(newValDegree)
     }
 }
 
