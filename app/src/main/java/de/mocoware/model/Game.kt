@@ -56,13 +56,9 @@ class Game (private var name: String, rounds: Int = 5){
         miniGames.clear()
 
         val testList = listOf(
-            MiniGameEnum.MGLoRButtonMasher,
+//            MiniGameEnum.MGLoRButtonMasher,
             MiniGameEnum.MGannoyingButtons,
             MiniGameEnum.MGconfusingButtons,
-
-//                MiniGameEnum.MGbeleuchtung,
-//                MiniGameEnum.MGshake,
-//                MiniGameEnum.MGlaufenWithService
         )
 
         var lastGame = testList.random()
@@ -74,6 +70,7 @@ class Game (private var name: String, rounds: Int = 5){
         repeat(amount){
             while (nextMinigame == lastGame){
                 nextMinigame = testList.random()
+//                nextMinigame = MiniGameEnum.values().random()
             }
 
             lastGame = nextMinigame
@@ -87,5 +84,7 @@ class Game (private var name: String, rounds: Int = 5){
                 MiniGameEnum.MGLoRButtonMasher -> miniGames.add(MGLoRButtonMasher())
             }
         }
+
+        println(miniGames)
     }
 }
