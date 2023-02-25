@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -22,9 +23,10 @@ import de.mocoware.viewmodel.UserNameViewModel
 @Composable
 fun ScreenEnterUserName(
     navigate : () -> Unit,
-    viewModel: UserNameViewModel,
-    context : Context
+    viewModel: UserNameViewModel
 ){
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

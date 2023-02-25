@@ -48,9 +48,7 @@ fun AppNavigation(
     gameViewModel: GameViewModel,
     createGameViewModel: CreateGameViewModel,
     statisticsViewModel: StatisticsViewModel,
-    userNameViewModel: UserNameViewModel,
-    context: Context
-
+    userNameViewModel: UserNameViewModel
 ){
     val navController = rememberNavController()
 
@@ -73,8 +71,7 @@ fun AppNavigation(
         ){
             ScreenEnterUserName(
                 viewModel = userNameViewModel,
-                navigate = {navController.navigate(NavScreen.Start.route)},
-                context = context
+                navigate = {navController.navigate(NavScreen.Start.route)}
             )
         }
         composable(
@@ -86,8 +83,7 @@ fun AppNavigation(
                     navigateJoinGame = { navController.navigate(NavScreen.JoinGame.route) },
 //                    navigateTest = { navController.navigate(NavScreen.Test.route) },
                     navigateTest = { navController.navigate(NavScreen.Test.route) },
-                    navigateStatistics = {navController.navigate(NavScreen.Statistics.route)},
-                    context=context
+                    navigateStatistics = {navController.navigate(NavScreen.Statistics.route)}
                 )
 
         }
@@ -111,8 +107,7 @@ fun AppNavigation(
             route = NavScreen.Game.route,
         ){
             GameNavigation(
-                viewModel = gameViewModel,
-                context = context               // Context für Service.start()/.cancel()
+                viewModel = gameViewModel              // Context für Service.start()/.cancel()
             )
         }
         composable(
