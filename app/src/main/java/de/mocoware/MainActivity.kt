@@ -66,15 +66,13 @@ class MainActivity : ComponentActivity() {
             .registerReceiver(gameViewModel.Receiver(), IntentFilter("Light"))
 
         setContent {
-
             MoCoWareTheme {
                 AppNavigation(
                     joinGameViewModel = joinGameViewModel,
                     gameViewModel = gameViewModel,
                     createGameViewModel = createGameViewModel,
                     statisticsViewModel = statisticsViewModel,
-                    userNameViewModel = userNameViewModel,
-                    context = this@MainActivity
+                    userNameViewModel = userNameViewModel
                 )
             }
         }

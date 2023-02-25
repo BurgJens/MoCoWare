@@ -31,8 +31,7 @@ sealed class NavMG(val route : String){
 
 @Composable
 fun GameNavigation(
-    viewModel: GameViewModel,
-    context: Context
+    viewModel: GameViewModel
 ) {
     val navController = rememberNavController()
     val context = LocalContext.current as Activity
@@ -114,7 +113,6 @@ fun GameNavigation(
                 {navController.navigate(NavMG.CountDown.route)}
 
             )
-
         }
         composable(
             route = NavMG.MGLoRButtonMasher.route

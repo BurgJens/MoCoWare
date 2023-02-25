@@ -13,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import com.example.testrobert.Permission
@@ -26,9 +27,10 @@ fun ScreenStartHandler(
     navigateNewGame: () -> Unit,
     navigateJoinGame: () -> Unit,
     navigateTest: () -> Unit,
-    navigateStatistics: () -> Unit,
-    context: Context
+    navigateStatistics: () -> Unit
 ){
+    val context = LocalContext.current
+
     ScreenStartRender(
         navigateNewGame = navigateNewGame,
         navigateJoinGame = navigateJoinGame,
