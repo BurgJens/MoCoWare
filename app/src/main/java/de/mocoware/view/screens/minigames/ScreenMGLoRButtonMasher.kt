@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.size.Scale
 import de.mocoware.model.Game
+import de.mocoware.model.MiniGameEnum
+import de.mocoware.model.PlayedGamesDataStore
 import de.mocoware.model.minigames.DataMGLoRButtonMasher
 import de.mocoware.view.elements.GenericButton
 import de.mocoware.view.elements.GenericScaleButton
@@ -38,10 +40,10 @@ fun ScreenMGLoRButtonMasher(
     navigate : () -> Unit,
 ){
 
-    //var lordata = viewModel.currentMG.gameData
 
-    val context = LocalContext.current as Activity
-    context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
+    val context = LocalContext.current
+
 
     var failed by remember {mutableStateOf(false)}
 
@@ -78,7 +80,9 @@ fun ScreenMGLoRButtonMasher(
 
                      true ->
                          ButtonCard(
-                             onClickRight = {viewModel.finishGame({navigate()}, true)},
+                             onClickRight = {
+                                 viewModel.finishGame({navigate()}, true)
+                                 PlayedGamesDataStore.gameEnd(context, MiniGameEnum.MGLoRButtonMasher, true)},
                              onClickWrong = { failed = true},
                              each.leftcorrectButton
                          )
@@ -99,6 +103,7 @@ fun ScreenMGLoRButtonMasher(
         MiniGameTimerComposable(
             viewModel,
             {
+                PlayedGamesDataStore.gameEnd(context, MiniGameEnum.MGLoRButtonMasher, false)
                 viewModel.finishGame({navigate()}, false)
 
             }
