@@ -62,7 +62,7 @@ fun ScreenMGconfusingColorButtons(
                                 onClick = {
                                     if (!failed) {
                                         PlayedGamesDataStore.gameEnd(context, MiniGameEnum.MGconfusingButtons, true)
-                                        viewModel.finishGame({ navigate() })
+                                        viewModel.finishGame({ navigate() }, true)
                                     }
                                 }
                             )
