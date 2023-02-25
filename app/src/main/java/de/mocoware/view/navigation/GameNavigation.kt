@@ -41,8 +41,7 @@ fun GameNavigation(
             route = NavMG.Lobby.route
         ) {
             ScreenLobby(
-                startGame = {navController.navigate(NavMG.CountDown.route)},
-                context = context
+                startGame = {navController.navigate(NavMG.CountDown.route)}
             )
         }
         composable(
@@ -88,7 +87,6 @@ fun GameNavigation(
         ){
             ScreeenMGlaufenWithService(
                 viewModel = viewModel,
-                context = context,
                 {navController.navigate(NavMG.CountDown.route)}
             )
 
@@ -98,7 +96,6 @@ fun GameNavigation(
         ){
             ScreenMGshake(
                 viewModel = viewModel,
-                context = context,
                 {navController.navigate(NavMG.CountDown.route)}
 
             )
@@ -109,7 +106,6 @@ fun GameNavigation(
         ){
             ScreenMGbeleuchtung(
                 viewModel = viewModel,
-                context = context,
                 {navController.navigate(NavMG.CountDown.route)}
 
             )

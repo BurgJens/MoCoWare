@@ -10,6 +10,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import de.mocoware.model.minigames.Beleuchtung
@@ -25,9 +26,9 @@ import kotlin.math.roundToInt
 @Composable
 fun ScreeenMGlaufenWithService(
     viewModel : GameViewModel,
-    context: Context,
     navigate : () -> Unit
 ){
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier.fillMaxSize(),

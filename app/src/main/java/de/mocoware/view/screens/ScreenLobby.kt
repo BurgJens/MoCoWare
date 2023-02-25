@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role.Companion.Button
 import de.mocoware.sensor.Accelerometer
 import de.mocoware.sensor.Gyroskope
@@ -17,13 +18,12 @@ import de.mocoware.view.elements.ButtonStandard
 
 @Composable
 fun ScreenLobby(
-    startGame: () -> Unit,
-    context: Context
+    startGame: () -> Unit
 ){
-    context.stopService(Intent(context,Accelerometer::class.java))
-    context.stopService(Intent(context,LightSensor::class.java))
-    context.stopService(Intent(context,SpeedSensor::class.java))
-    context.stopService(Intent(context,Gyroskope::class.java))
+    LocalContext.current.stopService(Intent(LocalContext.current,Accelerometer::class.java))
+    LocalContext.current.stopService(Intent(LocalContext.current,LightSensor::class.java))
+    LocalContext.current.stopService(Intent(LocalContext.current,SpeedSensor::class.java))
+    LocalContext.current.stopService(Intent(LocalContext.current,Gyroskope::class.java))
     Box (
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
