@@ -1,5 +1,6 @@
 package de.mocoware.view.screens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -25,6 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ScreenStatistics(
     viewModel: StatisticsViewModel
@@ -57,6 +59,36 @@ fun ScreenStatistics(
         )
         
         LazyColumn {
+            stickyHeader {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    Arrangement.Center
+                ) {
+                    Text(
+                        text = "gamename",
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 1.dp, vertical = 8.dp)
+                    )
+                    Text(
+                        text = "times played",
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .weight(0.3f)
+                            .padding(horizontal = 1.dp, vertical = 8.dp)
+                    )
+                    Text(
+                        text = "won",
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .weight(0.3f)
+                            .padding(horizontal = 1.dp, vertical = 8.dp)
+                    )
+                }
+            }
             itemsIndexed(gameStats ?: mutableListOf()) { index, item ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
