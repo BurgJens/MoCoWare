@@ -29,7 +29,7 @@ import de.mocoware.viewmodel.GameViewModel
 @Composable
 fun ScreenScore(
     viewModel: GameViewModel,
-    context: Context
+    navigateStart: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -62,7 +62,7 @@ fun ScreenScore(
         ButtonStandard(
             text = "Close",
             modifier = Modifier.padding(20.dp),
-            onClick = { context.startActivity(Intent(context,MainActivity::class.java)) }
+            onClick = navigateStart
         )
 
     }

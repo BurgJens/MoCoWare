@@ -30,7 +30,8 @@ sealed class NavMG(val route : String){
 
 @Composable
 fun GameNavigation(
-    viewModel: GameViewModel
+    viewModel: GameViewModel,
+    navigateStart: () -> Unit
 ) {
     val navController = rememberNavController()
     val context = LocalContext.current as Activity
@@ -49,7 +50,7 @@ fun GameNavigation(
         ) {
             ScreenScore(
                 viewModel=viewModel,
-                context = context
+                navigateStart
             )
         }
         composable(
