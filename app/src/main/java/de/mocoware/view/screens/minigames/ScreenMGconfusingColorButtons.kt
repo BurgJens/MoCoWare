@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import de.mocoware.model.MiniGameEnum
+import de.mocoware.model.PlayedGamesDataStore
 import de.mocoware.model.minigames.DataMGconfusingButtons
 import de.mocoware.view.elements.GenericButton
 import de.mocoware.view.elements.MiniGameTimerComposable
@@ -29,6 +31,7 @@ fun ScreenMGconfusingColorButtons(
     navigate : () -> Unit,
 ) {
     var failed by remember {mutableStateOf(false)}
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -58,8 +61,8 @@ fun ScreenMGconfusingColorButtons(
                                 color = each.color,
                                 onClick = {
                                     if (!failed) {
+                                        PlayedGamesDataStore.gameEnd(context, MiniGameEnum.MGconfusingButtons, true)
                                         viewModel.finishGame({ navigate() })
-
                                     }
                                 }
                             )
@@ -87,6 +90,7 @@ fun ScreenMGconfusingColorButtons(
 
         MiniGameTimerComposable(viewModel,
             {
+                PlayedGamesDataStore.gameEnd(context, MiniGameEnum.MGconfusingButtons, false)
                 viewModel.finishGame({ navigate() })
             }
         )

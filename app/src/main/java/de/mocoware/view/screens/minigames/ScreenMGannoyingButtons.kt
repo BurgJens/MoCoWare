@@ -10,6 +10,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import de.mocoware.model.MiniGameEnum
+import de.mocoware.model.PlayedGamesDataStore
 import de.mocoware.model.minigames.DataMGannoyingButtons
 import de.mocoware.model.minigames.DataMGconfusingButtons
 import de.mocoware.view.elements.GenericButton
@@ -22,6 +24,8 @@ fun ScreenMGannoyingButtons(
     gameData : DataMGannoyingButtons,
     navigate : () -> Unit,
 ){
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -44,7 +48,8 @@ fun ScreenMGannoyingButtons(
                             offsetY = each.offsetY.dp,
                             rotation = each.rotation)
                         {
-                        viewModel.finishGame({ navigate() }, true)
+                            PlayedGamesDataStore.gameEnd(context,MiniGameEnum.MGannoyingButtons, true)
+                            viewModel.finishGame({ navigate() }, true)
                         }
                 }
         }
@@ -52,10 +57,10 @@ fun ScreenMGannoyingButtons(
         MiniGameTimerComposable(
             viewModel,
             {
+                PlayedGamesDataStore.gameEnd(context,MiniGameEnum.MGannoyingButtons, false)
                 viewModel.finishGame({ navigate() }, false)
             }
         )
-
     }
 }
 

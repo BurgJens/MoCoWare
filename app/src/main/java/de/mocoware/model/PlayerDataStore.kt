@@ -6,23 +6,23 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 private val Context.dataStore by preferencesDataStore(name = "gameStatistics")
 
-private const val PLAYERNAME_KEY = "annoyingbuttons_won"
-private const val PLAYERNAME_DEFAULT = "undefined"
+private const val PLAYERNAME_KEY = "playername"
+const val PLAYERNAME_DEFAULT = "-/_undefined-/_"
 private val PLAYERNAME = stringPreferencesKey(PLAYERNAME_KEY)
 
-fun getPlayerName(context: Context): Flow<String> {
-    return context.dataStore.data.map { settings ->
-        settings[PLAYERNAME] ?: PLAYERNAME_DEFAULT
-    }
+suspend fun getGlobalPlayerName(context: Context): String {
+    val settings = context.dataStore.data.firstOrNull() ?: return PLAYERNAME_DEFAULT
+    return settings[PLAYERNAME] ?: PLAYERNAME_DEFAULT
 }
 
-suspend fun setPlayername(context: Context, playername : String) {
+suspend fun setGlobalPlayername(context: Context, playername : String) {
     context.dataStore.edit { settings ->
         settings[PLAYERNAME] = playername
     }
@@ -39,6 +39,13 @@ object PlayedGamesDataStore {
         }
         for (each in MiniGameEnum.values()){
             mgPlayedCounterKeys.add(intPreferencesKey(each.toString() + "_played"))
+        }
+    }
+
+    fun gameEnd(context: Context, mgEnum: MiniGameEnum, won : Boolean){
+        CoroutineScope(Dispatchers.Default).launch {
+            if (won) incMGwonCount(context,mgEnum)
+            incMGplayedCount(context,mgEnum)
         }
     }
 

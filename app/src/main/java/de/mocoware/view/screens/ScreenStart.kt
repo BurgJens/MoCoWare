@@ -48,49 +48,49 @@ fun ScreenStartRender(
 ){
 //    LocalLifecycleOwner.
 
-    Permission(
-    permissionNotAvailableContent = {
-        Column(Modifier.fillMaxSize()) {
-            Text("O noes! No Camera!")
-            Spacer(modifier = Modifier.height(8.dp))
-            Button(
-                onClick = {
-                    context.startActivity(
-                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                            data = Uri.fromParts("package", context.packageName, null)
-                        }
-                    )
+        Permission(
+        permissionNotAvailableContent = {
+            Column(Modifier.fillMaxSize()) {
+                Text("O noes! No Camera!")
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        context.startActivity(
+                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                data = Uri.fromParts("package", context.packageName, null)
+                            }
+                        )
+                    }
+                ) {
+                    Text("Öffne deine Einstellungen")
                 }
-            ) {
-                Text("Öffne deine Einstellungen")
             }
         }
-    }
-)
+    )
 
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.surface),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            ButtonStandard(
-                text = "New Game",
-                modifier = Modifier.padding(20.dp),             // Abstand auf 20 (+20) dp ! finde ich besser und ihr ?
-                onClick = navigateNewGame
-            )
-            ButtonStandard(
-                text = "Join Game",
-                modifier = Modifier.padding(20.dp),
-                onClick = navigateJoinGame
-            )
-            ButtonStandard(
-                text = "Statistics",
-                modifier = Modifier.padding(20.dp),
-                onClick = navigateStatistics
-            )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.surface),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        ButtonStandard(
+            text = "New Game",
+            modifier = Modifier.padding(20.dp),             // Abstand auf 20 (+20) dp ! finde ich besser und ihr ?
+            onClick = navigateNewGame
+        )
+        ButtonStandard(
+            text = "Join Game",
+            modifier = Modifier.padding(20.dp),
+            onClick = navigateJoinGame
+        )
+        ButtonStandard(
+            text = "Statistics",
+            modifier = Modifier.padding(20.dp),
+            onClick = navigateStatistics
+        )
 //            ButtonStandard(
 //                text = "Test",
 //                modifier = Modifier,
@@ -98,5 +98,5 @@ fun ScreenStartRender(
 //                    Log.d("Button", "Was clicked")
 //                }
 //            )
-        }
+    }
 }

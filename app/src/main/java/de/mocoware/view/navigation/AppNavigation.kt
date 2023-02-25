@@ -27,6 +27,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 sealed class NavScreen(val route : String){
     object Splash:NavScreen("splash")
+    object EnterUserName:NavScreen("enterusername")
     object SplashEnd:NavScreen("splashEnd")
     object Start : NavScreen("start")
     object JoinGame : NavScreen("joingame")
@@ -47,22 +48,34 @@ fun AppNavigation(
     gameViewModel: GameViewModel,
     createGameViewModel: CreateGameViewModel,
     statisticsViewModel: StatisticsViewModel,
+    userNameViewModel: UserNameViewModel,
     context: Context
 
 ){
     val navController = rememberNavController()
 
-
     NavHost(navController = navController, startDestination = NavScreen.Splash.route){
         composable(
             route=NavScreen.Splash.route
         ){
-            SplashScreenStart( navController =navController )
+            SplashScreenStart( navController = navController )
         }
         composable(
             route=NavScreen.SplashEnd.route
         ){
-            SplashScreenEnd( navController =navController )
+            SplashScreenEnd(
+                navController = navController,
+                viewModel = userNameViewModel
+            )
+        }
+        composable(
+            route = NavScreen.EnterUserName.route
+        ){
+            ScreenEnterUserName(
+                viewModel = userNameViewModel,
+                navigate = {navController.navigate(NavScreen.Start.route)},
+                context = context
+            )
         }
         composable(
             route = NavScreen.Start.route

@@ -1,7 +1,5 @@
 package de.mocoware.view.screens
 
-import android.content.Context
-import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -14,8 +12,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import de.mocoware.model.MiniGameEnum
 import de.mocoware.model.PlayedGamesDataStore
 import de.mocoware.view.elements.ButtonStandard
@@ -28,7 +29,8 @@ import kotlinx.coroutines.launch
 fun ScreenStatistics(
     viewModel: StatisticsViewModel
 ) {
-    val availableGames by viewModel.gameStatsLive.observeAsState()
+    val gameStats by viewModel.gameStatsLive.observeAsState()
+    val playerName by viewModel.playerNameLive.observeAsState()
 
     val firstDraw = remember{mutableStateOf(true)}
 
@@ -36,15 +38,26 @@ fun ScreenStatistics(
 
     if (firstDraw.value){
         firstDraw.value = false
+        viewModel.updatePlayerName(thisContext)
         viewModel.updateGameStats(thisContext)
     }
 
     Column (
         modifier = Modifier.fillMaxSize(),
-        Arrangement.Center,
+        verticalArrangement = Arrangement.Center,
+         horizontalAlignment = Alignment.CenterHorizontally
     ){
+        Text(
+            text = "Playerstatistics of"
+        )
+        Text(
+            text = playerName ?: "undefined",
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 30.sp
+        )
+        
         LazyColumn {
-            itemsIndexed(availableGames ?: mutableListOf()) { index, item ->
+            itemsIndexed(gameStats ?: mutableListOf()) { index, item ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     Arrangement.Center
@@ -72,31 +85,5 @@ fun ScreenStatistics(
                 }
             }
         }
-
-        ButtonStandard(
-            text = "annoyingButtons",
-            modifier = Modifier,
-            onClick = {
-                CoroutineScope(Dispatchers.Main).launch {
-                    PlayedGamesDataStore.incMGplayedCount(thisContext, MiniGameEnum.MGannoyingButtons)
-                    PlayedGamesDataStore.incMGwonCount(thisContext, MiniGameEnum.MGannoyingButtons)
-                }
-            }
-        )
-
-        ButtonStandard(
-            text = "annoyingButtons",
-            modifier = Modifier,
-            onClick = {
-                CoroutineScope(Dispatchers.Main).launch {
-                    PlayedGamesDataStore.incMGplayedCount(thisContext, MiniGameEnum.MGconfusingButtons)
-                    PlayedGamesDataStore.incMGwonCount(thisContext, MiniGameEnum.MGconfusingButtons)
-                }
-            }
-        )
-
-
     }
-
-
 }

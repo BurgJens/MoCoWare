@@ -1,6 +1,7 @@
 package de.mocoware
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
@@ -50,7 +51,9 @@ class MainActivity : ComponentActivity() {
         val gameViewModel: GameViewModel by viewModels()
         val createGameViewModel: CreateGameViewModel by viewModels()
         val statisticsViewModel: StatisticsViewModel by viewModels()
+        val userNameViewModel: UserNameViewModel by viewModels()
 
+        userNameViewModel.getPlayername(this@MainActivity)
 
         // register receiver
         LocalBroadcastManager.getInstance(this)
@@ -70,6 +73,7 @@ class MainActivity : ComponentActivity() {
                     gameViewModel = gameViewModel,
                     createGameViewModel = createGameViewModel,
                     statisticsViewModel = statisticsViewModel,
+                    userNameViewModel = userNameViewModel,
                     context = this@MainActivity
                 )
             }
