@@ -26,7 +26,6 @@ sealed class NavMG(val route : String){
     object MGshake : NavMG("shake")
     object MGbeleuchtung : NavMG("beleuchtung")
     object MGLoRButtonMasher : NavMG("loRButtonMasher")
-    object MGHangman : NavMG("hangman")
 }
 
 @Composable
