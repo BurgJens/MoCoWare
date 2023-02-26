@@ -62,8 +62,8 @@ class Game (private var name: String, rounds: Int = 5){
                 MiniGameEnum.MGannoyingButtons,
                 MiniGameEnum.MGconfusingButtons,
 
-//                MiniGameEnum.MGbeleuchtung,
-//                MiniGameEnum.MGshake,
+            //    MiniGameEnum.MGbeleuchtung,
+            //   MiniGameEnum.MGshake,
 //                MiniGameEnum.MGlaufenWithService
             ).random()
 

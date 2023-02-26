@@ -29,8 +29,11 @@ fun ScreenMGshake(
         contentAlignment = Alignment.Center
     ) {
 
+        var eins=0
+
         val test = viewModel.gameDatMGshake
         val accelObserve by viewModel.accel.observeAsState()
+
 
         if (!viewModel.serviceAccelIstAktiv){
             context.startService(Intent(context,Accelerometer::class.java))
@@ -48,6 +51,9 @@ fun ScreenMGshake(
             Text(modifier = Modifier.padding(20.dp), text ="max Y Wert: ${accelObserve?.get(1)?.roundToInt()}", color = Color.Red)
             Text(modifier = Modifier.padding(20.dp), text ="max Z Wert: ${accelObserve?.get(2)?.roundToInt()}", color = Color.Red)
         }
+
+
+
 
 
 

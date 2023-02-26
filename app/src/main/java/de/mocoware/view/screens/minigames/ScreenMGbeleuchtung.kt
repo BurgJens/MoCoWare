@@ -7,6 +7,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,11 +37,21 @@ fun ScreenMGbeleuchtung(
         var test = viewModel.gameDatMGbeleuchtung
         val beleuchtugObserve by viewModel.light.observeAsState()
 
+        val aa = remember { mutableStateOf(true) }
+
+
+
         if (!viewModel.serviceLightIstAktiv){
             context.startService(Intent(context, LightSensor::class.java))
             viewModel.serviceLightIstAktiv=true
         }
 
+
+        if (beleuchtugObserve!! >50 && aa.value){
+            aa.value=false
+
+            viewModel.finishGame({ navigate() }, true)
+        }
 
         Column(
             modifier = Modifier.fillMaxSize(),

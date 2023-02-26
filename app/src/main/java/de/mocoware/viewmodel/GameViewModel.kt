@@ -51,6 +51,8 @@ class GameViewModel : ViewModel(){
     var serviceLightIstAktiv=false
     var serviceGyrpIstAktiv=false
 
+    var lichtWert=true
+
     private val _accel: MutableLiveData<Array<Float>> = MutableLiveData<Array<Float>>()
     var accel: LiveData<Array<Float>> = _accel
 
@@ -115,7 +117,10 @@ class GameViewModel : ViewModel(){
 
    init {
        println("test${currentMG.gameRoute}")
+       setAcc(1f,1f,1f)
+       _light.postValue(0.1f)
    }
+
 
     fun updateMGdata(){
         when (currentMG.gameData){
@@ -153,6 +158,8 @@ class GameViewModel : ViewModel(){
         }else{
             routeToMG = NavMG.Lobby.route
         }
+        _light.postValue(0f)
+        _accel.postValue(arrayOf(0.0f,0f,0f))
 
         updateMGdata()
 
@@ -173,6 +180,7 @@ class GameViewModel : ViewModel(){
     }
 
     fun setAcc(floatX: Float,floatY: Float,floatZ: Float){
+
 
        if (floatX>maxXwert) {
            maxXwert=floatX
