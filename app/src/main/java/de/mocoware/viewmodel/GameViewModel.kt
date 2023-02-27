@@ -123,7 +123,7 @@ class GameViewModel : ViewModel(){
 
    init {
        println("test${currentMG.gameRoute}")
-       setAcc(1f,1f,1f)
+       updateAcceleration(1f,1f,1f)
        _light.postValue(0.1f)
    }
 

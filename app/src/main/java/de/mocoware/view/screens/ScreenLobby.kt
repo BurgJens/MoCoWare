@@ -20,10 +20,7 @@ import de.mocoware.view.elements.ButtonStandard
 fun ScreenLobby(
     startGame: () -> Unit
 ){
-    LocalContext.current.stopService(Intent(LocalContext.current,Accelerometer::class.java))
-    LocalContext.current.stopService(Intent(LocalContext.current,LightSensor::class.java))
-    LocalContext.current.stopService(Intent(LocalContext.current,SpeedSensor::class.java))
-    LocalContext.current.stopService(Intent(LocalContext.current,Gyroskope::class.java))
+
     Box (
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
