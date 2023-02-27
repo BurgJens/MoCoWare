@@ -7,6 +7,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,12 +32,26 @@ fun ScreenMGshake(
         contentAlignment = Alignment.Center
     ) {
 
+        var eins=0
+
         val test = viewModel.gameDatMGshake
         val accelObserve by viewModel.accel.observeAsState()
+        val aa = remember { mutableStateOf(true) }
+        val acc = remember { mutableStateOf(false) }
 
-        if (!viewModel.serviceAccelIstAktiv){
+
+
+
+        if (!acc.value){
             context.startService(Intent(context,Accelerometer::class.java))
-            viewModel.serviceAccelIstAktiv=true
+            acc.value=true
+        }
+
+        if(accelObserve?.get(0)!! >10 && aa.value){
+            viewModel.serviceAccelIstAktiv=false
+            aa.value=false
+            acc.value=false
+            viewModel.finishGame({ navigate() }, true)
         }
 
 
@@ -45,10 +61,12 @@ fun ScreenMGshake(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(modifier = Modifier.padding(20.dp), text ="${test.text}", color = Color.Black)
-            Text(modifier = Modifier.padding(20.dp), text ="max X Wert: ${accelObserve?.get(0)?.roundToInt()}", color = Color.Red)
-            Text(modifier = Modifier.padding(20.dp), text ="max Y Wert: ${accelObserve?.get(1)?.roundToInt()}", color = Color.Red)
-            Text(modifier = Modifier.padding(20.dp), text ="max Z Wert: ${accelObserve?.get(2)?.roundToInt()}", color = Color.Red)
+            Text(modifier = Modifier.padding(20.dp), text ="Wert: ${accelObserve?.get(0)?.roundToInt()}", color = Color.Red)
+
         }
+
+
+
 
 
 
