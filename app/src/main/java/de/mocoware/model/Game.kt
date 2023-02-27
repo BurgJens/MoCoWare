@@ -5,7 +5,7 @@ import de.mocoware.view.navigation.NavMG
 
 import kotlin.random.Random
 
-class Game (private var name: String, rounds: Int = 5){
+class Game (private var name: String, rounds: Int = 6){
 
     private var gameId = generateGameId()
 
@@ -59,11 +59,11 @@ class Game (private var name: String, rounds: Int = 5){
            // val nextMinigame = MiniGameEnum.MGlaufenWithService
             val nextMinigame = listOf(
 //                MiniGameEnum.MGLoRButtonMasher,
-                MiniGameEnum.MGannoyingButtons,
-                MiniGameEnum.MGconfusingButtons,
+         //       MiniGameEnum.MGannoyingButtons,
+         //       MiniGameEnum.MGconfusingButtons,
 
-            //    MiniGameEnum.MGbeleuchtung,
-            //   MiniGameEnum.MGshake,
+               MiniGameEnum.MGbeleuchtung,
+              MiniGameEnum.MGshake,
 //                MiniGameEnum.MGlaufenWithService
             ).random()
 

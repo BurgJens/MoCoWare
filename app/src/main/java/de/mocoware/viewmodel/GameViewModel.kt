@@ -21,7 +21,7 @@ import java.util.*
 class GameViewModel : ViewModel(){
 
 
-    val highscores = listOf<HighScore>(HighScore("test","test",false,5))
+    val highscores = listOf<HighScore>(/*HighScore("test","test",false,5)*/)
 
     var game = Game("Bla")
 
@@ -148,6 +148,9 @@ class GameViewModel : ViewModel(){
     fun finishGame(navigate : () -> Unit, won : Boolean = false){
 
         wonGames.add(won)
+        _light.postValue(0f)
+        _accel.postValue(arrayOf(0.0f,0f,0f))
+
 
         val nextGame = game.nextGame()
         currentMG = game.getCurrentMG()
@@ -158,8 +161,6 @@ class GameViewModel : ViewModel(){
         }else{
             routeToMG = NavMG.Lobby.route
         }
-        _light.postValue(0f)
-        _accel.postValue(arrayOf(0.0f,0f,0f))
 
         updateMGdata()
 

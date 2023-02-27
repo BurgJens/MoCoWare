@@ -7,7 +7,7 @@ import de.mocoware.view.navigation.NavMG
 
 
 data class DataMGshake(override var data: Any):GameData{
-    var text="Schüttel dein Handy so stark du kannst!"
+    var text="Schüttel dein Handy auf Wert 20 !"
 }
 
 

@@ -37,21 +37,25 @@ fun ScreenMGbeleuchtung(
         var test = viewModel.gameDatMGbeleuchtung
         val beleuchtugObserve by viewModel.light.observeAsState()
 
+
+
         val aa = remember { mutableStateOf(true) }
+        val lightB = remember { mutableStateOf(false) }
 
 
 
-        if (!viewModel.serviceLightIstAktiv){
+        if (!lightB.value){
             context.startService(Intent(context, LightSensor::class.java))
-            viewModel.serviceLightIstAktiv=true
+            lightB.value=true
         }
 
 
-        if (beleuchtugObserve!! >50 && aa.value){
+        if (beleuchtugObserve!! >500 && aa.value){
             aa.value=false
-
+            lightB.value=false
             viewModel.finishGame({ navigate() }, true)
-        }
+
+                }
 
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -66,7 +70,7 @@ fun ScreenMGbeleuchtung(
         MiniGameTimerComposable(
             viewModel,
             {
-                viewModel.finishGame({ navigate() })
+                viewModel.finishGame({ navigate()})
             }
         )
     }
