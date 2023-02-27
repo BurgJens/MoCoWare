@@ -59,11 +59,12 @@ class Game (private var name: String, rounds: Int = 5){
            // val nextMinigame = MiniGameEnum.MGlaufenWithService
             val nextMinigame = listOf(
 //              MiniGameEnum.MGLoRButtonMasher,
-                MiniGameEnum.MGannoyingButtons,
-                MiniGameEnum.MGconfusingButtons,
-                MiniGameEnum.MGbeleuchtung,
-                MiniGameEnum.MGshake,
-//                MiniGameEnum.MGlaufenWithService
+//                MiniGameEnum.MGannoyingButtons,
+//                MiniGameEnum.MGconfusingButtons,
+//                MiniGameEnum.MGbeleuchtung,
+//                MiniGameEnum.MGshake,
+//                MiniGameEnum.MGlaufenWithService,
+                MiniGameEnum.MGballInHole
             ).random()
 
             when(nextMinigame){
@@ -73,6 +74,7 @@ class Game (private var name: String, rounds: Int = 5){
                 MiniGameEnum.MGconfusingButtons -> miniGames.add(MGconfusingButtons())
                 MiniGameEnum.MGbeleuchtung -> miniGames.add(MGbeleuchtung())
                 MiniGameEnum.MGLoRButtonMasher -> miniGames.add(MGLoRButtonMasher())
+                MiniGameEnum.MGballInHole -> miniGames.add(MGballInHole())
             }
         }
     }

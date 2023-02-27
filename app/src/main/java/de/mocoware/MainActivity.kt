@@ -28,11 +28,8 @@ import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.testrobert.Permission
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import de.mocoware.sensor.Accelerometer
-import de.mocoware.sensor.Gyroskope
-import de.mocoware.sensor.LightSensor
-import de.mocoware.sensor.SpeedSensor
 import de.mocoware.ui.theme.MoCoWareTheme
+import de.mocoware.util.*
 import de.mocoware.view.navigation.AppNavigation
 import de.mocoware.viewmodel.*
 //import de.mocoware.view.AppNavigation
@@ -55,15 +52,19 @@ class MainActivity : ComponentActivity() {
 
         userNameViewModel.getPlayername(this@MainActivity)
 
+
+
         // register receiver
         LocalBroadcastManager.getInstance(this)
-            .registerReceiver(gameViewModel.Receiver(), IntentFilter("Speed"))
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter(SPEED_SENSOR))
         LocalBroadcastManager.getInstance(this)
-            .registerReceiver(gameViewModel.Receiver(), IntentFilter("Accel"))
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter(ACCELERATION_SENSOR))
         LocalBroadcastManager.getInstance(this)
-            .registerReceiver(gameViewModel.Receiver(), IntentFilter("Gyro"))
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter(GYRO_SENSOR))
         LocalBroadcastManager.getInstance(this)
-            .registerReceiver(gameViewModel.Receiver(), IntentFilter("Light"))
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter(LIGHT_SENSOR))
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(gameViewModel.Receiver(), IntentFilter(ROTATION_VECTOR_SENSOR))
 
         setContent {
             MoCoWareTheme {

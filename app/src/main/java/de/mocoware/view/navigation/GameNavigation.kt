@@ -3,9 +3,8 @@ package de.mocoware.view.navigation
 import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.os.PowerManager
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,6 +25,7 @@ sealed class NavMG(val route : String){
     object MGshake : NavMG("shake")
     object MGbeleuchtung : NavMG("beleuchtung")
     object MGLoRButtonMasher : NavMG("loRButtonMasher")
+    object MGballInHole : NavMG("balInHole")
 }
 
 @Composable
@@ -40,6 +40,8 @@ fun GameNavigation(
         composable(
             route = NavMG.Lobby.route
         ) {
+            context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+
             ScreenLobby(
                 startGame = {navController.navigate(NavMG.CountDown.route)}
             )
@@ -47,6 +49,8 @@ fun GameNavigation(
         composable(
             route = NavMG.ScoreScreen.route
         ) {
+            context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+
             ScreenScore(
                 viewModel=viewModel,
                 navigateStart
@@ -67,7 +71,7 @@ fun GameNavigation(
 
             ScreenMGannoyingButtons(
                 viewModel,
-                viewModel.gameDatMGannoyingButtons,  // <- lieber gesammte data class?
+                viewModel.gameDataMGannoyingButtons,  // <- lieber gesammte data class?
                 {navController.navigate(NavMG.CountDown.route)}
             )
         }
@@ -78,7 +82,7 @@ fun GameNavigation(
 
             ScreenMGconfusingColorButtons(
                 viewModel,
-                viewModel.gameDatMGconfusingButtons,
+                viewModel.gameDataMGconfusingButtons,
                 {navController.navigate(NavMG.CountDown.route)}
             )
         }
@@ -94,6 +98,8 @@ fun GameNavigation(
         composable(
             route = NavMG.MGshake.route
         ){
+            context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+
             ScreenMGshake(
                 viewModel = viewModel,
                 {navController.navigate(NavMG.CountDown.route)}
@@ -104,6 +110,8 @@ fun GameNavigation(
         composable(
             route = NavMG.MGbeleuchtung.route
         ){
+            context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+
             ScreenMGbeleuchtung(
                 viewModel = viewModel,
                 {navController.navigate(NavMG.CountDown.route)}
@@ -117,18 +125,18 @@ fun GameNavigation(
 
             ScreenMGLoRButtonMasher(
                 viewModel,
-                viewModel.gameDatMGLoRButtonMasher,
+                viewModel.gameDataMGLoRButtonMasher,
                 {navController.navigate(NavMG.CountDown.route)}
             )
         }
         composable(
-            route = NavMG.MGLoRButtonMasher.route
+            route = NavMG.MGballInHole.route
         ) {
             context.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-            ScreenMGLoRButtonMasher(
+            ScreenMGballInHole(
                 viewModel,
-                viewModel.gameDatMGLoRButtonMasher,
+                viewModel.gameDataMGballInHole,
                 {navController.navigate(NavMG.CountDown.route)}
             )
         }

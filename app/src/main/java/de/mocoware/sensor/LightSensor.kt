@@ -8,7 +8,10 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.IBinder
+import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import de.mocoware.util.LIGHT_SENSOR
+import de.mocoware.util.LIGHT_SENSOR_VALUE
 
 
 class LightSensor:Service(),SensorEventListener {
@@ -24,7 +27,7 @@ class LightSensor:Service(),SensorEventListener {
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
 
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
-
+        Log.d("checkSensors","LIGHT SENSOR CREATED")
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -36,18 +39,13 @@ class LightSensor:Service(),SensorEventListener {
 
         val lichtWert1=event.values[0]
 
-
-
-
-        val intent = Intent("Light")
-        intent.putExtra("lichtWert", lichtWert1)
-
+        val intent = Intent(LIGHT_SENSOR)
+        intent.putExtra(LIGHT_SENSOR_VALUE, lichtWert1)
 
         LocalBroadcastManager.getInstance(this@LightSensor).sendBroadcast(intent)
 
-
-
-
+//        Log.d("checkSensors","LIGHT CHANGED")
+//        Log.d("checkSensors","$lichtWert1")
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {

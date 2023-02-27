@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -24,6 +25,7 @@
         <service android:name=".sensor.Accelerometer"/>
         <service android:name=".sensor.Gyroskope"/>
         <service android:name=".sensor.LightSensor"/>
+        <service android:name=".sensor.RotationVector"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

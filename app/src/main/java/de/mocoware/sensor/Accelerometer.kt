@@ -8,8 +8,13 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import de.mocoware.util.ACCELERATION_SENSOR
+import de.mocoware.util.ACCELERATION_SENSOR_X_VALUE
+import de.mocoware.util.ACCELERATION_SENSOR_Y_VALUE
+import de.mocoware.util.ACCELERATION_SENSOR_Z_VALUE
 import java.lang.Math.abs
 
 
@@ -26,6 +31,7 @@ class Accelerometer : Service(), SensorEventListener {
 
         sensorManager.registerListener(this, sensorBeschleunigung, SensorManager.SENSOR_DELAY_NORMAL)
 
+        Log.d("checkSensors","ACCELEROMETER CREATED")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -50,16 +56,15 @@ class Accelerometer : Service(), SensorEventListener {
         var axisY: Float = abs(event.values[1])
         var axisZ: Float = abs(event.values[2])
 
-
-
-
-        val intent = Intent("Accel")
-        intent.putExtra("axisX", axisX)
-        intent.putExtra("axisY", axisY)
-        intent.putExtra("axisZ", axisZ)
+        val intent = Intent(ACCELERATION_SENSOR)
+        intent.putExtra(ACCELERATION_SENSOR_X_VALUE, axisX)
+        intent.putExtra(ACCELERATION_SENSOR_Y_VALUE, axisY)
+        intent.putExtra(ACCELERATION_SENSOR_Z_VALUE, axisZ)
 
         LocalBroadcastManager.getInstance(this@Accelerometer).sendBroadcast(intent)
 
+//        Log.d("checkSensors","ACCELEROMETER CHANGED")
+//        Log.d("checkSensors","$axisX   $axisY   $axisZ")
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {

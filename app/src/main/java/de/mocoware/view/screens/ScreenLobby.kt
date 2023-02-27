@@ -10,16 +10,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role.Companion.Button
-import de.mocoware.sensor.Accelerometer
-import de.mocoware.sensor.Gyroskope
-import de.mocoware.sensor.LightSensor
-import de.mocoware.sensor.SpeedSensor
+import de.mocoware.sensor.*
 import de.mocoware.view.elements.ButtonStandard
 
 @Composable
 fun ScreenLobby(
     startGame: () -> Unit
 ){
+    val context = LocalContext.current
+
+//    context.startService(Intent(context, Accelerometer::class.java))
+//    context.startService(Intent(context, Gyroskope::class.java))
+//    context.startService(Intent(context, LightSensor::class.java))
+    context.startService(Intent(context, RotationVector::class.java))
+//    context.startService(Intent(context, SpeedSensor::class.java))
+
+
 
     Box (
         modifier = Modifier.fillMaxSize(),

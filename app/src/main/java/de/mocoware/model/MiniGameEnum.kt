@@ -6,5 +6,6 @@ enum class MiniGameEnum{
     MGshake,
     MGconfusingButtons,
     MGbeleuchtung,
-    MGLoRButtonMasher
+    MGLoRButtonMasher,
+    MGballInHole
 }

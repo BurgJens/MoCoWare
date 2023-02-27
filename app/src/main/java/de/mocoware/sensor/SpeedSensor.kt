@@ -9,6 +9,8 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import de.mocoware.util.SPEED_SENSOR
+import de.mocoware.util.SPEED_SENSOR_VALUE
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
@@ -55,10 +57,12 @@ class SpeedSensor:Service() {
             lastLocation.set(location)
             lastTime = System.currentTimeMillis()
 
-            val intent = Intent("Speed")
-            intent.putExtra("speed", speed)
+            val intent = Intent(SPEED_SENSOR)
+            intent.putExtra(SPEED_SENSOR_VALUE, speed)
             LocalBroadcastManager.getInstance(this@SpeedSensor).sendBroadcast(intent)
 
+//            Log.d("checkSensors","ACCELEROMETER CHANGED")
+//            Log.d("checkSensors","$speed")
 
         }
 
@@ -100,6 +104,7 @@ class SpeedSensor:Service() {
         } catch (ex: SecurityException) {
             Log.i(TAG, "Location anfrage nicht möglich", ex)
         }
+        Log.d("checkSensors","SPEED SENSOR CREATED")
     }
 
 

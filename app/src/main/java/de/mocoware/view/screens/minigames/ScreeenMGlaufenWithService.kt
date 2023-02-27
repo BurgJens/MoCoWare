@@ -1,6 +1,5 @@
 package de.mocoware.view.screens.minigames
 
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -12,15 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import de.mocoware.model.minigames.Beleuchtung
-import de.mocoware.model.minigames.LaufenWithService
-import de.mocoware.model.minigames.MGlaufenWithService
-import de.mocoware.sensor.LightSensor
 import de.mocoware.sensor.SpeedSensor
 import de.mocoware.view.elements.MiniGameTimerComposable
 import de.mocoware.viewmodel.GameViewModel
-import kotlin.math.roundToInt
 
 
 @Composable
@@ -35,7 +28,7 @@ fun ScreeenMGlaufenWithService(
         contentAlignment = Alignment.Center
     ) {
 
-        var test = viewModel.gameDatMGlaufenWithService
+        var test = viewModel.gameDataMGlaufenWithService
         val speedObserve by viewModel.speed.observeAsState()
 
         if (!viewModel.serviceSpeedIstAktiv){

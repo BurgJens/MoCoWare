@@ -1,6 +1,5 @@
 package de.mocoware.view.screens.minigames
 
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -14,9 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import de.mocoware.model.minigames.Beleuchtung
-import de.mocoware.model.minigames.Shake
-import de.mocoware.sensor.Accelerometer
 import de.mocoware.sensor.LightSensor
 import de.mocoware.view.elements.MiniGameTimerComposable
 import de.mocoware.viewmodel.GameViewModel
@@ -35,7 +31,7 @@ fun ScreenMGbeleuchtung(
         contentAlignment = Alignment.Center
     ) {
 
-        var test = viewModel.gameDatMGbeleuchtung
+        var test = viewModel.gameDataMGbeleuchtung
         val beleuchtugObserve by viewModel.light.observeAsState()
 
 

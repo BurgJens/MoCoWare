@@ -8,8 +8,12 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.IBinder
-import android.widget.Toast
+import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import de.mocoware.util.GYRO_SENSOR
+import de.mocoware.util.GYRO_SENSOR_X_VALUE
+import de.mocoware.util.GYRO_SENSOR_Y_VALUE
+import de.mocoware.util.GYRO_SENSOR_Z_VALUE
 
 class Gyroskope: Service(), SensorEventListener {
 
@@ -27,7 +31,7 @@ class Gyroskope: Service(), SensorEventListener {
             sensorBeschleunigung,
             SensorManager.SENSOR_DELAY_NORMAL
         )
-
+        Log.d("checkSensors","GYRO CREATED")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -53,18 +57,18 @@ class Gyroskope: Service(), SensorEventListener {
         var axisY: Float = event.values[1]
         var axisZ: Float = event.values[2]
 
-
-        val intent = Intent("Gyro")
-        intent.putExtra("axisXGyro", axisX)
-        intent.putExtra("axisYGyro", axisY)
-        intent.putExtra("axisZGyro", axisZ)
+        val intent = Intent(GYRO_SENSOR)
+        intent.putExtra(GYRO_SENSOR_X_VALUE, axisX)
+        intent.putExtra(GYRO_SENSOR_Y_VALUE, axisY)
+        intent.putExtra(GYRO_SENSOR_Z_VALUE, axisZ)
 
         LocalBroadcastManager.getInstance(this@Gyroskope).sendBroadcast(intent)
 
+//        Log.d("checkSensors","GYROSCOPE CHANGED")
+//        Log.d("checkSensors","$axisX   $axisY   $axisZ")
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // wird aufgerufen wenn sich die Messgenauigkeit ändert
         println("onAccuracyChanged")
     }
 }

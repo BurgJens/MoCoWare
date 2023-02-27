@@ -3,6 +3,7 @@ package de.mocoware.viewmodel
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,7 @@ import de.mocoware.model.Game
 import de.mocoware.model.HighScore
 import de.mocoware.model.MiniGameTimer
 import de.mocoware.model.minigames.*
+import de.mocoware.util.*
 import de.mocoware.view.navigation.NavMG
 import java.util.*
 
@@ -64,57 +66,86 @@ class GameViewModel : ViewModel(){
     private val _gyroGrad : MutableLiveData<Triple<Double,Double,Double>> = MutableLiveData<Triple<Double,Double,Double>>()
     var gyroGrad : LiveData<Triple<Double,Double,Double>> = _gyroGrad
 
+    private val _rotationVector : MutableLiveData<Triple<Float,Float,Float>> = MutableLiveData<Triple<Float,Float,Float>>()
+    var rotationVector : LiveData<Triple<Float,Float,Float>> = _rotationVector
+
 
     // Nur wegen cast problem
-    var gameDatMGannoyingButtons = MGannoyingButtons().gameData as DataMGannoyingButtons
-    var gameDatMGlaufenWithService = MGlaufenWithService().gameData  as DataMGlaufenWithService
-    var gameDatMGconfusingButtons = MGconfusingButtons().gameData as DataMGconfusingButtons
-    var gameDatMGshake = MGshake().gameData as DataMGshake
-    var gameDatMGbeleuchtung = MGbeleuchtung().gameData  as DataMGbeleuchtung
-    var gameDatMGLoRButtonMasher = MGLoRButtonMasher().gameData as DataMGLoRButtonMasher
+    var gameDataMGannoyingButtons = MGannoyingButtons().gameData as DataMGannoyingButtons
+    var gameDataMGlaufenWithService = MGlaufenWithService().gameData  as DataMGlaufenWithService
+    var gameDataMGconfusingButtons = MGconfusingButtons().gameData as DataMGconfusingButtons
+    var gameDataMGshake = MGshake().gameData as DataMGshake
+    var gameDataMGbeleuchtung = MGbeleuchtung().gameData  as DataMGbeleuchtung
+    var gameDataMGLoRButtonMasher = MGLoRButtonMasher().gameData as DataMGLoRButtonMasher
+    var gameDataMGballInHole = MGballInHole().gameData as DataMGballInHole
 
 
 
      // Receiver für die Services
     inner class Receiver: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            val speed = Objects.requireNonNull(intent.extras)?.getDouble("speed")
+            val speed = Objects.requireNonNull(intent.extras)?.getDouble(SPEED_SENSOR_VALUE)
 
-            val licht = Objects.requireNonNull(intent.extras)?.getFloat("lichtWert")
+            val licht = Objects.requireNonNull(intent.extras)?.getFloat(LIGHT_SENSOR_VALUE)
 
-            val axisX = Objects.requireNonNull(intent.extras)?.getFloat("axisX")
-            val axisY = Objects.requireNonNull(intent.extras)?.getFloat("axisY")
-            val axisZ = Objects.requireNonNull(intent.extras)?.getFloat("axisZ")
+            val axisX = Objects.requireNonNull(intent.extras)?.getFloat(ACCELERATION_SENSOR_X_VALUE)
+            val axisY = Objects.requireNonNull(intent.extras)?.getFloat(ACCELERATION_SENSOR_Y_VALUE)
+            val axisZ = Objects.requireNonNull(intent.extras)?.getFloat(ACCELERATION_SENSOR_Z_VALUE)
 
-            val axisXGyroReciv = Objects.requireNonNull(intent.extras)?.getFloat("axisXGyro")
-            val axisYGyroReciv = Objects.requireNonNull(intent.extras)?.getFloat("axisYGyro")
-            val axisZGyroreciv = Objects.requireNonNull(intent.extras)?.getFloat("axisZGyro")
+            val axisXGyroReciv = Objects.requireNonNull(intent.extras)?.getFloat(GYRO_SENSOR_X_VALUE)
+            val axisYGyroReciv = Objects.requireNonNull(intent.extras)?.getFloat(GYRO_SENSOR_Y_VALUE)
+            val axisZGyroreciv = Objects.requireNonNull(intent.extras)?.getFloat(GYRO_SENSOR_Z_VALUE)
 
-            if(axisXGyroReciv != null && axisYGyroReciv!=null && axisZGyroreciv != null){
+            val roll = Objects.requireNonNull(intent.extras)?.getFloat(ROTATION_VECTOR_ROLL_VALUE)
+            val pitch = Objects.requireNonNull(intent.extras)?.getFloat(ROTATION_VECTOR_PITCH_VALUE)
+            val yaw = Objects.requireNonNull(intent.extras)?.getFloat(ROTATION_VECTOR_YAW_VALUE)
+
+            Log.d("checkSensors","RECIVER ")
+            Log.d("checkSensors","$roll   $pitch   $yaw")
+
+            if( axisXGyroReciv != null && axisXGyroReciv != 0f &&
+                axisYGyroReciv !=null && axisYGyroReciv != 0f &&
+                axisZGyroreciv != null && axisZGyroreciv != 0f)
+            {
                 axisXGyro+=axisXGyroReciv
 
                 axisYGyro+=axisYGyroReciv
 
                 axisZGyro+=axisZGyroreciv
-
             }
 
-            if (speed != null) {
+            if (speed != null && speed != 0.toDouble()) {
                 _speed.postValue(speed)
             }
 
-            if (licht != null) {
+            if (licht != null && licht != 0f) {
                 if (_light.value==null) _light.value=licht
                 if (licht > _light.value!!) _light.value=licht
 
 
             }
-            if(axisX != null && axisY!=null && axisZ != null){
+            if(
+                axisX != null && axisX != 0f &&
+                axisY!=null && axisY != 0f &&
+                axisZ != null && axisZ != 0f
+            ){
                updateAcceleration(axisX,axisY,axisZ)
             }
 
-            if(axisXGyroReciv != null && axisYGyroReciv!=null && axisZGyroreciv != null) {
+            if(
+                axisXGyroReciv != null && axisXGyroReciv != 0f &&
+                axisYGyroReciv!=null && axisYGyroReciv != 0f &&
+                axisZGyroreciv != null && axisZGyroreciv != 0f
+            ) {
                 updateGyro(axisXGyroReciv, axisYGyroReciv, axisZGyroreciv)
+            }
+
+            if(
+                roll != null && roll != 0f &&
+                pitch!=null && pitch!=0f &&
+                yaw != null && yaw != 0f
+            ) {
+                updateRotationVector(roll, pitch, yaw)
             }
         }
     }
@@ -122,7 +153,6 @@ class GameViewModel : ViewModel(){
 
 
    init {
-       println("test${currentMG.gameRoute}")
        updateAcceleration(1f,1f,1f)
        _light.postValue(0.1f)
    }
@@ -131,22 +161,25 @@ class GameViewModel : ViewModel(){
     fun updateMGdata(){
         when (currentMG.gameData){
             is DataMGannoyingButtons ->{
-                gameDatMGannoyingButtons = currentMG.gameData as DataMGannoyingButtons
+                gameDataMGannoyingButtons = currentMG.gameData as DataMGannoyingButtons
             }
             is DataMGlaufenWithService ->{
-                gameDatMGlaufenWithService = currentMG.gameData as DataMGlaufenWithService
+                gameDataMGlaufenWithService = currentMG.gameData as DataMGlaufenWithService
             }
             is DataMGconfusingButtons ->{
-                gameDatMGconfusingButtons = currentMG.gameData as DataMGconfusingButtons
+                gameDataMGconfusingButtons = currentMG.gameData as DataMGconfusingButtons
             }
             is DataMGshake ->{
-                gameDatMGshake = currentMG.gameData as DataMGshake
+                gameDataMGshake = currentMG.gameData as DataMGshake
             }
             is DataMGbeleuchtung ->{
-                gameDatMGbeleuchtung = currentMG.gameData as DataMGbeleuchtung
+                gameDataMGbeleuchtung = currentMG.gameData as DataMGbeleuchtung
             }
             is DataMGLoRButtonMasher ->{
-                gameDatMGLoRButtonMasher = currentMG.gameData as DataMGLoRButtonMasher
+                gameDataMGLoRButtonMasher = currentMG.gameData as DataMGLoRButtonMasher
+            }
+            is DataMGballInHole ->{
+                gameDataMGballInHole = currentMG.gameData as DataMGballInHole
             }
         }
     }
@@ -187,8 +220,6 @@ class GameViewModel : ViewModel(){
     }
 
     fun updateAcceleration(floatX: Float, floatY: Float, floatZ: Float){
-
-
        if (floatX>maxXwert) {
            maxXwert=floatX
            _accel.postValue(arrayOf(maxXwert,maxYwert,maxZwert))
@@ -201,6 +232,8 @@ class GameViewModel : ViewModel(){
            maxZwert=floatZ
            _accel.postValue(arrayOf(maxXwert,maxYwert,maxZwert))
        }
+
+//        Log.d("checkSensorsInViewModel","UPDATE ACCELERATION   $floatX   $floatY   $floatZ" )
     }
 
     fun updateGyro(floatX: Float, floatY: Float, floatZ: Float){
@@ -217,10 +250,18 @@ class GameViewModel : ViewModel(){
             Math.toDegrees(newVal.third.toDouble())
         )
 
-        println(newValDegree)
-
         _gyro.postValue(newVal)
         _gyroGrad.postValue(newValDegree)
+
+        Log.d("checkSensorsInViewModel","UPDATE GYRO $newValDegree")
+    }
+
+    fun updateRotationVector(roll: Float, pitch: Float, yaw: Float){
+        val newVal= Triple(roll,pitch,yaw)
+
+        Log.d("checkSensorsInViewModel","UPDATE ROTATION VECTOR $newVal")
+
+        _rotationVector.postValue(newVal)
     }
 }
 
