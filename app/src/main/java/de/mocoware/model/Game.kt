@@ -54,28 +54,36 @@ class Game (private var name: String, rounds: Int = 5){
 
     fun addMinigames(amount: Int){
         miniGames.clear()
-        repeat(amount){
-            val nextMinigame = MiniGameEnum.values().random()
+        miniGames.add(MGshake())
+        miniGames.add(MGlaufenWithService())
+        miniGames.add(MGbeleuchtung())
+        miniGames.add(MGLoRButtonMasher())
+        miniGames.add(MGannoyingButtons())
+        miniGames.add(MGconfusingButtons())
+        miniGames.add(MGballInHole())
 
-//            val nextMinigame = listOf(
-////              MiniGameEnum.MGLoRButtonMasher,
-////                MiniGameEnum.MGannoyingButtons,
-////                MiniGameEnum.MGconfusingButtons,
-////                MiniGameEnum.MGbeleuchtung,
-////                MiniGameEnum.MGshake,
-////                MiniGameEnum.MGlaufenWithService,
-//                MiniGameEnum.MGballInHole
-//            ).random()
-
-            when(nextMinigame){
-                MiniGameEnum.MGannoyingButtons -> miniGames.add(MGannoyingButtons())
-                MiniGameEnum.MGlaufenWithService -> miniGames.add(MGlaufenWithService())
-                MiniGameEnum.MGshake -> miniGames.add(MGshake())
-                MiniGameEnum.MGconfusingButtons -> miniGames.add(MGconfusingButtons())
-                MiniGameEnum.MGbeleuchtung -> miniGames.add(MGbeleuchtung())
-                MiniGameEnum.MGLoRButtonMasher -> miniGames.add(MGLoRButtonMasher())
-                MiniGameEnum.MGballInHole -> miniGames.add(MGballInHole())
-            }
-        }
+      //  repeat(amount){
+      //      val nextMinigame = MiniGameEnum.values().random()
+//
+//    //        val nextMinigame = listOf(
+////  //            MiniGameEnum.MGLoRButtonMasher,
+////  //              MiniGameEnum.MGannoyingButtons,
+////  //              MiniGameEnum.MGconfusingButtons,
+////  //              MiniGameEnum.MGbeleuchtung,
+////  //              MiniGameEnum.MGshake,
+////  //              MiniGameEnum.MGlaufenWithService,
+//    //            MiniGameEnum.MGballInHole
+//    //        ).random()
+//
+      //      when(nextMinigame){
+      //          MiniGameEnum.MGannoyingButtons -> miniGames.add(MGannoyingButtons())
+      //          MiniGameEnum.MGlaufenWithService -> miniGames.add(MGlaufenWithService())
+      //          MiniGameEnum.MGshake -> miniGames.add(MGshake())
+      //          MiniGameEnum.MGconfusingButtons -> miniGames.add(MGconfusingButtons())
+      //          MiniGameEnum.MGbeleuchtung -> miniGames.add(MGbeleuchtung())
+      //          MiniGameEnum.MGLoRButtonMasher -> miniGames.add(MGLoRButtonMasher())
+      //          MiniGameEnum.MGballInHole -> miniGames.add(MGballInHole())
+      //      }
+      //  }
     }
 }
