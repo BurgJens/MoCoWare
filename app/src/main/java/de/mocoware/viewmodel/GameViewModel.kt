@@ -192,6 +192,10 @@ class GameViewModel : ViewModel(){
         context.stopService(Intent(context, LightSensor::class.java))
         context.stopService(Intent(context, RotationVector::class.java))
         context.stopService(Intent(context, SpeedSensor::class.java))
+        serviceAccelIstAktiv=false
+        serviceSpeedIstAktiv=false
+        serviceLightIstAktiv=false
+        serviceGyrpIstAktiv=false
 
         PlayedGamesDataStore.gameEnd(context, navMGrouteToMinigameEnum(routeToMG), won)
         ballInHoleCalcStop()
@@ -213,11 +217,6 @@ class GameViewModel : ViewModel(){
         updateMGdata()
 
         navigate()
-
-        serviceAccelIstAktiv=false
-        serviceSpeedIstAktiv=false
-        serviceLightIstAktiv=false
-        serviceGyrpIstAktiv=false
     }
 
     val timeToPlay = 10
