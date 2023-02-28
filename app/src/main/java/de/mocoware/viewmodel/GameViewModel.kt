@@ -3,16 +3,19 @@ package de.mocoware.viewmodel
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import de.mocoware.model.Game
-import de.mocoware.model.HighScore
-import de.mocoware.model.MiniGameTimer
+import de.mocoware.model.*
 import de.mocoware.model.minigames.*
+import de.mocoware.sensor.*
 import de.mocoware.util.*
 import de.mocoware.view.navigation.NavMG
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Semaphore
 import java.util.*
 
 
@@ -28,9 +31,6 @@ class GameViewModel : ViewModel(){
     var currentGameData = currentMG.gameData
 
     val wonGames = mutableListOf<Boolean>()
-
-
-//  val gameDataLive = MutableLiveData<GameData>()
 
     var routeToMG = currentMG.gameRoute
 
@@ -66,6 +66,7 @@ class GameViewModel : ViewModel(){
     private val _gyroGrad : MutableLiveData<Triple<Double,Double,Double>> = MutableLiveData<Triple<Double,Double,Double>>()
     var gyroGrad : LiveData<Triple<Double,Double,Double>> = _gyroGrad
 
+    val rotationVectorSema = Semaphore(1)
     private val _rotationVector : MutableLiveData<Triple<Float,Float,Float>> = MutableLiveData<Triple<Float,Float,Float>>()
     var rotationVector : LiveData<Triple<Float,Float,Float>> = _rotationVector
 
@@ -79,7 +80,11 @@ class GameViewModel : ViewModel(){
     var gameDataMGLoRButtonMasher = MGLoRButtonMasher().gameData as DataMGLoRButtonMasher
     var gameDataMGballInHole = MGballInHole().gameData as DataMGballInHole
 
-
+    init {
+        updateMGdata()
+        updateAcceleration(1f,1f,1f)
+        _light.postValue(0.1f)
+    }
 
      // Receiver für die Services
     inner class Receiver: BroadcastReceiver() {
@@ -100,8 +105,8 @@ class GameViewModel : ViewModel(){
             val pitch = Objects.requireNonNull(intent.extras)?.getFloat(ROTATION_VECTOR_PITCH_VALUE)
             val yaw = Objects.requireNonNull(intent.extras)?.getFloat(ROTATION_VECTOR_YAW_VALUE)
 
-            Log.d("checkSensors","RECIVER ")
-            Log.d("checkSensors","$roll   $pitch   $yaw")
+//            Log.d("checkSensors","RECIVER ")
+//            Log.d("checkSensors","$roll   $pitch   $yaw")
 
             if( axisXGyroReciv != null && axisXGyroReciv != 0f &&
                 axisYGyroReciv !=null && axisYGyroReciv != 0f &&
@@ -145,18 +150,14 @@ class GameViewModel : ViewModel(){
                 pitch!=null && pitch!=0f &&
                 yaw != null && yaw != 0f
             ) {
-                updateRotationVector(roll, pitch, yaw)
+                CoroutineScope(Dispatchers.Main).launch {
+                    rotationVectorSema.acquire()
+                    updateRotationVector(roll, pitch, yaw)
+                    rotationVectorSema.release()
+                }
             }
         }
     }
-
-
-
-   init {
-       updateAcceleration(1f,1f,1f)
-       _light.postValue(0.1f)
-   }
-
 
     fun updateMGdata(){
         when (currentMG.gameData){
@@ -184,12 +185,20 @@ class GameViewModel : ViewModel(){
         }
     }
 
-    fun finishGame(navigate : () -> Unit, won : Boolean = false){
+    fun finishGame(context : Context, navigate : () -> Unit, won : Boolean = false){
+
+        context.stopService(Intent(context, Accelerometer::class.java))
+        context.stopService(Intent(context, Gyroskope::class.java))
+        context.stopService(Intent(context, LightSensor::class.java))
+        context.stopService(Intent(context, RotationVector::class.java))
+        context.stopService(Intent(context, SpeedSensor::class.java))
+
+        PlayedGamesDataStore.gameEnd(context, navMGrouteToMinigameEnum(routeToMG), won)
+        ballInHoleCalcStop()
 
         wonGames.add(won)
         _light.postValue(0f)
         _accel.postValue(arrayOf(0.0f,0f,0f))
-
 
         val nextGame = game.nextGame()
         currentMG = game.getCurrentMG()
@@ -204,6 +213,11 @@ class GameViewModel : ViewModel(){
         updateMGdata()
 
         navigate()
+
+        serviceAccelIstAktiv=false
+        serviceSpeedIstAktiv=false
+        serviceLightIstAktiv=false
+        serviceGyrpIstAktiv=false
     }
 
     val timeToPlay = 10
@@ -253,15 +267,76 @@ class GameViewModel : ViewModel(){
         _gyro.postValue(newVal)
         _gyroGrad.postValue(newValDegree)
 
-        Log.d("checkSensorsInViewModel","UPDATE GYRO $newValDegree")
+//        Log.d("checkSensorsInViewModel","UPDATE GYRO $newValDegree")
     }
 
     fun updateRotationVector(roll: Float, pitch: Float, yaw: Float){
         val newVal= Triple(roll,pitch,yaw)
 
-        Log.d("checkSensorsInViewModel","UPDATE ROTATION VECTOR $newVal")
+//        Log.d("checkSensorsInViewModel","UPDATE ROTATION VECTOR $newVal")
 
         _rotationVector.postValue(newVal)
+    }
+
+    val ballInHoleSema = Semaphore(1)
+    val ballPos = MutableLiveData(Pair(0.dp,0.dp))
+
+    var lastDraw = System.currentTimeMillis()
+
+    val speedMult = 0.05
+    val borderX = 100.dp
+    val borderY = 100.dp
+
+    fun ballInHoleCalcStart(){
+        CoroutineScope(Dispatchers.Default).launch{
+            if (ballInHoleSema.tryAcquire()){
+                lastDraw = System.currentTimeMillis()
+
+                while (ballInHoleSema.availablePermits == 0){
+                    val currentTime = System.currentTimeMillis()
+                    val deltaTime = currentTime - lastDraw
+                    lastDraw = currentTime
+
+                    var newX = (ballPos.value?.first ?: 0.dp)
+                    var newY = (ballPos.value?.second  ?: 0.dp)
+
+                    rotationVectorSema.acquire()
+                    val rotationVectorFirst = (rotationVector.value?.first ?: 0f)
+                    val rotationVectorSecond = (rotationVector.value?.second ?: 0f)
+                    rotationVectorSema.release()
+
+                    val translateX = rotationVectorFirst * speedMult * deltaTime.toFloat()
+                    val translateY = rotationVectorSecond * speedMult * deltaTime.toFloat()
+
+                    if (rotationVectorFirst > 10 || rotationVectorFirst < -10){
+                        if (newX > borderX){
+                            newX = borderX
+                        }else if (newX < -borderX){
+                            newX = -borderX
+                        }else {
+                            newX += translateX.dp
+                        }
+                    }
+                    if (rotationVectorSecond > 10 || rotationVectorSecond < -10){
+                        if (newY > borderY){
+                            newY = borderY
+                        }else if (newY < -borderY){
+                            newY = -borderY
+                        }else {
+                            newY += translateY.dp
+                        }
+                    }
+                    ballPos.postValue(Pair(newX,newY))
+                }
+                ballInHoleSema.acquire()
+                ballPos.postValue(Pair(0.dp,0.dp))
+                ballInHoleSema.release()
+            }
+        }
+    }
+
+    fun ballInHoleCalcStop(){
+        if (ballInHoleSema.availablePermits == 0)ballInHoleSema.release()
     }
 }
 

@@ -36,9 +36,6 @@ fun ScreeenMGlaufenWithService(
             viewModel.serviceSpeedIstAktiv=true
         }
 
-
-
-
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -52,7 +49,7 @@ fun ScreeenMGlaufenWithService(
         MiniGameTimerComposable(
             viewModel,
             {
-                viewModel.finishGame({ navigate() })
+                viewModel.finishGame(context,{ navigate() })
             }
         )
     }

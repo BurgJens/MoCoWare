@@ -46,7 +46,7 @@ class SpeedSensor:Service() {
 
             timeDiff = (timeDiff * 100.0).roundToInt() / 100.0 // für genauere Werte
 
-            Log.i(TAG, "onLocationChanged: ZEITDIFF: $timeDiff   DISTANZ: $distance")
+//            Log.i(TAG, "onLocationChanged: ZEITDIFF: $timeDiff   DISTANZ: $distance")
 
 
             speed =floor(distance / timeDiff * 3600 * 10) / 10  // durch/mal 10 um genauere werte zu erhalten

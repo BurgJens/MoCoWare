@@ -31,7 +31,7 @@ class Gyroskope: Service(), SensorEventListener {
             sensorBeschleunigung,
             SensorManager.SENSOR_DELAY_NORMAL
         )
-        Log.d("checkSensors","GYRO CREATED")
+//        Log.d("checkSensors","GYRO CREATED")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -69,7 +69,7 @@ class Gyroskope: Service(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        println("onAccuracyChanged")
+//        println("onAccuracyChanged")
     }
 }
 

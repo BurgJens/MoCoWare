@@ -27,7 +27,7 @@ class LightSensor:Service(),SensorEventListener {
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
 
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
-        Log.d("checkSensors","LIGHT SENSOR CREATED")
+//        Log.d("checkSensors","LIGHT SENSOR CREATED")
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -50,6 +50,6 @@ class LightSensor:Service(),SensorEventListener {
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         // wird aufgerufen wenn sich die Messgenauigkeit ändert
-        println("onAccuracyChanged")
+//        println("onAccuracyChanged")
     }
 }

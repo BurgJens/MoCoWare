@@ -81,8 +81,8 @@ fun ScreenMGLoRButtonMasher(
                      true ->
                          ButtonCard(
                              onClickRight = {
-                                 viewModel.finishGame({navigate()}, true)
-                                 PlayedGamesDataStore.gameEnd(context, MiniGameEnum.MGLoRButtonMasher, true)},
+                                 viewModel.finishGame(context,{navigate()}, true)
+                             },
                              onClickWrong = { failed = true},
                              each.leftcorrectButton
                          )
@@ -103,8 +103,7 @@ fun ScreenMGLoRButtonMasher(
         MiniGameTimerComposable(
             viewModel,
             {
-                PlayedGamesDataStore.gameEnd(context, MiniGameEnum.MGLoRButtonMasher, false)
-                viewModel.finishGame({navigate()}, false)
+                viewModel.finishGame(context,{navigate()}, false)
 
             }
         )

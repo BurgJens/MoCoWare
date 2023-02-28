@@ -31,7 +31,7 @@ class Accelerometer : Service(), SensorEventListener {
 
         sensorManager.registerListener(this, sensorBeschleunigung, SensorManager.SENSOR_DELAY_NORMAL)
 
-        Log.d("checkSensors","ACCELEROMETER CREATED")
+//        Log.d("checkSensors","ACCELEROMETER CREATED")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -68,8 +68,7 @@ class Accelerometer : Service(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // wird aufgerufen wenn sich die Messgenauigkeit ändert
-        println("onAccuracyChanged")
+//        println("onAccuracyChanged")
     }
 
 

@@ -19,14 +19,6 @@ fun ScreenLobby(
 ){
     val context = LocalContext.current
 
-//    context.startService(Intent(context, Accelerometer::class.java))
-//    context.startService(Intent(context, Gyroskope::class.java))
-//    context.startService(Intent(context, LightSensor::class.java))
-    context.startService(Intent(context, RotationVector::class.java))
-//    context.startService(Intent(context, SpeedSensor::class.java))
-
-
-
     Box (
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

@@ -55,17 +55,17 @@ class Game (private var name: String, rounds: Int = 5){
     fun addMinigames(amount: Int){
         miniGames.clear()
         repeat(amount){
-        //    val nextMinigame = MiniGameEnum.values().random()
-           // val nextMinigame = MiniGameEnum.MGlaufenWithService
-            val nextMinigame = listOf(
-//              MiniGameEnum.MGLoRButtonMasher,
-//                MiniGameEnum.MGannoyingButtons,
-//                MiniGameEnum.MGconfusingButtons,
-//                MiniGameEnum.MGbeleuchtung,
-//                MiniGameEnum.MGshake,
-//                MiniGameEnum.MGlaufenWithService,
-                MiniGameEnum.MGballInHole
-            ).random()
+            val nextMinigame = MiniGameEnum.values().random()
+
+//            val nextMinigame = listOf(
+////              MiniGameEnum.MGLoRButtonMasher,
+////                MiniGameEnum.MGannoyingButtons,
+////                MiniGameEnum.MGconfusingButtons,
+////                MiniGameEnum.MGbeleuchtung,
+////                MiniGameEnum.MGshake,
+////                MiniGameEnum.MGlaufenWithService,
+//                MiniGameEnum.MGballInHole
+//            ).random()
 
             when(nextMinigame){
                 MiniGameEnum.MGannoyingButtons -> miniGames.add(MGannoyingButtons())

@@ -34,7 +34,7 @@ class RotationVector : Service(), SensorEventListener {
         super.onCreate()
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
-        Log.d("checkSensors","ROTATION VEKTOR CREATED")
+//        Log.d("checkSensors","ROTATION VEKTOR CREATED")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

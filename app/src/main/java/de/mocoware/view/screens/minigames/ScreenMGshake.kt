@@ -37,9 +37,6 @@ fun ScreenMGshake(
         val aa = remember { mutableStateOf(true) }
         val acc = remember { mutableStateOf(false) }
 
-
-
-
         if (!acc.value){
             context.startService(Intent(context,Accelerometer::class.java))
             acc.value=true
@@ -49,9 +46,8 @@ fun ScreenMGshake(
             viewModel.serviceAccelIstAktiv=false
             aa.value=false
             acc.value=false
-            viewModel.finishGame({ navigate() }, true)
+            viewModel.finishGame(context,{ navigate() }, true)
         }
-
 
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -63,16 +59,10 @@ fun ScreenMGshake(
 
         }
 
-
-
-
-
-
         MiniGameTimerComposable(
             viewModel,
             {
-                viewModel.finishGame({ navigate() })
-
+                viewModel.finishGame(context,{ navigate() })
             }
         )
     }
