@@ -61,6 +61,7 @@ class Game (private var name: String, rounds: Int = 5){
         miniGames.add(MGannoyingButtons())
         miniGames.add(MGconfusingButtons())
         miniGames.add(MGballInHole())
+        miniGames.add(MGballInHole())
 
       //  repeat(amount){
       //      val nextMinigame = MiniGameEnum.values().random()
